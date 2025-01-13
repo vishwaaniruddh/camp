@@ -346,6 +346,10 @@
 <!-- Datatable JS -->
 <script src="assets/plugins/datatables/datatables.min.js"></script>
 
+
+<script src="assets/plugins/fileupload/fileupload.min.js"></script>
+
+
 <!-- select CSS -->
 <script src="assets/plugins/select2/js/select2.min.js"></script>
 

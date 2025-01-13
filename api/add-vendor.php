@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $vendor_email = filter_input(INPUT_POST, 'vendor_email', FILTER_VALIDATE_EMAIL);
     $vendor_phoneno = filter_input(INPUT_POST, 'vendor_phoneno', FILTER_SANITIZE_NUMBER_INT);
     $vendor_address = filter_input(INPUT_POST, 'vendor_address', FILTER_SANITIZE_STRING);
+    $vendor_gstin = filter_input(INPUT_POST, 'vendor_gstin', FILTER_SANITIZE_STRING);
 
     // Validate required fields
     if (!$vendor_name || !$vendor_email || !$vendor_phoneno) {
@@ -22,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare the SQL query
-    $query = "INSERT INTO camp_vendors (name, email, phone, address, created_at, updated_at) 
-              VALUES (?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO camp_vendors (name, email, phone, address, created_at, updated_at,gstin) 
+              VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     // Initialize the prepared statement
     if ($stmt = $conn->prepare($query)) {
         // Bind the parameters
-        $stmt->bind_param("ssssss", $vendor_name, $vendor_email, $vendor_phoneno, $vendor_address,$datetime,$datetime);
+        $stmt->bind_param("sssssss", $vendor_name, $vendor_email, $vendor_phoneno, $vendor_address,$datetime,$datetime,$vendor_gstin);
 
         // Execute the query
         if ($stmt->execute()) {

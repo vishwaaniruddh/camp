@@ -3,6 +3,11 @@
 /***** custom values *****/
 /***** Grid Values *****/
 /** Extends **/
+
+.table-responsive{
+  /* overflow-y: clip; */
+}
+
 .css-equal-content, .css-equal-heights {
   display: flex;
   display: -webkit-flex;

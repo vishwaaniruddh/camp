@@ -13,7 +13,7 @@ $host="localhost";
 $user="u444388293_cncindia";
 $pass="CNCIndia2024#";
 $dbname="u444388293_cncindia";
-$con = new mysqli($host, $user, $pass, $dbname);
+$con = $conn = new mysqli($host, $user, $pass, $dbname);
 // Check connection
 if ($con->connect_error) {
     // die("Connection failed: " . $con->connect_error);

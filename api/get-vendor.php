@@ -8,10 +8,12 @@ if (isset($_GET['id'])) {
         echo json_encode([
             "success" => true,
             "vendor" => [
+                "vendor_id" => $result['id'],
                 "name" => $result['name'],
                 "email" => $result['email'],
                 "phone" => $result['phone'],
                 "address" => $result['address'],
+                "status" => $result['status'],
             ],
         ]);
     } else {

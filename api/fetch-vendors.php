@@ -1,60 +1,62 @@
 <?php
-// Include database configuration
 include('./config.php');
 
-// Set default response
-$response = [
-    'success' => false,
-    'message' => '',
-    'data' => [],
-    'pagination' => [],
-];
+header('Content-Type: application/json');
 
-try {
-    // Get page and limit from query parameters, with default values
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$offset = ($page - 1) * $limit;
 
-    // Calculate the offset
-    $offset = ($page - 1) * $limit;
+// Get filter parameters
+$name = isset($_GET['name']) ? $_GET['name'] : '';
+$phone = isset($_GET['phone']) ? $_GET['phone'] : '';
+$email = isset($_GET['email']) ? $_GET['email'] : '';
+$gstin = isset($_GET['gstin']) ? $_GET['gstin'] : '';
+$status = isset($_GET['status']) ? $_GET['status'] : '';
 
-    // Fetch total number of rows
-    $totalQuery = "SELECT COUNT(*) AS total FROM camp_vendors where status='active'";
-    $totalResult = $conn->query($totalQuery);
-    $totalRow = $totalResult->fetch_assoc();
-    $totalRecords = (int)$totalRow['total'];
+// Build the SQL query with filters
+$sql = "SELECT * FROM camp_vendors WHERE 1=1";
 
-    // Fetch vendor data with limit and offset
-    $query = "SELECT * FROM camp_vendors ORDER BY created_at DESC LIMIT $limit OFFSET $offset";
-    $result = $conn->query($query);
-
-    if ($result->num_rows > 0) {
-        // Fetch data into an array
-        $vendors = [];
-        while ($row = $result->fetch_assoc()) {
-            $vendors[] = $row;
-        }
-
-        // Calculate pagination details
-        $totalPages = ceil($totalRecords / $limit);
-
-        $response['success'] = true;
-        $response['message'] = 'Vendors fetched successfully.';
-        $response['data'] = $vendors;
-        $response['pagination'] = [
-            'current_page' => $page,
-            'total_pages' => $totalPages,
-            'limit' => $limit,
-            'total_records' => $totalRecords,
-        ];
-    } else {
-        $response['message'] = 'No vendors found.';
-    }
-} catch (Exception $e) {
-    $response['message'] = 'An error occurred: ' . $e->getMessage();
+if ($name !== '') {
+    $sql .= " AND name LIKE '%" . $conn->real_escape_string($name) . "%'";
+}
+if ($phone !== '') {
+    $sql .= " AND phone LIKE '%" . $conn->real_escape_string($phone) . "%'";
+}
+if ($email !== '') {
+    $sql .= " AND email LIKE '%" . $conn->real_escape_string($email) . "%'";
+}
+if ($gstin !== '') {
+    $sql .= " AND gstin LIKE '%" . $conn->real_escape_string($gstin) . "%'";
+}
+if ($status !== '') {
+    $sql .= " AND status = '" . $conn->real_escape_string($status) . "'";
 }
 
-// Return the response as JSON
-header('Content-Type: application/json');
-echo json_encode($response);
+$totalSql = "SELECT COUNT(*) as total FROM ($sql) as totalTable";
+$totalResult = $conn->query($totalSql);
+$totalRow = $totalResult->fetch_assoc();
+$totalPages = ceil($totalRow['total'] / $limit);
+
+$sql .= " LIMIT $limit OFFSET $offset";
+
+$result = $conn->query($sql);
+
+$vendors = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $vendors[] = $row;
+    }
+}
+
+echo json_encode([
+    'success' => true,
+    'data' => $vendors,
+    'pagination' => [
+        'total_pages' => $totalPages,
+        'current_page' => $page
+    ]
+]);
+
+$conn->close();
 ?>

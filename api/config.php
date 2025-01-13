@@ -7,6 +7,7 @@ $pass="CNCIndia2024#";
 $dbname="u444388293_cncindia";
 $con = $conn = new mysqli($host, $user, $pass, $dbname);
 // Check connection
+$datetime = date('Y-m-d H:i:s');
 if ($con->connect_error) {
     // die("Connection failed: " . $con->connect_error);
 } else {
