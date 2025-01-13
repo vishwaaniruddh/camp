@@ -1,29 +1,5 @@
 <?php include('./header.php');  ?>
 
-<style>
-	.pagination-container {
-		display: flex;
-		justify-content: center;
-		margin-top: 20px;
-	}
-
-	.page-btn {
-		margin: 0 5px;
-		padding: 5px 10px;
-		border: none;
-		background-color: #007bff;
-		color: white;
-		cursor: pointer;
-	}
-
-	.page-btn.active {
-		background-color: #0056b3;
-	}
-
-	.page-btn:hover {
-		background-color: #0056b3;
-	}
-</style>
 <div class="content container-fluid">
 
 	<!-- Page Header -->
@@ -169,7 +145,7 @@ $statuses = $conn->query("SELECT DISTINCT status FROM camp_vendors")->fetch_all(
 
 
 <!-- Edit Vendor Modal -->
-<div class="modal custom-modal fade" id="edit_vendor" role="dialog">
+<div class="modal custom-modal fade" id="edit_vendor_modal" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-md">
 		<div class="modal-content">
 			<div class="modal-header border-0 pb-0">
@@ -203,14 +179,14 @@ $statuses = $conn->query("SELECT DISTINCT status FROM camp_vendors")->fetch_all(
 							</div>
 						</div>
 						<div class="col-lg-12 col-sm-12">
-							<div class="input-block mb-0">
+							<div class="input-block mb-3">
 								<label>Address</label>
 								<input type="text" name="vendor_address" class="form-control" placeholder="Enter Address...">
 							</div>
 						</div>
 
 						<div class="col-lg-12 col-sm-12">
-							<div class="input-block mb-0">
+							<div class="input-block mb-3">
 								<label>Vendor Status</label>
 								<select class="form-select" name="vendor_status" id="vendor_status">
 									<option value="active">Active</option>
@@ -219,12 +195,20 @@ $statuses = $conn->query("SELECT DISTINCT status FROM camp_vendors")->fetch_all(
 							</div>
 						</div>
 
+						
+						<div class="col-lg-12 col-sm-12">
+							<div class="input-block mb-0">
+								<label>GSTIN</label>
+								<input type="text" name="vendor_gstin" class="form-control" placeholder="GSTIN...">
+							</div>
+						</div>
+
 
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" data-bs-dismiss="modal" class="btn btn-primary paid-cancel-btn me-2">Cancel</button>
-					<button type="submit" class="btn btn-primary paid-continue-btn">Update</button>
+					<button type="submit" id="update_vendor_modal" class="btn btn-primary paid-continue-btn">Update</button>
 				</div>
 			</form>
 		</div>
@@ -429,5 +413,8 @@ $statuses = $conn->query("SELECT DISTINCT status FROM camp_vendors")->fetch_all(
 		box-shadow: 0 0 5px red;
 	}
 </style>
+
+
+<script src="./assets/js/helper/vendor.js"></script>
 
 <?php include('./footer.php'); ?>

@@ -1,6 +1,6 @@
 <?php
-require '../vendor/autoload.php'; // Adjust the path as needed
-include('./config.php');
+require '../../vendor/autoload.php'; // Adjust the path as needed
+include('../config.php');
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 

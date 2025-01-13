@@ -51,7 +51,7 @@
 										<li><a href="product-list.html">Product List</a></li>
 										<li><a href="category.html">Category</a></li>
 										
-										<li><a href="units.html">Units</a></li>
+										<li><a href="units.php">Units</a></li>
 									</ul>
 								</li>
 								<li>
@@ -414,7 +414,7 @@
 									<li><a href="product-list.html">Product List</a></li>
 									<li><a href="category.html">Category</a></li>
 									
-									<li><a href="units.html">Units</a></li>
+									<li><a href="units.php">Units</a></li>
 								</ul>
 							</li>
 							<li>

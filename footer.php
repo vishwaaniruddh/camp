@@ -373,7 +373,6 @@
 		<script src="assets/plugins/alertify/custom-alertify.min.js" ></script>
 
 
-        <script src="./main.js"></script>
 		
 		<!--<script src="assets/js/jquery-3.7.1.min.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
 		
