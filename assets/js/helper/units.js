@@ -185,9 +185,10 @@ function populateUnitTable(units) {
                     : '<span class="badge bg-danger-light d-inline-flex align-items-center">Deleted</span>'}
                 </td>
                 
+
                 <td class="d-flex align-items-center">
-                    <a href="javascript:void(0);" class="btn btn-greys me-2 edit-unit-btn" data-unit-id="${unit.id}" data-bs-toggle="modal" data-bs-target="#edit_unit"><i class="far fa-edit me-1"></i> Edit</a>
-                    <a href="javascript:void(0);" class="btn btn-danger delete-unit-btn" style="color:white;" data-unit-id="${unit.id}"><i class="far fa-trash-alt me-1"></i> Delete</a>
+                    <a href="javascript:void(0);" class="btn-action-icon me-2 edit-unit-btn" data-unit-id="${unit.id}" data-bs-toggle="modal" data-bs-target="#edit_unit"><i class="far fa-edit"></i> </a>
+                    <a href="javascript:void(0);" class="btn-action-icon delete-unit-btn" data-unit-id="${unit.id}"><i class="fe fe-trash-2"></i></a>
                 </td>
             `;
             tableBody.appendChild(row);
