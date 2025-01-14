@@ -22,12 +22,13 @@ if ($con->connect_error) {
 
 function logChange($conn, $tableName, $recordId, $previousState, $newState, $user, $actionType) {
     // Prepare JSON-encoded data, handling null values
+    global $datetime; 
     $previousStateJson = $previousState ? json_encode($previousState, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
     $newStateJson = $newState ? json_encode($newState, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) : null;
 
     // Use prepared statements to prevent SQL injection
-    $logSql = "INSERT INTO camp_audit_log (table_name, record_id, previous_state, new_state, user, action_type) 
-               VALUES (?, ?, ?, ?, ?, ?)";
+    $logSql = "INSERT INTO camp_audit_log (table_name, record_id, previous_state, new_state, user, action_type,timestamp) 
+               VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($logSql);
 
     if (!$stmt) {
@@ -35,13 +36,14 @@ function logChange($conn, $tableName, $recordId, $previousState, $newState, $use
     }
 
     $stmt->bind_param(
-        "sissss", 
+        "sisssss", 
         $tableName, 
         $recordId, 
         $previousStateJson, 
         $newStateJson, 
         $user, 
-        $actionType
+        $actionType,
+        $datetime
     );
 
     // Execute and check for errors
