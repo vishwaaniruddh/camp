@@ -38,7 +38,7 @@ $totalResult = $conn->query($totalSql);
 $totalRow = $totalResult->fetch_assoc();
 $totalPages = ceil($totalRow['total'] / $limit);
 
-$sql .= " LIMIT $limit OFFSET $offset";
+$sql .= " order by id desc LIMIT $limit OFFSET $offset";
 
 $result = $conn->query($sql);
 
