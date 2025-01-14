@@ -193,28 +193,28 @@ Version      : 1.0
 		});
 	}
 	
-	if($('.summernote').length > 0) {
-		//var editorheight = $('.editor-card').height()-100;
-        $('.summernote').summernote({
-			placeholder: 'Description',
-		    focus: true,
-			minHeight: 100,
-			disableResizeEditor: false,
-			toolbar: [
-				['fullscreen',],
-				['fontname', ['fontname']],
-				['undo'],
-				['redo'],
-				['datetimepicker'],
-				['fontsize', ['fontsize']],
-				['font', ['bold', 'italic', 'underline', 'clear']],
-				['color', ['color']],
-				['para', ['ul', 'ol', 'paragraph']],
-				['insert', ['link', 'picture']]
-			  ],
-			// set focus to editable area after initializing summernote
-		});
-    }
+	// if($('.summernote').length > 0) {
+	// 	//var editorheight = $('.editor-card').height()-100;
+    //     $('.summernote').summernote({
+	// 		placeholder: 'Description',
+	// 	    focus: true,
+	// 		minHeight: 100,
+	// 		disableResizeEditor: false,
+	// 		toolbar: [
+	// 			['fullscreen',],
+	// 			['fontname', ['fontname']],
+	// 			['undo'],
+	// 			['redo'],
+	// 			['datetimepicker'],
+	// 			['fontsize', ['fontsize']],
+	// 			['font', ['bold', 'italic', 'underline', 'clear']],
+	// 			['color', ['color']],
+	// 			['para', ['ul', 'ol', 'paragraph']],
+	// 			['insert', ['link', 'picture']]
+	// 		  ],
+	// 		// set focus to editable area after initializing summernote
+	// 	});
+    // }
 
 
 	// Date Range Picker
@@ -414,14 +414,14 @@ Version      : 1.0
 	
 	// Summernote
 	
-	if($('#summernote').length > 0) {
-        $('#summernote').summernote({
-		  height: 300,                 // set editor height
-		  minHeight: null,             // set minimum height of editor
-		  maxHeight: null,             // set maximum height of editor
-		  focus: true                  // set focus to editable area after initializing summernote
-		});
-    }
+	// if($('#summernote').length > 0) {
+    //     $('#summernote').summernote({
+	// 	  height: 300,                 // set editor height
+	// 	  minHeight: null,             // set minimum height of editor
+	// 	  maxHeight: null,             // set maximum height of editor
+	// 	  focus: true                  // set focus to editable area after initializing summernote
+	// 	});
+    // }
 	// editor
 	if ($('#editor').length > 0) {
 		ClassicEditor
@@ -696,19 +696,19 @@ Version      : 1.0
 	}
 
 	// Summernote
-	if($('.summernote').length > 0) {
-        $('.summernote').summernote({
-			placeholder: 'Description',
-		    focus: true,
-			minHeight: 80,
-			disableResizeEditor: false,
-			toolbar: [
-				['fontname', ['fontname']],
-				['undo'],
-				['redo'],
-			  ],
-		});
-    }
+	// if($('.summernote').length > 0) {
+    //     $('.summernote').summernote({
+	// 		placeholder: 'Description',
+	// 	    focus: true,
+	// 		minHeight: 80,
+	// 		disableResizeEditor: false,
+	// 		toolbar: [
+	// 			['fontname', ['fontname']],
+	// 			['undo'],
+	// 			['redo'],
+	// 		  ],
+	// 	});
+    // }
 	// Toggle 
 	if($('.toggle-password').length > 0) {
 		$(document).on('click', '.toggle-password', function() {

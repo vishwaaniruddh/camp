@@ -19,7 +19,7 @@ if ($con->connect_error) {
 // echo "Connected succesfull";
    
 }
-
+$userid=1 ; 
 function logChange($conn, $tableName, $recordId, $previousState, $newState, $user, $actionType) {
     // Prepare JSON-encoded data, handling null values
     global $datetime; 

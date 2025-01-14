@@ -1,0 +1,245 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    const addProductForm = document.querySelector("#addProductForm");
+    const editProductForm = document.querySelector("#editProductForm");
+
+    if (productId && editProductForm) {
+        fetchProductDetails(productId);
+    }
+
+    if (addProductForm) {
+        addProductForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            addOrUpdateProduct(productId);
+        });
+    }
+
+    if (editProductForm) {
+        editProductForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            addOrUpdateProduct(productId);
+        });
+    }
+
+    if (document.querySelector("#productTableBody")) {
+        fetchProducts();
+    }
+
+    fetchCategories();
+    fetchUnits();
+});
+
+function fetchProducts() {
+    fetch('./api/products/fetch-products.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateProductTable(data.products);
+            } else {
+                alertify.error('Failed to fetch products');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching products:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
+
+function populateProductTable(products) {
+    const tableBody = document.querySelector("#productTableBody");
+    if (!tableBody) {
+        console.error('Table body element not found');
+        return;
+    }
+    tableBody.innerHTML = "";
+    if (products.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="9" class="text-center">No products found</td></tr>`;
+    } else {
+        products.forEach((product, index) => {
+            const imagePath = product.image_path ? `./api/api/${product.image_path}` : 'assets/img/default-product.png';
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>
+                    <h2 class="table-avatar">
+                        <a href="profile.php" class="avatar avatar-md me-2 companies">
+                            <img class="avatar-img sales-rep" src="${imagePath}" alt="Product Image">
+                        </a>
+                        <a href="profile.php">${product.name}</a>
+                    </h2>
+                </td>
+                <td>${product.sku}</td>
+                <td>${product.category}</td>
+                <td>${product.units}</td>
+                <td>${product.quantity}</td>
+                <td>$${parseFloat(product.selling_price).toFixed(2)}</td>
+                <td>$${parseFloat(product.purchase_price).toFixed(2)}</td>
+                <td class="d-flex align-items-center">
+                    <div class="dropdown dropdown-action">
+                        <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul>
+                                <li>
+                                    <a class="dropdown-item" href="edit-products.php?id=${product.id}"><i class="far fa-edit me-2"></i>Edit</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_modal" data-product-id="${product.id}"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+}
+
+function fetchProductDetails(productId) {
+    fetch(`./api/products/get-product.php?id=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateProductForm(data.product);
+            } else {
+                alertify.error('Failed to fetch product details');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching product details:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
+
+function populateProductForm(product) {
+    document.querySelector("#product_id").value = product.id;
+    document.querySelector("#name").value = product.name;
+    document.querySelector("#sku").value = product.sku;
+    document.querySelector("#category").value = product.category;
+    document.querySelector("#selling_price").value = product.selling_price;
+    document.querySelector("#purchase_price").value = product.purchase_price;
+    document.querySelector("#quantity").value = product.quantity;
+    document.querySelector("#units").value = product.units;
+    document.querySelector("#discount_type").value = product.discount_type;
+    document.querySelector("#barcode").value = product.barcode;
+    document.querySelector("#alert_quantity").value = product.alert_quantity;
+    document.querySelector("#tax").value = product.tax;
+    document.querySelector("#description").value = product.description;
+
+    const imagePath = product.image_path ? `./api/api/${product.image_path}` : 'assets/img/default-product.png';
+    document.querySelector("#current_image").src = imagePath;
+}
+
+function generateSKU() {
+    const skuField = document.querySelector("#sku");
+    skuField.value = 'SKU-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
+function generateBarcode() {
+    const barcodeField = document.querySelector("#barcode");
+    barcodeField.value = 'BAR-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+}
+
+function addOrUpdateProduct(productId) {
+    const form = document.querySelector(productId ? "#editProductForm" : "#addProductForm");
+    const formData = new FormData(form);
+
+    if (productId) {
+        formData.append('id', productId);
+    }
+
+    fetch(productId ? './api/products/update-product.php' : './api/products/add-product.php', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alertify.success(productId ? 'Product updated successfully' : 'Product added successfully');
+                if (!productId) {
+                    form.reset();
+                } else {
+                    fetchProductDetails(productId); // Refresh the form with updated data
+                }
+            } else {
+                alertify.error(productId ? 'Failed to update product' : 'Failed to add product');
+            }
+        })
+        .catch(error => {
+            console.error(productId ? 'Error updating product:' : 'Error adding product:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
+
+
+function fetchCategories() {
+    fetch('./api/category/fetch-categories.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateCategoryOptions(data.categories);
+            } else {
+                alertify.error('Failed to fetch categories');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching categories:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
+
+function populateCategoryOptions(categories) {
+    const categorySelect = document.querySelector("#category");
+    categorySelect.innerHTML = "";
+    categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        categorySelect.appendChild(option);
+    });
+}
+
+function fetchUnits() {
+    fetch('./api/units/fetch-units.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateUnitOptions(data.units);
+            } else {
+                alertify.error('Failed to fetch units');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching units:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
+
+function populateUnitOptions(units) {
+    const unitsSelect = document.querySelector("#units");
+    unitsSelect.innerHTML = "";
+    units.forEach(unit => {
+        const option = document.createElement("option");
+        option.value = unit.id;
+        option.textContent = unit.name;
+        unitsSelect.appendChild(option);
+    });
+}
+
+function fetchProductDetails(productId) {
+    fetch(`./api/products/get-product.php?id=${productId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                populateProductForm(data.product);
+            } else {
+                alertify.error('Failed to fetch product details');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching product details:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}

@@ -52,9 +52,9 @@
 				<div class="col-lg-12">
 					<div class="invoices-tabs">
 						<ul>
-							<li><a href="product-list.html">Product</a></li>
-							<li><a href="category.html">Category</a></li>
-							<li><a href="units.html" class="active">Units</a></li>
+							<li><a href="product-list.php">Product</a></li>
+							<li><a href="category.php">Category</a></li>
+							<li><a href="units.php" class="active">Units</a></li>
 						</ul>
 					</div>
 				</div>

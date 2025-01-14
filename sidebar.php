@@ -48,8 +48,8 @@
 								<li class="submenu">
 									<a href="#"><i class="fe fe-package"></i> <span> Products / Services</span> <span class="menu-arrow"></span></a>
 									<ul>
-										<li><a href="product-list.html">Product List</a></li>
-										<li><a href="category.html">Category</a></li>
+										<li><a href="product-list.php">Product List</a></li>
+										<li><a href="category.php">Category</a></li>
 										
 										<li><a href="units.php">Units</a></li>
 									</ul>
@@ -411,8 +411,8 @@
 							<li class="submenu">
 								<a href="#"><i class="fe fe-package"></i> <span> Products / Services</span> <span class="menu-arrow"></span></a>
 								<ul style="display: none;">
-									<li><a href="product-list.html">Product List</a></li>
-									<li><a href="category.html">Category</a></li>
+									<li><a href="product-list.php">Product List</a></li>
+									<li><a href="category.php">Category</a></li>
 									
 									<li><a href="units.php">Units</a></li>
 								</ul>
