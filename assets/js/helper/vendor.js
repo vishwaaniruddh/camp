@@ -1,21 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
     fetchVendors();
-});
 
-document.getElementById("applyFilters").addEventListener("click", function () {
-    fetchVendors();
-});
-document.getElementById("importVendorForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent default form submission
-    bulkvendoradd();
-});
+    document.getElementById("applyFilters").addEventListener("click", function () {
+        fetchVendors();
+    });
 
-document.getElementById("downloadExcel").addEventListener("click", function () {
-    downloadExcel();
-});
+    document.getElementById("importVendorForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent default form submission
+        bulkvendoradd();
+    });
 
+    document.getElementById("downloadExcel").addEventListener("click", function () {
+        downloadExcel();
+    });
 
-document.getElementById("update_vendor_modal").addEventListener("click", function () {
+    // Attach event listener for the edit vendor form submission
     const editVendorForm = document.querySelector("#edit_vendor");
     if (editVendorForm) {
         editVendorForm.addEventListener("submit", function (event) {
@@ -26,10 +25,16 @@ document.getElementById("update_vendor_modal").addEventListener("click", functio
     }
 });
 
-
-
-
 function updateVendorData(vendorId) {
+
+    const vendorForm = document.querySelector("#edit_vendor");
+    
+    // Assuming validateForm is a function in validation.js that validates the form
+    if (!validateForm(vendorForm)) {
+        return;
+    }
+
+
     const vendorName = document.querySelector("#edit_vendor input[name='vendor_name']").value;
     const vendorEmail = document.querySelector("#edit_vendor input[name='vendor_email']").value;
     const vendorPhone = document.querySelector("#edit_vendor input[name='vendor_phoneno']").value;
@@ -58,8 +63,6 @@ function updateVendorData(vendorId) {
         .then(data => {
             if (data.success) {
                 alertify.success('Vendor updated successfully');
-
-
                 fetchVendors();
                 // Optionally, refresh the vendor list or update the UI accordingly
             } else {
@@ -67,139 +70,6 @@ function updateVendorData(vendorId) {
             }
         })
         .catch(error => console.error('Error:', error));
-}
-
-
-document.getElementById("addVendorForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent default form submission
-
-    const form = e.target;
-    const isValid = validateForm(form); // Call your validation function here
-
-    if (isValid) {
-        // Gather form data
-        const formData = new FormData(form);
-
-        // Show loading message
-        // alertify.message('Adding vendor, please wait...');
-
-        // Send data via AJAX
-        fetch("./api/vendor/add-vendor.php", {
-            method: "POST",
-            body: formData,
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alertify.success(data.message || "Vendor added successfully!");
-
-                    // Close the modal after successful submission
-                    const modalElement = form.closest(".modal");
-                    if (modalElement) {
-                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                        if (modalInstance) modalInstance.hide();
-                    }
-
-                    form.reset(); // Reset form fields
-
-                    // Refresh vendor table
-                    fetchVendors();
-                } else {
-                    // Show error message
-                    alertify.error(data.message || "Failed to add vendor. Please try again.");
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alertify.error("An unexpected error occurred. Please try again.");
-            });
-    } else {
-        // Show validation error message
-        alertify.error("Please correct the highlighted fields.");
-    }
-});
-
-document.addEventListener("submit", function (e) {
-    if (e.target.tagName === "FORM") {
-        e.preventDefault(); // Prevent default form submission
-        const isValid = validateForm(e.target);
-        if (isValid) {
-            // If validation passes, check if the form is inside a modal
-            const modalElement = e.target.closest(".modal");
-            if (modalElement) {
-                const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if (modalInstance) modalInstance.hide(); // Close the modal
-            }
-            // alertify.success("Form submitted successfully!");
-            // Add form submission logic here
-        } else {
-            alertify.error("Please correct the highlighted fields.");
-        }
-    }
-});
-
-function validateForm(form) {
-    let isValid = true;
-
-    // Select all inputs with validation classes
-    const fields = form.querySelectorAll(
-        "input.email_valid, input.phone_valid, input.required_valid, input.string_valid, input.number_valid"
-    );
-
-    fields.forEach((field) => {
-        // Reset previous errors
-        field.classList.remove("error");
-        field.removeAttribute("title");
-
-        // Required validation
-        if (field.classList.contains("required_valid") && !field.value.trim()) {
-            isValid = false;
-            markError(field, "This field is required.");
-        }
-
-        // Phone number validation
-        if (field.classList.contains("phone_valid")) {
-            const phoneRegex = /^\d{10}$/; // Only 10-digit numbers
-            if (!phoneRegex.test(field.value)) {
-                isValid = false;
-                markError(field, "Enter a valid 10-digit phone number.");
-            }
-        }
-
-        // Email validation
-        if (field.classList.contains("email_valid")) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email pattern
-            if (!emailRegex.test(field.value)) {
-                isValid = false;
-                markError(field, "Enter a valid email address.");
-            }
-        }
-
-        // String validation (letters and spaces only)
-        if (field.classList.contains("string_valid")) {
-            const stringRegex = /^[a-zA-Z\s]+$/; // Letters and spaces only
-            if (!stringRegex.test(field.value)) {
-                isValid = false;
-                markError(field, "Only letters and spaces are allowed.");
-            }
-        }
-
-        // Number validation (only numeric values)
-        if (field.classList.contains("number_valid")) {
-            const numberRegex = /^\d+$/; // Numbers only
-            if (!numberRegex.test(field.value)) {
-                isValid = false;
-                markError(field, "Only numeric values are allowed.");
-            }
-        }
-    });
-
-    return isValid;
-}
-
-function markError(field, message) {
-    field.classList.add("error");
-    field.setAttribute("title", message); // Tooltip for error message
 }
 
 // Function to fetch vendor data
@@ -236,7 +106,6 @@ function fetchVendors(page = 1, limit = 10) {
             tableBody.innerHTML = `<tr><td colspan="6">An error occurred while fetching vendor data.</td></tr>`;
         });
 }
-
 
 // Function to populate table
 function vendor_populateTable(vendors, page, limit) {
@@ -298,13 +167,6 @@ function vendor_populateTable(vendors, page, limit) {
     // Attach event listeners after rendering
     attachEditListeners();
     attachDeleteListeners();
-}
-
-
-// Utility function to format date
-function formatDate(dateString) {
-    const options = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
-    return new Date(dateString).toLocaleDateString("en-US", options);
 }
 
 // Attach click listeners for edit buttons

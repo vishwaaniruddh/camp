@@ -374,32 +374,6 @@
 
 
 		
-		<!--<script src="assets/js/jquery-3.7.1.min.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		
-		<!-- Bootstrap Core JS -->
-		<!--<script src="assets/js/bootstrap.bundle.min.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		
-		<!--				<script src="assets/plugins/select2/js/select2.min.js" type="3a68334ca221eed7163a8f61-text/javascript"></script>-->
-
-		<!-- Feather Icon JS -->
-		<!--<script src="assets/js/feather.min.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		
-		<!-- Slimscroll JS -->
-		<!--<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		
-		<!-- Chart JS -->
-		<!--<script src="assets/plugins/apexchart/apexcharts.min.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		<!--<script src="assets/plugins/apexchart/chart-data.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-
-		<!-- Theme Settings JS -->
-		<!--<script src="assets/js/theme-settings.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		<!--<script src="assets/js/greedynav.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-		
-		<!-- Custom JS -->
-		<!--<script src="assets/js/script.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>-->
-
-        <script src="assets/js/rocket-loader.min.js" data-cf-settings="9a1e0167d784f9247325ffe4-|49" defer></script>
-        
         <script src="assets/js/rocket-loader.min.js" ></script></body>
         
 	</body>

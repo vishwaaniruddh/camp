@@ -1,49 +1,56 @@
 <?php
 include('../config.php');
-
 header('Content-Type: application/json');
 
-$unitId = $_POST['unit_id'];
-$unitname = $_POST['unitname'];
-$slug = $_POST['slug'];
-$status = $_POST['status'];
 
-// Fetch the previous state
-$previousStateSql = "SELECT * FROM camp_units WHERE id = ?";
-$stmt = $conn->prepare($previousStateSql);
-$stmt->bind_param("i", $unitId);
-$stmt->execute();
-$previousStateResult = $stmt->get_result();
-$previousState = $previousStateResult->fetch_assoc();
-$stmt->close();
 
-if (!$previousState) {
-    echo json_encode(['success' => false, 'message' => 'Unit not found']);
+// Get the JSON input
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+
+if (!isset($data['id']) || !isset($data['name']) || !isset($data['email']) || !isset($data['phoneno']) || !isset($data['address']) || !isset($data['status'])) {
+    echo json_encode(['success' => false, 'message' => 'Invalid input']);
     exit;
 }
 
-// Update the unit
-$updateSql = "UPDATE camp_units SET unitname = ?, slug = ?, status = ? WHERE id = ?";
-$stmt = $conn->prepare($updateSql);
-$stmt->bind_param("ssii", $unitname, $slug, $status, $unitId);
 
-if ($stmt->execute()) {
+$vendorId = $data['id'];
+$vendorName = $data['name'];
+$vendorEmail = $data['email'];
+$vendorPhone = $data['phoneno'];
+$vendorAddress = $data['address'];
+$vendorStatus = $data['status'];
+$vendorGstin = $data['gstin'];
+$user = 1; // Replace with actual user identification logic
+
+// Fetch the previous state
+$previousStateSql = "SELECT * FROM camp_vendors WHERE id = $vendorId";
+$previousStateResult = $conn->query($previousStateSql);
+$previousState = $previousStateResult->fetch_assoc();
+
+// Update the vendor
+$updateSql = "UPDATE camp_vendors SET 
+    name = '$vendorName', 
+    email = '$vendorEmail', 
+    phone = '$vendorPhone', 
+    address = '$vendorAddress', 
+    status = '$vendorStatus',
+    gstin = '$vendorGstin'
+    WHERE id = $vendorId";
+
+if ($conn->query($updateSql) === TRUE) {
     // Fetch the new state
-    $newStateSql = "SELECT * FROM camp_units WHERE id = ?";
-    $stmt = $conn->prepare($newStateSql);
-    $stmt->bind_param("i", $unitId);
-    $stmt->execute();
-    $newStateResult = $stmt->get_result();
+    $newStateSql = "SELECT * FROM camp_vendors WHERE id = $vendorId";
+    $newStateResult = $conn->query($newStateSql);
     $newState = $newStateResult->fetch_assoc();
-    $stmt->close();
 
-    logChange($conn, 'camp_units', $unitId, json_encode($previousState), json_encode($newState), 'current_user', 'update');
+    // Log the change
+    logChange($conn, 'camp_vendors', $vendorId, $previousState, $newState, $user, 'update');
 
-    echo json_encode(['success' => true, 'message' => 'Unit updated successfully']);
+    echo json_encode(['success' => true, 'message' => 'Vendor updated successfully']);
 } else {
-    echo json_encode(['success' => false, 'message' => 'Failed to update unit']);
+    echo json_encode(['success' => false, 'message' => 'Failed to update vendor']);
 }
 
-$stmt->close();
 $conn->close();
 ?>

@@ -42,7 +42,7 @@ include('./config.php'); ?>
 		<script src="assets/js/layout.js" type="9a1e0167d784f9247325ffe4-text/javascript"></script>
 		<link rel="stylesheet" href="assets/plugins/alertify/alertify.min.css">
 
-
+<script src="./components/validation.js"></script>
 
 	</head>
 	<body>
