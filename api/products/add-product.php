@@ -6,14 +6,12 @@ header('Content-Type: application/json');
 $name = $_POST['name'];
 $sku = $_POST['sku'];
 $category = $_POST['category'];
-$selling_price = $_POST['selling_price'];
 $purchase_price = $_POST['purchase_price'];
 $quantity = $_POST['quantity'];
 $units = $_POST['units'];
-$discount_type = $_POST['discount_type'];
 $barcode = $_POST['barcode'];
 $alert_quantity = $_POST['alert_quantity'];
-$tax = $_POST['tax'];
+
 $description = $_POST['description'];
 $created_by = 'current_user'; // Replace with actual user ID or name
 $status = 'active'; // Default status
@@ -34,9 +32,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     }
 }
 
-$sql = "INSERT INTO camp_products (name, sku, category, selling_price, purchase_price, quantity, units, discount_type, barcode, alert_quantity, tax, description, image_path, created_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO camp_products (name, sku, category, purchase_price, quantity, units, barcode, alert_quantity, description, image_path, created_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssdisssisssss", $name, $sku, $category, $selling_price, $purchase_price, $quantity, $units, $discount_type, $barcode, $alert_quantity, $tax, $description, $image_path, $created_by, $status);
+$stmt->bind_param("sssdississss", $name, $sku, $category,  $purchase_price, $quantity, $units, $barcode, $alert_quantity,  $description, $image_path, $created_by, $status);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Product added successfully']);
