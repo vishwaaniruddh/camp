@@ -9,6 +9,7 @@
                     <h5>Edit Products / Services</h5>
                 </div>
             </div>
+            <div id="message" style="display: none; color: red; font-weight: bold;"></div>
             <div class="row">
                 <div class="col-md-12">
                     <form id="editProductForm" enctype="multipart/form-data">
@@ -134,5 +135,4 @@
 </div>
 
 <script src="./assets/js/helper/product-list.js"></script>
-
 <?php include('./footer.php'); ?>

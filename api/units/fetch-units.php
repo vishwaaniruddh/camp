@@ -11,10 +11,9 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $units[] = $row;
     }
-    echo json_encode(['success' => true, 'data' => $units]);
-} else {
-    echo json_encode(['success' => true, 'data' => [], 'message' => 'No units found']);
 }
+
+echo json_encode(['success' => true, 'units' => $units]);
 
 $conn->close();
 ?>

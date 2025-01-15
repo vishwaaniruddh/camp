@@ -4,9 +4,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const addProductForm = document.querySelector("#addProductForm");
     const editProductForm = document.querySelector("#editProductForm");
+    const messageElement = document.querySelector("#message");
 
     if (productId && editProductForm) {
-        fetchProductDetails(productId);
+        Promise.all([fetchCategories(), fetchUnits()])
+            .then(() => {
+                fetchProductDetails(productId);
+            })
+            .catch(error => {
+                console.error('Error fetching categories or units:', error);
+                alertify.error('An unexpected error occurred.');
+            });
     }
 
     if (addProductForm) {
@@ -26,9 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (document.querySelector("#productTableBody")) {
         fetchProducts();
     }
-
-    fetchCategories();
-    fetchUnits();
 });
 
 function fetchProducts() {
@@ -74,8 +79,8 @@ function populateProductTable(products) {
                 <td>${product.category}</td>
                 <td>${product.units}</td>
                 <td>${product.quantity}</td>
-                <td>$${parseFloat(product.selling_price).toFixed(2)}</td>
-                <td>$${parseFloat(product.purchase_price).toFixed(2)}</td>
+                <td>Rs. ${parseFloat(product.selling_price).toFixed(2)}</td>
+                <td>Rs. ${parseFloat(product.purchase_price).toFixed(2)}</td>
                 <td class="d-flex align-items-center">
                     <div class="dropdown dropdown-action">
                         <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
@@ -104,7 +109,8 @@ function fetchProductDetails(productId) {
             if (data.success) {
                 populateProductForm(data.product);
             } else {
-                alertify.error('Failed to fetch product details');
+                showMessage('Product not found');
+                hideEditForm();
             }
         })
         .catch(error => {
@@ -173,9 +179,8 @@ function addOrUpdateProduct(productId) {
         });
 }
 
-
 function fetchCategories() {
-    fetch('./api/category/fetch-categories.php')
+    return fetch('./api/category/fetch-categories.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -192,17 +197,25 @@ function fetchCategories() {
 
 function populateCategoryOptions(categories) {
     const categorySelect = document.querySelector("#category");
+    if (!categorySelect) {
+        console.error('Category select element not found');
+        return;
+    }
     categorySelect.innerHTML = "";
-    categories.forEach(category => {
-        const option = document.createElement("option");
-        option.value = category.id;
-        option.textContent = category.name;
-        categorySelect.appendChild(option);
-    });
+    if (categories.length === 0) {
+        categorySelect.innerHTML = `<option value="">No categories available</option>`;
+    } else {
+        categories.forEach(category => {
+            const option = document.createElement("option");
+            option.value = category.name;
+            option.textContent = category.name;
+            categorySelect.appendChild(option);
+        });
+    }
 }
 
 function fetchUnits() {
-    fetch('./api/units/fetch-units.php')
+    return fetch('./api/units/fetch-units.php')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -219,27 +232,34 @@ function fetchUnits() {
 
 function populateUnitOptions(units) {
     const unitsSelect = document.querySelector("#units");
+    if (!unitsSelect) {
+        console.error('Units select element not found');
+        return;
+    }
     unitsSelect.innerHTML = "";
-    units.forEach(unit => {
-        const option = document.createElement("option");
-        option.value = unit.id;
-        option.textContent = unit.name;
-        unitsSelect.appendChild(option);
-    });
+    if (units.length === 0) {
+        unitsSelect.innerHTML = `<option value="">No units available</option>`;
+    } else {
+        units.forEach(unit => {
+            const option = document.createElement("option");
+            option.value = unit.unitname;
+            option.textContent = unit.unitname;
+            unitsSelect.appendChild(option);
+        });
+    }
 }
 
-function fetchProductDetails(productId) {
-    fetch(`./api/products/get-product.php?id=${productId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                populateProductForm(data.product);
-            } else {
-                alertify.error('Failed to fetch product details');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching product details:', error);
-            alertify.error('An unexpected error occurred.');
-        });
+function showMessage(message) {
+    const messageElement = document.querySelector("#message");
+    if (messageElement) {
+        messageElement.textContent = message;
+        messageElement.style.display = 'block';
+    }
+}
+
+function hideEditForm() {
+    const editProductForm = document.querySelector("#editProductForm");
+    if (editProductForm) {
+        editProductForm.style.display = 'none';
+    }
 }

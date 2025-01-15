@@ -36,7 +36,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
 
 $sql = "INSERT INTO camp_products (name, sku, category, selling_price, purchase_price, quantity, units, discount_type, barcode, alert_quantity, tax, description, image_path, created_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssdiississsss", $name, $sku, $category, $selling_price, $purchase_price, $quantity, $units, $discount_type, $barcode, $alert_quantity, $tax, $description, $image_path, $created_by, $status);
+$stmt->bind_param("ssssdisssisssss", $name, $sku, $category, $selling_price, $purchase_price, $quantity, $units, $discount_type, $barcode, $alert_quantity, $tax, $description, $image_path, $created_by, $status);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Product added successfully']);
