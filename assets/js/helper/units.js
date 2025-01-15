@@ -169,36 +169,38 @@ function populateUnitTable(units) {
         return;
     }
     tableBody.innerHTML = "";
-    if (units.length === 0) {
+
+    // Safeguard to ensure units is an array
+    if (!Array.isArray(units) || units.length === 0) {
         const row = document.createElement("tr");
         row.innerHTML = `<td colspan="7" class="text-center">No units found</td>`;
         tableBody.appendChild(row);
-    } else {
-        units.forEach((unit, index) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${unit.unitname}</td>
-                <td>${unit.slug}</td>
-                <td>${unit.status === 'active' 
-                    ? '<span class="badge bg-success-light d-inline-flex align-items-center">Active</span>' 
-                    : '<span class="badge bg-danger-light d-inline-flex align-items-center">Deleted</span>'}
-                </td>
-                
-
-                <td class="d-flex align-items-center">
-                    <a href="javascript:void(0);" class="btn-action-icon me-2 edit-unit-btn" data-unit-id="${unit.id}" data-bs-toggle="modal" data-bs-target="#edit_unit"><i class="far fa-edit"></i> </a>
-                    <a href="javascript:void(0);" class="btn-action-icon delete-unit-btn" data-unit-id="${unit.id}"><i class="fe fe-trash-2"></i></a>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-
-        // Attach event listeners for edit and delete buttons
-        attachEditListeners();
-        attachDeleteListeners();
+        return;
     }
+
+    units.forEach((unit, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${unit.unitname}</td>
+            <td>${unit.slug}</td>
+            <td>${unit.status === 'active' 
+                ? '<span class="badge bg-success-light d-inline-flex align-items-center">Active</span>' 
+                : '<span class="badge bg-danger-light d-inline-flex align-items-center">Deleted</span>'}
+            </td>
+            <td class="d-flex align-items-center">
+                <a href="javascript:void(0);" class="btn-action-icon me-2 edit-unit-btn" data-unit-id="${unit.id}" data-bs-toggle="modal" data-bs-target="#edit_unit"><i class="far fa-edit"></i></a>
+                <a href="javascript:void(0);" class="btn-action-icon delete-unit-btn" data-unit-id="${unit.id}"><i class="fe fe-trash-2"></i></a>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Attach event listeners for edit and delete buttons
+    attachEditListeners();
+    attachDeleteListeners();
 }
+
 
 function formatDate(dateString) {
     const options = { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" };
