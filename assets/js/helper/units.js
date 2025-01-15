@@ -151,7 +151,7 @@ function fetchUnits() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                populateUnitTable(data.data);
+                populateUnitTable(data.units);
             } else {
                 alertify.error("Failed to fetch units.");
             }

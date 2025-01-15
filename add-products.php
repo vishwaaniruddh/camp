@@ -30,7 +30,9 @@
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Category <span class="text-danger"> *</span></label>
-                                        <input type="text" class="form-control" name="category" placeholder="Enter Category Name" required>
+                                        <select class="form-select" name="category" id="category" required>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-sm-12">
@@ -54,11 +56,8 @@
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Units</label>
-                                        <select class="form-select" name="units">
-                                            <option value="">Select Units</option>
-                                            <option value="Pieces">Pieces</option>
-                                            <option value="Box">Box</option>
-                                            <option value="Kilograms">Kilograms</option>
+                                        <select class="form-select" name="units" id="units">
+                                            <!-- Options will be populated by JavaScript -->
                                         </select>
                                     </div>
                                 </div>
