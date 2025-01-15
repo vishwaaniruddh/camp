@@ -79,7 +79,6 @@ function populateProductTable(products) {
                 <td>${product.category}</td>
                 <td>${product.units}</td>
                 <td>${product.quantity}</td>
-                <td>Rs. ${parseFloat(product.selling_price).toFixed(2)}</td>
                 <td>Rs. ${parseFloat(product.purchase_price).toFixed(2)}</td>
                 <td class="d-flex align-items-center">
                     <div class="dropdown dropdown-action">
@@ -124,14 +123,11 @@ function populateProductForm(product) {
     document.querySelector("#name").value = product.name;
     document.querySelector("#sku").value = product.sku;
     document.querySelector("#category").value = product.category;
-    document.querySelector("#selling_price").value = product.selling_price;
     document.querySelector("#purchase_price").value = product.purchase_price;
     document.querySelector("#quantity").value = product.quantity;
     document.querySelector("#units").value = product.units;
-    document.querySelector("#discount_type").value = product.discount_type;
     document.querySelector("#barcode").value = product.barcode;
     document.querySelector("#alert_quantity").value = product.alert_quantity;
-    document.querySelector("#tax").value = product.tax;
     document.querySelector("#description").value = product.description;
 
     const imagePath = product.image_path ? `./api/api/${product.image_path}` : 'assets/img/default-product.png';

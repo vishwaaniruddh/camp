@@ -40,12 +40,6 @@
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
-                                        <label>Selling Price <span class="text-danger"> *</span></label>
-                                        <input type="number" class="form-control" name="selling_price" id="selling_price" placeholder="Enter Selling Price" step="0.01" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
                                         <label>Purchase Price <span class="text-danger"> *</span></label>
                                         <input type="number" class="form-control" name="purchase_price" id="purchase_price" placeholder="Enter Purchase Price" step="0.01" required>
                                     </div>
@@ -65,16 +59,6 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label>Discount Type</label>
-                                        <select class="form-select" name="discount_type" id="discount_type">
-                                            <option value="">Select Discount Type</option>
-                                            <option value="Percentage">Percentage</option>
-                                            <option value="Fixed">Fixed</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3 add-products">
                                         <label>Generate Barcode</label>
                                         <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter Barcode Code">
@@ -85,17 +69,6 @@
                                     <div class="input-block mb-3">
                                         <label>Alert Quantity</label>
                                         <input type="number" class="form-control" name="alert_quantity" id="alert_quantity" placeholder="Enter Alert Quantity">
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label>Tax</label>
-                                        <select class="form-select" name="tax" id="tax">
-                                            <option value="">Select Tax</option>
-                                            <option value="IVA - (21%)">IVA - (21%)</option>
-                                            <option value="IRPF - (-15%)">IRPF - (-15%)</option>
-                                            <option value="PDV - (20%)">PDV - (20%)</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
