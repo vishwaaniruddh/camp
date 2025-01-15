@@ -55,7 +55,7 @@
 									</ul>
 								</li>
 								<li>
-									<a href="inventory.html"><i class="fe fe-user"></i> <span>Inventory</span></a>
+									<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
 								</li>
 							
 								<li class="submenu">
@@ -418,7 +418,7 @@
 								</ul>
 							</li>
 							<li>
-								<a href="inventory.html"><i class="fe fe-user"></i> <span>Inventory</span></a>
+								<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
 							</li>
 							<!-- /Inventory -->
 

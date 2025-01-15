@@ -69,10 +69,10 @@ function populateProductTable(products) {
                 <td>${index + 1}</td>
                 <td>
                     <h2 class="table-avatar">
-                        <a href="profile.php" class="avatar avatar-md me-2 companies">
+                        <a href="edit-products.php?id=${product.id}" class="avatar avatar-md me-2 companies">
                             <img class="avatar-img sales-rep" src="${imagePath}" alt="Product Image">
                         </a>
-                        <a href="profile.php">${product.name}</a>
+                        <a href="edit-products.php?id=${product.id}">${product.name}</a>
                     </h2>
                 </td>
                 <td>${product.sku}</td>
