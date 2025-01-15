@@ -32,7 +32,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     }
 }
 
-$sql = "INSERT INTO camp_products (name, sku, category, purchase_price, quantity, units, barcode, alert_quantity, description, image_path, created_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO camp_products (name, sku, category, purchase_price, quantity, units, barcode, alert_quantity, description, image_path, created_by, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("sssdississss", $name, $sku, $category,  $purchase_price, $quantity, $units, $barcode, $alert_quantity,  $description, $image_path, $created_by, $status);
 
