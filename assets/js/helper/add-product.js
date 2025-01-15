@@ -1,7 +1,9 @@
+
+fetchCategories();
+fetchUnits();
 document.addEventListener("DOMContentLoaded", function () {
     
-    fetchCategories();
-    fetchUnits();
+
     document.querySelector("#addProductForm").addEventListener("submit", function (e) {
      console.log('sa')
         e.preventDefault();
