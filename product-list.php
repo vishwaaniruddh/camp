@@ -99,7 +99,6 @@
 										<th>Category</th>
 										<th>Units</th>
 										<th>Quantity</th>
-										<th>Selling Price</th>
 										<th>Purchase Price</th>
 										<th class="no-sort">Action</th>
 									</tr>
