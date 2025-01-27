@@ -1,4 +1,3 @@
-<!-- filepath: /c:/xampp/htdocs/camp/edit-products.php -->
 <?php include('./header.php'); ?>
 
 <div class="content container-fluid">
@@ -23,6 +22,16 @@
                                         <input type="text" class="form-control" name="name" id="name" placeholder="Enter Product Name" required>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="input-block mb-3">
+                                        <label>Product Model <span class="text-danger"> </span></label>
+                                        <input type="text" class="form-control" name="model" id="model" placeholder="Enter Product Model">
+                                    </div>
+                                </div>
+
+                                
+                                
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3 add-products">
                                         <label>Product Code (SKU)<span class="text-danger"> *</span></label>
@@ -44,12 +53,7 @@
                                         <input type="number" class="form-control" name="purchase_price" id="purchase_price" placeholder="Enter Purchase Price" step="0.01" required>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label>Quantity <span class="text-danger"> *</span></label>
-                                        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity" required>
-                                    </div>
-                                </div>
+
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Units</label>
@@ -71,8 +75,57 @@
                                         <input type="number" class="form-control" name="alert_quantity" id="alert_quantity" placeholder="Enter Alert Quantity">
                                     </div>
                                 </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="input-block mb-3">
+                                        <label>Requires Serial Numbers</label>
+                                        <select class="form-select" name="requires_serial_numbers" id="requires_serial_numbers">
+                                            <option value="no">No</option>
+                                            <option value="yes">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+<div class="row">
+    
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <div class="input-block mb-3">
+                                <label>Quantity <span class="text-danger"> *</span></label>
+                                <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity" readonly required>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="input-block mb-3">
+                                        <label>Add Quantity</label>
+                                        <input type="number" class="form-control" name="add_quantity" id="add_quantity" placeholder="Enter Quantity to Add">
+                                        <button type="button" class="btn btn-primary" onclick="updateQuantity('add')">Add</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="input-block mb-3">
+                                        <label>Remove Quantity</label>
+                                        <input type="number" class="form-control" name="remove_quantity" id="remove_quantity" placeholder="Enter Quantity to Remove">
+                                        <button type="button" class="btn btn-primary" onclick="updateQuantity('remove')">Remove</button>
+                                    </div>
+                                </div>
+
+                        <div class="form-group-item" id="serialNumbersSection" style="display: none;">
+                            <h5 class="form-title">Serial Numbers</h5>
+                            <div id="serialNumbersContainer" class="row">
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update Product</button>
+                        </div>
+
+
+
+
+
                         <div class="form-group-item">
                             <div class="row">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-12 description-box">
@@ -96,16 +149,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Update Product</button>
-                        </div>
+
+</div>
+
+
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="./assets/js/helper/product-list.js"></script>
 <?php include('./footer.php'); ?>

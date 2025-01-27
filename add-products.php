@@ -20,6 +20,15 @@
                                         <input type="text" class="form-control" name="name" placeholder="Enter Product Name" required>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="input-block mb-3">
+                                        <label>Product Model <span class="text-danger"> </span></label>
+                                        <input type="text" class="form-control" name="model" placeholder="Enter Product Model">
+                                    </div>
+                                </div>
+
+                                
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3 add-products">
                                         <label>Product Code (SKU)<span class="text-danger"> *</span></label>
@@ -27,6 +36,9 @@
                                         <button type="button" class="btn btn-primary" onclick="generateSKU()">Generate Code</button>
                                     </div>
                                 </div>
+                                
+
+
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Category <span class="text-danger"> *</span></label>

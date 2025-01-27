@@ -68,8 +68,15 @@ function populateCategoryOptions(categories) {
         return;
     }
     categorySelect.innerHTML = "";
+
+    // Add default first option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select a category";
+    categorySelect.appendChild(defaultOption);
+
     if (categories.length === 0) {
-        categorySelect.innerHTML = `<option value="">No categories available</option>`;
+        categorySelect.innerHTML += `<option value="">No categories available</option>`;
     } else {
         categories.forEach(category => {
             const option = document.createElement("option");
@@ -103,6 +110,13 @@ function populateUnitOptions(units) {
         return;
     }
     unitsSelect.innerHTML = "";
+
+    // Add default first option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select a unit";
+    unitsSelect.appendChild(defaultOption);
+
     if (units.length === 0) {
         unitsSelect.innerHTML = `<option value="">No units available</option>`;
     } else {
@@ -114,7 +128,6 @@ function populateUnitOptions(units) {
         });
     }
 }
-
 
 
 

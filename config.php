@@ -21,3 +21,6 @@ if ($con->connect_error) {
 // echo "Connected succesfull";
    
 }
+
+$date = date("Y-m-d");
+$datetime = date("Y-m-d H:i:s");

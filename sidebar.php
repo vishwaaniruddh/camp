@@ -23,14 +23,14 @@
 									<a href="#"><i class="fe fe-user"></i> <span> Super Admin</span> <span class="menu-arrow"></span></a>
 									<ul>
 										<li><a href="dashboard.html">Dashboard</a></li>
-									<li><a href="companies.html">Companies</a></li>
+										<li><a href="companies.html">Companies</a></li>
 										<li><a href="subscription.html">Subscription</a></li>
 										<li><a href="packages.html">Packages</a></li>
-		                                <li><a href="domain.html">Domain</a></li>
+										<li><a href="domain.html">Domain</a></li>
 										<li><a href="purchase-transaction.html">Purchase Transaction</a></li>
 									</ul>
 								</li>
-							
+
 								<li class="submenu">
 									<a href="#"><i class="fe fe-users"></i><span>Customers</span> <span class="menu-arrow"></span></a>
 									<ul>
@@ -43,31 +43,34 @@
 										</li>
 									</ul>
 								</li>
-							
+
 								<li class="menu-title"><span>Inventory</span></li>
 								<li class="submenu">
 									<a href="#"><i class="fe fe-package"></i> <span> Products / Services</span> <span class="menu-arrow"></span></a>
 									<ul>
 										<li><a href="product-list.php">Product List</a></li>
 										<li><a href="category.php">Category</a></li>
-										
+
 										<li><a href="units.php">Units</a></li>
 									</ul>
 								</li>
 								<li>
+									<a href="purchase_orders.php"><i class="fe fe-user"></i> <span>Purchase Orders</span></a>
+								</li>
+								<li>
 									<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
 								</li>
-							
+
 								<li class="submenu">
 									<a href="#"><i class="fe fe-file-plus"></i><span>Signature</span> <span class="menu-arrow"></span></a>
 									<ul>
-										<li><a  href="signature-list.html"><i class="fe fe-clipboard"></i> <span>List of Signature</span></a></li>
-										<li><a  href="signature-invoice.html"><i class="fe fe-box"></i> <span>Signature Invoice</span></a></li>
-									
+										<li><a href="signature-list.html"><i class="fe fe-clipboard"></i> <span>List of Signature</span></a></li>
+										<li><a href="signature-invoice.html"><i class="fe fe-box"></i> <span>Signature Invoice</span></a></li>
+
 									</ul>
 								</li>
-							
-								<li class="menu-title"><span>Sales</span></li>							
+
+								<li class="menu-title"><span>Sales</span></li>
 								<li class="submenu">
 									<a href="invoices.html"><i class="fe fe-file"></i> <span>Invoices</span><span class="menu-arrow"></span></a>
 									<ul>
@@ -86,7 +89,7 @@
 								<li>
 									<a href="credit-notes.html"><i class="fe fe-edit"></i> <span>Credit Notes</span></a>
 								</li>
-								<li class="menu-title"><span>Purchases</span></li>							
+								<li class="menu-title"><span>Purchases</span></li>
 								<li>
 									<a href="purchases.php"><i class="fe fe-shopping-cart"></i> <span>Purchases</span></a>
 								</li>
@@ -96,45 +99,45 @@
 								<li>
 									<a href="debit-notes.php"><i class="fe fe-file-text"></i> <span>Debit Notes</span></a>
 								</li>
-							
-								<li class="menu-title"><span>Finance & Accounts</span></li>								
+
+								<li class="menu-title"><span>Finance & Accounts</span></li>
 								<li>
 									<a href="expenses.html"><i class="fe fe-file-plus"></i> <span>Expenses</span></a>
 								</li>
 								<li>
 									<a href="payments.html"><i class="fe fe-credit-card"></i> <span>Payments</span></a>
 								</li>
-							
-								<li class="menu-title"><span>Quotations</span></li>									
+
+								<li class="menu-title"><span>Quotations</span></li>
 								<li>
 									<a href="quotations.html"><i class="fe fe-clipboard"></i> <span>Quotations</span></a>
 								</li>
 								<li>
 									<a href="delivery-challans.html"><i class="fe fe-file-text"></i> <span>Delivery Challans</span></a>
 								</li>
-							
-								<li class="menu-title"><span>Reports</span></li>								
+
+								<li class="menu-title"><span>Reports</span></li>
 								<li>
 									<a href="payment-summary.html"><i class="fe fe-credit-card"></i> <span>Payment Summary</span></a>
-									
+
 								</li>
 								<li class="submenu">
 									<a href="#"><i class="fe fe-box"></i><span>Reports</span> <span class="menu-arrow"></span></a>
 									<ul>
 										<li><a href="expense-report.html">Expense Report</a></li>
-									   <li><a href="purchase-report.html">Purchase Report</a></li>
-									   <li><a href="purchase-return.html">Purchase Return Report</a></li>
-									   <li><a href="sales-report.html">Sales Report</a></li>
-									   <li><a href="sales-return-report.html">Sales Return Report</a></li>
-									   <li><a href="quotation-report.html">Quotation Report</a></li>
-									   <li><a href="payment-report.html">Payment Report</a></li>
-									   <li><a href="stock-report.html">Stock Report</a></li>
-									   <li><a href="low-stock-report.html">Low Stock Report</a></li>
-									   <li><a href="income-report.html">Income Report</a></li>
-									   <li><a href="tax-purchase.html">Tax Report</a></li>
-									   <li><a href="profit-loss-list.html">Profit & Loss</a></li>
+										<li><a href="purchase-report.html">Purchase Report</a></li>
+										<li><a href="purchase-return.html">Purchase Return Report</a></li>
+										<li><a href="sales-report.html">Sales Report</a></li>
+										<li><a href="sales-return-report.html">Sales Return Report</a></li>
+										<li><a href="quotation-report.html">Quotation Report</a></li>
+										<li><a href="payment-report.html">Payment Report</a></li>
+										<li><a href="stock-report.html">Stock Report</a></li>
+										<li><a href="low-stock-report.html">Low Stock Report</a></li>
+										<li><a href="income-report.html">Income Report</a></li>
+										<li><a href="tax-purchase.html">Tax Report</a></li>
+										<li><a href="profit-loss-list.html">Profit & Loss</a></li>
 									</ul>
-								</li>	
+								</li>
 								<li class="menu-title"><span>User Management</span></li>
 								<li>
 									<a href="users.html"><i class="fe fe-user"></i> <span>Users</span></a>
@@ -145,7 +148,7 @@
 								<li>
 									<a href="delete-account-request.html"><i class="fe fe-trash-2"></i> <span>Delete Account Request</span></a>
 								</li>
-							
+
 								<li class="menu-title"><span>Membership</span></li>
 								<li class="submenu">
 									<a href="#"><i class="fe fe-book"></i> <span> Membership</span> <span class="menu-arrow"></span></a>
@@ -156,7 +159,7 @@
 										<li><a href="transactions.html">Transactions</a></li>
 									</ul>
 								</li>
-							
+
 								<li class="menu-title"><span>Content (CMS)</span></li>
 								<li>
 									<a href="pages.html"><i class="fe fe-folder"></i> <span>Pages</span></a>
@@ -183,8 +186,8 @@
 								<li>
 									<a href="faq.html"><i class="fe fe-alert-circle"></i> <span>FAQ</span></a>
 								</li>
-							
-								<li class="menu-title"><span>Support</span></li>							
+
+								<li class="menu-title"><span>Support</span></li>
 								<li>
 									<a href="contact-messages.html"><i class="fe fe-printer"></i> <span>Contact Messages</span></a>
 								</li>
@@ -197,20 +200,20 @@
 										<li><a href="ticket-details.html">Ticket Overview</a></li>
 									</ul>
 								</li>
-							
-								<li class="menu-title"><span>Pages</span></li>							
+
+								<li class="menu-title"><span>Pages</span></li>
 								<li>
 									<a href="profile.html"><i class="fe fe-user"></i> <span>Profile</span></a>
 								</li>
-	                            <li class="submenu">
-	                                <a href="#"><i class="fe fe-lock"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
-	                                <ul>
-	                                    <li><a href="login.html"> Login </a></li>
-	                                    <li><a href="register.html"> Register </a></li>
-	                                    <li><a href="forgot-password.html"> Forgot Password </a></li>
-	                                    <li><a href="lock-screen.html"> Lock Screen </a></li>
-	                                </ul>
-	                            </li>
+								<li class="submenu">
+									<a href="#"><i class="fe fe-lock"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
+									<ul>
+										<li><a href="login.html"> Login </a></li>
+										<li><a href="register.html"> Register </a></li>
+										<li><a href="forgot-password.html"> Forgot Password </a></li>
+										<li><a href="lock-screen.html"> Lock Screen </a></li>
+									</ul>
+								</li>
 								<li>
 									<a href="error-404.html"><i class="fe fe-x-square"></i> <span>Error Pages</span></a>
 								</li>
@@ -220,34 +223,34 @@
 								<li>
 									<a href="maps-vector.html"><i class="fe fe-image"></i> <span>Vector Maps</span></a>
 								</li>
-							
-								<li class="menu-title"> 
+
+								<li class="menu-title">
 									<span>UI Interface</span>
 								</li>
 								<li class="submenu">
 									<a href="#"><i class="fe fe-pocket"></i> <span>Base UI </span> <span class="menu-arrow"></span></a>
 									<ul>
-										<li><a href="alerts.html">Alerts</a></li>                                    
+										<li><a href="alerts.html">Alerts</a></li>
 										<li><a href="accordions.html">Accordions</a></li>
-										<li><a href="avatar.html">Avatar</a></li> 
+										<li><a href="avatar.html">Avatar</a></li>
 										<li><a href="badges.html">Badges</a></li>
-										<li><a href="buttons.html">Buttons</a></li>   
-										<li><a href="buttongroup.html">Button Group</a></li>                                  
+										<li><a href="buttons.html">Buttons</a></li>
+										<li><a href="buttongroup.html">Button Group</a></li>
 										<li><a href="breadcrumbs.html">Breadcrumb</a></li>
 										<li><a href="cards.html">Cards</a></li>
-										<li><a href="carousel.html">Carousel</a></li>                                   
+										<li><a href="carousel.html">Carousel</a></li>
 										<li><a href="dropdowns.html">Dropdowns</a></li>
 										<li><a href="grid.html">Grid</a></li>
 										<li><a href="images.html">Images</a></li>
 										<li><a href="lightbox.html">Lightbox</a></li>
-										<li><a href="media.html">Media</a></li>                              
+										<li><a href="media.html">Media</a></li>
 										<li><a href="modal.html">Modals</a></li>
 										<li><a href="offcanvas.html">Offcanvas</a></li>
 										<li><a href="pagination.html">Pagination</a></li>
-										<li><a href="popover.html">Popover</a></li>                                    
+										<li><a href="popover.html">Popover</a></li>
 										<li><a href="progress.html">Progress Bars</a></li>
 										<li><a href="placeholders.html">Placeholders</a></li>
-										<li><a href="rangeslider.html">Range Slider</a></li>                                    
+										<li><a href="rangeslider.html">Range Slider</a></li>
 										<li><a href="spinners.html">Spinner</a></li>
 										<li><a href="sweetalerts.html">Sweet Alerts</a></li>
 										<li><a href="tab.html">Tabs</a></li>
@@ -320,18 +323,18 @@
 										<li><a href="data-tables.html">Data Table </a></li>
 									</ul>
 								</li>
-							
-								<li class="menu-title"><span>Settings</span></li>							
+
+								<li class="menu-title"><span>Settings</span></li>
 								<li>
 									<a href="settings.html"><i class="fe fe-settings"></i> <span>Settings</span></a>
 								</li>
-								<li class="menu-title"> 
+								<li class="menu-title">
 									<span>Extras</span>
 								</li>
-								<li> 
+								<li>
 									<a href="#"><i class="fe fe-file-text"></i> <span>Documentation</span></a>
 								</li>
-								<li> 
+								<li>
 									<a href="javascript:void(0);"><i class="fe fe-lock"></i> <span>Change Log</span> <span class="badge badge-primary ms-auto">v2.0.4</span></a>
 								</li>
 								<li class="submenu">
@@ -361,7 +364,7 @@
 								</li>
 							</ul>
 							<!-- /Settings -->
-					</nav>
+						</nav>
 						<ul class="sidebar-vertical">
 							<!-- Main -->
 							<li class="menu-title"><span>Main</span></li>
@@ -413,28 +416,31 @@
 								<ul style="display: none;">
 									<li><a href="product-list.php">Product List</a></li>
 									<li><a href="category.php">Category</a></li>
-									
+
 									<li><a href="units.php">Units</a></li>
 								</ul>
+							</li>
+							<li>
+								<a href="purchase_orders.php"><i class="fe fe-user"></i> <span>Purchase Orders</span></a>
 							</li>
 							<li>
 								<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
 							</li>
 							<!-- /Inventory -->
 
-					    	<!-- Signature -->
+							<!-- Signature -->
 							<li class="menu-title"><span>Signature</span></li>
 							<li>
-								<a  href="signature-list.html"><i class="fe fe-clipboard"></i> <span>List of Signature</span></a>
-								<a  href="signature-invoice.html"><i class="fe fe-box"></i> <span>Signature Invoice</span></a>
+								<a href="signature-list.html"><i class="fe fe-clipboard"></i> <span>List of Signature</span></a>
+								<a href="signature-invoice.html"><i class="fe fe-box"></i> <span>Signature Invoice</span></a>
 							</li>
 							<!-- /Signature -->
 
 							<!-- Sales -->
-							<li class="menu-title"><span>Sales</span></li>							
-							<li class="submenu"> 
-								
-								<a  href="#"><i class="fe fe-file"></i> <span>Invoices</span><span class="menu-arrow"></span></a>
+							<li class="menu-title"><span>Sales</span></li>
+							<li class="submenu">
+
+								<a href="#"><i class="fe fe-file"></i> <span>Invoices</span><span class="menu-arrow"></span></a>
 								<ul style="display: none;">
 									<li><a href="invoices.html">Invoices List</a></li>
 									<li><a href="invoice-details-admin.html">Invoice Details (Admin)</a></li>
@@ -451,7 +457,7 @@
 							<!-- /Sales -->
 
 							<!-- Purchases -->
-							<li class="menu-title"><span>Purchases</span></li>							
+							<li class="menu-title"><span>Purchases</span></li>
 							<li>
 								<a href="purchases.php"><i class="fe fe-shopping-cart"></i> <span>Purchases</span></a>
 							</li>
@@ -464,7 +470,7 @@
 							<!-- /Purchases -->
 
 							<!-- Finance & Accounts -->
-							<li class="menu-title"><span>Finance & Accounts</span></li>								
+							<li class="menu-title"><span>Finance & Accounts</span></li>
 							<li>
 								<a href="expenses.html"><i class="fe fe-file-plus"></i> <span>Expenses</span></a>
 							</li>
@@ -474,7 +480,7 @@
 							<!-- /Finance & Accounts -->
 
 							<!-- Quotations -->
-							<li class="menu-title"><span>Quotations</span></li>									
+							<li class="menu-title"><span>Quotations</span></li>
 							<li>
 								<a href="quotations.html"><i class="fe fe-clipboard"></i> <span>Quotations</span></a>
 							</li>
@@ -484,29 +490,29 @@
 							<!-- /Quotations -->
 
 							<!-- Reports -->
-							<li class="menu-title"><span>Reports</span></li>								
+							<li class="menu-title"><span>Reports</span></li>
 							<li>
 								<a href="payment-summary.html"><i class="fe fe-credit-card"></i> <span>Payment Summary</span></a>
-								
+
 							</li>
 							<!-- /Reports -->
 							<li class="submenu">
 								<a href="#"><i class="fe fe-box"></i><span>Reports</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="expense-report.html">Expense Report</a></li>
-								   <li><a href="purchase-report.html">Purchase Report</a></li>
-								   <li><a href="purchase-return.html">Purchase Return Report</a></li>
-								   <li><a href="sales-report.html">Sales Report</a></li>
-								   <li><a href="sales-return-report.html">Sales Return Report</a></li>
-								   <li><a href="quotation-report.html">Quotation Report</a></li>
-								   <li><a href="payment-report-2.html">Payment Report</a></li>
-								   <li><a href="stock-report.html">Stock Report</a></li>
-								   <li><a href="low-stock-report.html">Low Stock Report</a></li>
-								   <li><a href="income-report.html">Income Report</a></li>
-								   <li><a href="tax-purchase.html">Tax Report</a></li>
-								   <li><a href="profit-loss-list.html">Profit & Loss</a></li>
+									<li><a href="purchase-report.html">Purchase Report</a></li>
+									<li><a href="purchase-return.html">Purchase Return Report</a></li>
+									<li><a href="sales-report.html">Sales Report</a></li>
+									<li><a href="sales-return-report.html">Sales Return Report</a></li>
+									<li><a href="quotation-report.html">Quotation Report</a></li>
+									<li><a href="payment-report-2.html">Payment Report</a></li>
+									<li><a href="stock-report.html">Stock Report</a></li>
+									<li><a href="low-stock-report.html">Low Stock Report</a></li>
+									<li><a href="income-report.html">Income Report</a></li>
+									<li><a href="tax-purchase.html">Tax Report</a></li>
+									<li><a href="profit-loss-list.html">Profit & Loss</a></li>
 								</ul>
-							</li>	
+							</li>
 							<!-- User Management -->
 							<li class="menu-title"><span>User Management</span></li>
 							<li>
@@ -563,7 +569,7 @@
 							<!-- /Content (CMS) -->
 
 							<!-- Support -->
-							<li class="menu-title"><span>Support</span></li>							
+							<li class="menu-title"><span>Support</span></li>
 							<li>
 								<a href="contact-messages.html"><i class="fe fe-printer"></i> <span>Contact Messages</span></a>
 							</li>
@@ -578,22 +584,22 @@
 							</li>
 							<!-- /Support -->
 
-						
+
 
 							<!-- Pages -->
-							<li class="menu-title"><span>Pages</span></li>							
+							<li class="menu-title"><span>Pages</span></li>
 							<li>
 								<a href="profile.html"><i class="fe fe-user"></i> <span>Profile</span></a>
 							</li>
-					        <li class="submenu">
-					            <a href="#"><i class="fe fe-lock"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
-					            <ul style="display: none;">
-					                <li><a href="login.html"> Login </a></li>
-					                <li><a href="register.html"> Register </a></li>
-					                <li><a href="forgot-password.html"> Forgot Password </a></li>
-					                <li><a href="lock-screen.html"> Lock Screen </a></li>
-					            </ul>
-					        </li>
+							<li class="submenu">
+								<a href="#"><i class="fe fe-lock"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
+								<ul style="display: none;">
+									<li><a href="login.html"> Login </a></li>
+									<li><a href="register.html"> Register </a></li>
+									<li><a href="forgot-password.html"> Forgot Password </a></li>
+									<li><a href="lock-screen.html"> Lock Screen </a></li>
+								</ul>
+							</li>
 							<li>
 								<a href="error-404.html"><i class="fe fe-x-square"></i> <span>Error Pages</span></a>
 							</li>
@@ -606,33 +612,33 @@
 							<!-- /Pages -->
 
 							<!-- UI Interface -->
-							<li class="menu-title"> 
+							<li class="menu-title">
 								<span>UI Interface</span>
 							</li>
 							<li class="submenu">
 								<a href="#"><i class="fe fe-pocket"></i> <span>Base UI </span> <span class="menu-arrow"></span></a>
 								<ul style="display: none;">
-									<li><a href="alerts.html">Alerts</a></li>                                    
+									<li><a href="alerts.html">Alerts</a></li>
 									<li><a href="accordions.html">Accordions</a></li>
-									<li><a href="avatar.html">Avatar</a></li> 
+									<li><a href="avatar.html">Avatar</a></li>
 									<li><a href="badges.html">Badges</a></li>
-									<li><a href="buttons.html">Buttons</a></li>   
-									<li><a href="buttongroup.html">Button Group</a></li>                                  
+									<li><a href="buttons.html">Buttons</a></li>
+									<li><a href="buttongroup.html">Button Group</a></li>
 									<li><a href="breadcrumbs.html">Breadcrumb</a></li>
 									<li><a href="cards.html">Cards</a></li>
-									<li><a href="carousel.html">Carousel</a></li>                                   
+									<li><a href="carousel.html">Carousel</a></li>
 									<li><a href="dropdowns.html">Dropdowns</a></li>
 									<li><a href="grid.html">Grid</a></li>
 									<li><a href="images.html">Images</a></li>
 									<li><a href="lightbox.html">Lightbox</a></li>
-									<li><a href="media.html">Media</a></li>                              
+									<li><a href="media.html">Media</a></li>
 									<li><a href="modal.html">Modals</a></li>
 									<li><a href="offcanvas.html">Offcanvas</a></li>
 									<li><a href="pagination.html">Pagination</a></li>
-									<li><a href="popover.html">Popover</a></li>                                    
+									<li><a href="popover.html">Popover</a></li>
 									<li><a href="progress.html">Progress Bars</a></li>
 									<li><a href="placeholders.html">Placeholders</a></li>
-									<li><a href="rangeslider.html">Range Slider</a></li>                                    
+									<li><a href="rangeslider.html">Range Slider</a></li>
 									<li><a href="spinners.html">Spinner</a></li>
 									<li><a href="sweetalerts.html">Sweet Alerts</a></li>
 									<li><a href="tab.html">Tabs</a></li>
@@ -708,7 +714,7 @@
 							<!-- /UI Interface -->
 
 							<!-- Settings -->
-							<li class="menu-title"><span>Settings</span></li>							
+							<li class="menu-title"><span>Settings</span></li>
 							<li>
 								<a href="settings.html"><i class="fe fe-settings"></i> <span>Settings</span></a>
 							</li>
@@ -717,13 +723,13 @@
 							</li>
 
 							<!-- Extras -->
-							<li class="menu-title"> 
+							<li class="menu-title">
 								<span>Extras</span>
 							</li>
-							<li> 
+							<li>
 								<a href="#"><i class="fe fe-file-text"></i> <span>Documentation</span></a>
 							</li>
-							<li> 
+							<li>
 								<a href="javascript:void(0);"><i class="fe fe-lock"></i> <span>Change Log</span> <span class="badge badge-primary ms-auto">v2.0.4</span></a>
 							</li>
 							<li class="submenu">
