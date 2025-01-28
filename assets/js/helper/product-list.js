@@ -33,26 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (document.querySelector("#productTableBody")) {
         fetchProducts();
-    }
-
-
-    document.querySelector("#quantity").addEventListener("input", function () {
-        const requiresSerialNumbers = document.querySelector("#requires_serial_numbers").value === 'yes';
-        if (requiresSerialNumbers) {
-            generateSerialNumberFields(this.value);
-        }
-    });
-    
-    document.querySelector("#requires_serial_numbers").addEventListener("change", function () {
-        const serialNumbersSection = document.querySelector("#serialNumbersSection");
-        if (this.value === 'yes') {
-            serialNumbersSection.style.display = 'block';
-            generateSerialNumberFields(document.querySelector("#quantity").value);
-        } else {
-            serialNumbersSection.style.display = 'none';
-        }
-    });
-    
+    }    
 
 });
 
@@ -98,7 +79,6 @@ function populateProductTable(products) {
                 <td>${product.sku}</td>
                 <td>${product.category}</td>
                 <td>${product.units}</td>
-                <td>${product.quantity}</td>
                 <td>Rs. ${parseFloat(product.purchase_price).toFixed(2)}</td>
                 <td class="d-flex align-items-center">
                     <div class="dropdown dropdown-action">
@@ -145,7 +125,6 @@ function populateProductForm(product) {
     document.querySelector("#sku").value = product.sku;
     document.querySelector("#category").value = product.category;
     document.querySelector("#purchase_price").value = product.purchase_price;
-    document.querySelector("#quantity").value = product.quantity;
     document.querySelector("#units").value = product.units;
     document.querySelector("#barcode").value = product.barcode;
     document.querySelector("#alert_quantity").value = product.alert_quantity;
@@ -155,31 +134,26 @@ function populateProductForm(product) {
     const imagePath = product.image_path ? `./api/api/${product.image_path}` : 'assets/img/default-product.png';
     document.querySelector("#current_image").src = imagePath;
 
-    if (product.serial_numbers) {
-        document.querySelector("#serialNumbersSection").style.display = 'block';
-        generateSerialNumberFields(product.quantity, product.serial_numbers);
-    } else {
-        document.querySelector("#serialNumbersSection").style.display = 'none';
-    }
+
 }
 
-function generateSerialNumberFields(quantity, serialNumbers = []) {
-    const container = document.querySelector("#serialNumbersContainer");
-    container.innerHTML = "";
+// function generateSerialNumberFields(quantity, serialNumbers = []) {
+//     const container = document.querySelector("#serialNumbersContainer");
+//     container.innerHTML = "";
 
-    for (let i = 0; i < quantity; i++) {
-        const div = document.createElement("div");
-        div.className = "col-lg-4 col-md-6 col-sm-12 mb-3";
-        const input = document.createElement("input");
-        input.type = "text";
-        input.className = "form-control";
-        input.name = `serial_numbers[]`;
-        input.placeholder = `Enter Serial Number ${i + 1}`;
-        input.value = serialNumbers[i] || "";
-        div.appendChild(input);
-        container.appendChild(div);
-    }
-}
+//     for (let i = 0; i < quantity; i++) {
+//         const div = document.createElement("div");
+//         div.className = "col-lg-4 col-md-6 col-sm-12 mb-3";
+//         const input = document.createElement("input");
+//         input.type = "text";
+//         input.className = "form-control";
+//         input.name = `serial_numbers[]`;
+//         input.placeholder = `Enter Serial Number ${i + 1}`;
+//         input.value = serialNumbers[i] || "";
+//         div.appendChild(input);
+//         container.appendChild(div);
+//     }
+// }
 
 
 function generateSKU() {

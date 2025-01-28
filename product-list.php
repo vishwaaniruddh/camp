@@ -98,7 +98,6 @@
 										<th>Code</th>
 										<th>Category</th>
 										<th>Units</th>
-										<th>Quantity</th>
 										<th>Purchase Price</th>
 										<th class="no-sort">Action</th>
 									</tr>

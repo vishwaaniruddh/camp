@@ -7,11 +7,11 @@ $name = $_POST['name'];
 $sku = $_POST['sku'];
 $category = $_POST['category'];
 $purchase_price = $_POST['purchase_price'];
-$quantity = $_POST['quantity'];
 $units = $_POST['units'];
 $barcode = $_POST['barcode'];
 $alert_quantity = $_POST['alert_quantity'];
 $model = $_POST['model'];
+$requires_serial_numbers = $_POST['requires_serial_numbers'];
 
 $description = $_POST['description'];
 $created_by = 'current_user'; // Replace with actual user ID or name
@@ -33,9 +33,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     }
 }
 
-$sql = "INSERT INTO camp_products (name,model, sku, category, purchase_price, quantity, units, barcode, alert_quantity, description, image_path, created_by, status) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO camp_products (name,model, sku, category, purchase_price, requires_serial_numbers, units, barcode, alert_quantity, description, image_path, created_by, status) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssdississss", $name,$model, $sku, $category,  $purchase_price, $quantity, $units, $barcode, $alert_quantity,  $description, $image_path, $created_by, $status);
+$stmt->bind_param("ssssdsssissss", $name,$model, $sku, $category,  $purchase_price, $requires_serial_numbers, $units, $barcode, $alert_quantity,  $description, $image_path, $created_by, $status);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Product added successfully']);

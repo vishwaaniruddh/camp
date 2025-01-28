@@ -55,12 +55,6 @@
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
-                                        <label>Quantity <span class="text-danger"> *</span></label>
-                                        <input type="number" class="form-control" name="quantity" placeholder="Enter Quantity" required>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
                                         <label>Units</label>
                                         <select class="form-select" name="units" id="units">
                                             <!-- Options will be populated by JavaScript -->
@@ -74,12 +68,27 @@
                                         <button type="button" class="btn btn-primary" onclick="generateBarcode()">Generate Code</button>
                                     </div>
                                 </div>
+                               
+
+
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Alert Quantity</label>
                                         <input type="number" class="form-control" name="alert_quantity" placeholder="Enter Alert Quantity">
                                     </div>
                                 </div>
+
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <div class="input-block mb-3">
+                                        <label>Requires Serial Numbers</label>
+                                        <select class="form-select" name="requires_serial_numbers" id="requires_serial_numbers">
+                                            <option value="no">No</option>
+                                            <option value="yes">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                
                             </div>
                         </div>
                         <div class="form-group-item">

@@ -89,40 +89,7 @@
 
 <div class="row">
     
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                            <div class="input-block mb-3">
-                                <label>Quantity <span class="text-danger"> *</span></label>
-                                <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity" readonly required>
-
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label>Add Quantity</label>
-                                        <input type="number" class="form-control" name="add_quantity" id="add_quantity" placeholder="Enter Quantity to Add">
-                                        <button type="button" class="btn btn-primary" onclick="updateQuantity('add')">Add</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <div class="input-block mb-3">
-                                        <label>Remove Quantity</label>
-                                        <input type="number" class="form-control" name="remove_quantity" id="remove_quantity" placeholder="Enter Quantity to Remove">
-                                        <button type="button" class="btn btn-primary" onclick="updateQuantity('remove')">Remove</button>
-                                    </div>
-                                </div>
-
-                        <div class="form-group-item" id="serialNumbersSection" style="display: none;">
-                            <h5 class="form-title">Serial Numbers</h5>
-                            <div id="serialNumbersContainer" class="row">
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Update Product</button>
-                        </div>
-
-
+                     
 
 
 

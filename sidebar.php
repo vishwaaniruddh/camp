@@ -55,7 +55,7 @@
 									</ul>
 								</li>
 								<li>
-									<a href="purchase_orders.php"><i class="fe fe-user"></i> <span>Purchase Orders</span></a>
+									<a href="add-purchase-orders.php"><i class="fe fe-user"></i> <span>Add Purchase Orders</span></a>
 								</li>
 								<li>
 									<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
@@ -421,7 +421,10 @@
 								</ul>
 							</li>
 							<li>
-								<a href="purchase_orders.php"><i class="fe fe-user"></i> <span>Purchase Orders</span></a>
+								<a href="add-purchase-orders.php"><i class="fe fe-user"></i> <span>Add Purchase Orders</span></a>
+							</li>
+							<li>
+								<a href="purchase-orders.php"><i class="fe fe-user"></i> <span>View Purchase Orders</span></a>
 							</li>
 							<li>
 								<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
