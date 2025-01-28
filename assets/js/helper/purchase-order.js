@@ -2,7 +2,7 @@ fetchVendors();
 document.addEventListener("DOMContentLoaded", function () {
 
     const urlParams = new URLSearchParams(window.location.search);
-    const  purchase_order = urlParams.get('purchase-order');
+    const purchase_order = urlParams.get('purchase-order');
 
 
 
@@ -11,9 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const addPoFormData = document.querySelector("#addPoFormData");
     const purchaseOrderTableBody = document.querySelector("#purchaseOrderTableBody");
     const edit_po_container = document.querySelector("#edit-po-container");
-    
-    if (addPoFormData) {
 
+    if (addPoFormData) {
         document.getElementById('add-row').addEventListener('click', function () {
             var productRow = document.querySelector('.product-row');
             var newRow = productRow.cloneNode(true);
@@ -29,22 +28,22 @@ document.addEventListener("DOMContentLoaded", function () {
             updateSerialNumbers();
         });
 
-        
+
         document.querySelector("#addPoFormData").addEventListener("submit", function (e) {
             e.preventDefault();
             addPO();
         });
     }
 
-    if(purchaseOrderTableBody){
+    if (purchaseOrderTableBody) {
 
         fetchAllPOs();
     }
 
     if (purchase_order && edit_po_container) {
-        
+
         fetchSinglePurchaseOrder(purchase_order);
-        
+
     }
 
 
@@ -88,6 +87,8 @@ function fetchAllPOs() {
         .then(data => {
             if (data.status == 'success') {
                 populatePOData(data.data);
+                setupDeleteAction();
+
             } else {
                 alertify.error('Failed to fetch categories');
                 showNoDataMessage();
@@ -100,48 +101,83 @@ function fetchAllPOs() {
         });
 }
 
+function getStatusBadge(status) {
+    switch (status) {
+        case 'Pending':
+            return '<span class="badge bg-warning badge d-inline-flex align-items-center">Pending</span>';
+        case 'Approved':
+            return '<span class="badge bg-success d-inline-flex align-items-center">Approved</span>';
+        case 'Fulfilled':
+            return '<span class="badge bg-primary d-inline-flex align-items-center">Fulfilled</span>';
+        case 'Cancelled':
+            return '<span class="badge bg-danger d-inline-flex align-items-center">Cancelled</span>';
+        case 'Deleted':
+            return '<span class="badge bg-danger d-inline-flex align-items-center">Deleted</span>';
+        default:
+            return '<span class="badge bg-secondary d-inline-flex align-items-center">Unknown</span>';
+    }
+}
+
+
+
 function populatePOData(categories) {
     const tableBody = document.querySelector("#purchaseOrderTableBody");
     tableBody.innerHTML = "";
     if (categories.length === 0) {
         showNoDataMessage();
     } else {
-        categories.forEach((category, index) => {
+        categories.forEach((po, index) => {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${index + 1}</td>
-                <td>${category.po_number}</td>
-                <td>${category.vendor}</td>
-                <td>${category.total_amount}</td>
-                
-                <td>${category.order_date}</td>
-                <td>${category.expected_delivery_date}</td>
-                <td>${category.status}</td>
-                <td>${category.created_at}</td>
-                
+                <td>${po.po_number}</td>
+                <td>${po.vendor}</td>
+                <td>${po.total_amount}</td>
+                <td>${po.order_date}</td>
+                <td>${po.expected_delivery_date}</td>
+                <td>${getStatusBadge(po.status)}</td>
+                <td>${po.created_at}</td>
                 <td class="d-flex align-items-center">
-                    <a href="./edit-purchase-orders.php?purchase-order=${category.po_number}" class="btn-action-icon me-2 edit-category-btn" ><i class="fe fe-edit"></i></a>
-                    <a href="javascript:void(0);" class="btn-action-icon delete-category-btn" data-category-id="${category.id}" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="fe fe-trash-2"></i></a>
+                    <a href="./pdf/generate-pdf.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="far fa-file-pdf"></i></a>
+                    <a href="./edit-purchase-orders.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="fe fe-edit"></i></a>
+                    <a href="javascript:void(0);" class="btn-action-icon delete-po-btn" data-purchase-order="${po.po_id}" data-po-number="${po.po_number}" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="fe fe-trash-2"></i></a>
                 </td>
-                
-       
             `;
             tableBody.appendChild(row);
         });
+
+        // Add event listeners for delete buttons
     }
 }
 
+function setupDeleteAction() {
+    // Select all delete buttons
+    const deleteButtons = document.querySelectorAll(".delete-po-btn");
+    // Add click event listener to each button
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const purchaseOrder = button.getAttribute("data-purchase-order");
 
+            if (purchaseOrder) {
+                alertify.confirm("Are you sure you want to delete this Purchase Order ?", function (e) {
+                    if (e) {
+                        deletePurchseOrder(purchaseOrder); // Call your delete function with the purchase order ID
+                    }
+                });
+            } else {
+                console.error('Error: Purchase order ID is not set.');
+            }
 
-
+        });
+    });
+}
 
 function showNoDataMessage() {
     const tableBody = document.querySelector("#purchaseOrderTableBody");
-    tableBody.innerHTML = `<tr><td colspan="5" class="text-center">No categories found</td></tr>`;
+    tableBody.innerHTML = "<tr><td colspan='9' class='text-center'>No data available</td></tr>";
 }
 
-
-
+// Example function to handle the delete action
 function calculateTotalCost() {
     let totalCost = 0;
     document.querySelectorAll('.product-row').forEach(row => {
@@ -223,7 +259,7 @@ function fetchSinglePurchaseOrder(purchase_order) {
     fetch(`./api/PO/fetch-purchase-order.php?purchase-order=${purchase_order}`)
         .then(response => response.json())
         .then(data => {
-            if (data.status==='success') {
+            if (data.status === 'success') {
                 populateProductForm(data);
             } else {
                 showMessage('Product not found');
@@ -282,4 +318,27 @@ function populateProductForm(data) {
     updateSerialNumbers();
     // Recalculate total cost
     calculateTotalCost();
+}
+
+function deletePurchseOrder(po_id) {
+    fetch("./api/PO/delete-purchase-order.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: po_id }) // Send unit ID as JSON
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alertify.success("Purchase Order deleted successfully.");
+                fetchAllPOs(); // Refresh the table
+            } else {
+                alertify.error("Failed to delete Purchase Order.");
+            }
+        })
+        .catch(error => {
+            console.error("Error deleting Purchase Order :", error);
+            alertify.error("An unexpected error occurred.");
+        });
 }
