@@ -130,7 +130,9 @@ function populatePOData(categories) {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${index + 1}</td>
-                <td>${po.po_number}</td>
+                <td>
+                <a href="./purchase-order-action.php?purchase-order=${po.po_number}">${po.po_number}</a>
+                </td>
                 <td>${po.vendor}</td>
                 <td>${po.total_amount}</td>
                 <td>${po.order_date}</td>
@@ -181,11 +183,22 @@ function showNoDataMessage() {
 function calculateTotalCost() {
     let totalCost = 0;
     document.querySelectorAll('.product-row').forEach(row => {
-        const stock = parseFloat(row.querySelector('.stock').value) || 0;
-        const unitCost = parseFloat(row.querySelector('.unit-cost').value) || 0;
-        totalCost += stock * unitCost;
+        const stockElement = row.querySelector('.stock');
+        const unitCostElement = row.querySelector('.unit-cost');
+
+        if (stockElement && unitCostElement) {
+            const stock = parseFloat(stockElement.value) || 0;
+            const unitCost = parseFloat(unitCostElement.value) || 0;
+            totalCost += stock * unitCost;
+        }
     });
-    document.getElementById('total_cost').value = totalCost.toFixed(2);
+
+    const totalCostElement = document.getElementById('total_cost');
+    if (totalCostElement) {
+        totalCostElement.value = totalCost.toFixed(2);
+    } else {
+        console.error('Error: Total cost element not found.');
+    }
 }
 
 function updateSerialNumbers() {
@@ -259,6 +272,9 @@ function fetchSinglePurchaseOrder(purchase_order) {
     fetch(`./api/PO/fetch-purchase-order.php?purchase-order=${purchase_order}`)
         .then(response => response.json())
         .then(data => {
+
+            console.log(data);
+
             if (data.status === 'success') {
                 populateProductForm(data);
             } else {
@@ -276,40 +292,110 @@ function populateProductForm(data) {
     const po = data.po;
     const items = data.items;
 
-    // Populate PO details
-    document.querySelector("#po_number").value = po.po_number;
-    document.querySelector("#vendor").value = po.vendor;
-    document.querySelector("#order_date").value = po.order_date;
-    document.querySelector("#expected_delivery_date").value = po.expected_delivery_date;
-    document.querySelector("#total_cost").value = po.total_amount;
-    document.querySelector("#notes").value = po.notes;
+    // Determine the current page
+    const currentPage = window.location.pathname.split('/').pop();
 
-    // Clear existing product rows
     const productRows = document.querySelector("#product-rows");
     productRows.innerHTML = '';
+
+
+    if (currentPage === 'edit-purchase-orders.php') {
+        // Populate PO details
+        document.querySelector("#po_number").value = po.po_number;
+        document.querySelector("#vendor").value = po.vendor;
+        document.querySelector("#order_date").value = po.order_date;
+        document.querySelector("#expected_delivery_date").value = po.expected_delivery_date;
+        document.querySelector("#total_cost").value = po.total_amount;
+        document.querySelector("#notes").value = po.notes;
+    } else if (currentPage === 'purchase-order-action.php') {
+
+        console.log(po)
+        document.querySelector("#po_number").innerHTML = po.po_number;
+        document.querySelector("#vendor").innerHTML = po.vendor;
+        document.querySelector("#order_date").innerHTML = po.order_date;
+        document.querySelector("#expected_delivery_date").innerHTML = po.expected_delivery_date;
+        document.querySelector("#total_cost").innerHTML = po.total_amount;
+        document.querySelector("#notes").innerHTML = po.notes;
+
+    }
+
 
     // Populate items
     for (let i = 0; i < items.name.length; i++) {
         const newRow = document.createElement('tr');
         newRow.classList.add('product-row');
 
-        newRow.innerHTML = `
-            <td class="serial-number">${i + 1}</td>
-            <td><input type="text" class="form-control" name="product_name[]" value="${items.name[i]}" required></td>
-            <td><input type="text" class="form-control" name="model_name[]" value="${items.model_name[i]}" required></td>
-            <td><input type="number" class="form-control stock" name="quantity[]" value="${items.quantity[i]}" required></td>
-            <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" value="${items.unit_price[i]}" required></td>
-            <td><i class="fa fa-minus-circle me-1 remove-row"></i></td>
-        `;
+        if (currentPage === 'edit-purchase-orders.php') {
+            newRow.innerHTML = `
+                <td class="serial-number">${i + 1}</td>
+                <td><input type="text" class="form-control" name="product_name[]" value="${items.name[i]}" required></td>
+                <td><input type="text" class="form-control" name="model_name[]" value="${items.model_name[i]}" required></td>
+                <td><input type="number" class="form-control stock" name="quantity[]" value="${items.quantity[i]}" required></td>
+                <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" value="${items.unit_price[i]}" required></td>
+                <td>
+                    <i class="fa fa-minus-circle me-1 remove-row"></i>
+
+                </td>
+            `;
+        } else if (currentPage === 'purchase-order-action.php') {
+            const receivedStatus = items.receivedStatus[i] || 'Not Updated';
+            const receivedQuantity = items.receivedQuantity[i] || '0';
+            const notes = items.notes[i] || 'No notes';
+
+            newRow.innerHTML = `
+                <td class="serial-number">${i + 1}</td>
+                <td><span>${items.name[i]}</span></td>
+                <td><span>${items.model_name[i]}</span></td>
+                <td><span>${items.quantity[i]}</span></td>
+                <td><span>${items.unit_price[i]}</span></td>
+                <td>
+    <span>Status: ${receivedStatus}</span><br>
+    <span>Quantity: ${receivedQuantity}</span><br>
+    <span>Notes: ${notes}</span><br>
+    ${receivedStatus === 'Pending' || receivedStatus === 'Partly Received' ? `
+        <button type="button" class="btn btn-warning btn-sm update-status-btn" 
+            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
+        <button type="button" class="btn btn-success btn-sm update-status-btn" 
+            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
+            data-quantity="${items.quantity[i]}">Fully Received</button>
+        <button type="button" class="btn btn-info btn-sm update-status-btn" 
+            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
+            data-original-quantity="${items.quantity[i]}">Partly Received</button>
+    ` : receivedStatus !== 'Fully Received' ? `
+        <button type="button" class="btn btn-secondary btn-sm show-update-options-btn" 
+            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            data-itemkey="${items.item_id[i]}" data-status="${receivedStatus}">Update</button>
+        <div class="update-options" style="display: none;">
+            <button type="button" class="btn btn-warning btn-sm update-status-btn" 
+                data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+                data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
+            <button type="button" class="btn btn-success btn-sm update-status-btn" 
+                data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+                data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
+                data-quantity="${items.quantity[i]}">Fully Received</button>
+            <button type="button" class="btn btn-info btn-sm update-status-btn" 
+                data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+                data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
+                data-original-quantity="${items.quantity[i]}">Partly Received</button>
+        </div>
+    ` : ''}
+</td>
+            `;
+        }
 
         // Add event listeners for the new row
-        newRow.querySelector('.remove-row').addEventListener('click', function () {
-            newRow.remove();
-            calculateTotalCost();
-            updateSerialNumbers();
-        });
-        newRow.querySelector('.stock').addEventListener('input', calculateTotalCost);
-        newRow.querySelector('.unit-cost').addEventListener('input', calculateTotalCost);
+        if (currentPage === 'edit-purchase-orders.php') {
+            newRow.querySelector('.remove-row').addEventListener('click', function () {
+                newRow.remove();
+                calculateTotalCost();
+                updateSerialNumbers();
+            });
+            newRow.querySelector('.stock').addEventListener('input', calculateTotalCost);
+            newRow.querySelector('.unit-cost').addEventListener('input', calculateTotalCost);
+        }
 
         productRows.appendChild(newRow);
     }
@@ -318,6 +404,90 @@ function populateProductForm(data) {
     updateSerialNumbers();
     // Recalculate total cost
     calculateTotalCost();
+
+    // Add event listeners for status update buttons
+    document.querySelectorAll('.update-status-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const poId = this.getAttribute('data-po-id');
+            const poNumber = this.getAttribute('data-po-number');
+            const status = this.getAttribute('data-status');
+            const itemkey = this.getAttribute('data-itemkey');
+
+            if (status === 'Pending') {
+                alertify.prompt('Update Status', 'Enter notes:', '',
+                    function (evt, value) {
+                        po_product_update(poId, poNumber, status, value, '', itemkey);
+                    },
+                    function () {
+                        alertify.error('Cancel');
+                    });
+            } else if (status === 'Partly Received') {
+                const originalQuantity = parseFloat(this.getAttribute('data-original-quantity'));
+                alertify.confirm(`
+                    <div>
+                        <label for="quantity">Enter quantity:</label>
+                        <input type="number" id="qty_quantity" class="ajs-input alertify-input" required>
+                    </div>
+                    <div>
+                        <label for="notes">Enter notes:</label>
+                        <textarea id="qty_notes" class="ajs-input alertify-textarea" required></textarea>
+                    </div>
+                `, function () {
+                    const quantity = parseFloat(document.getElementById('qty_quantity').value);
+                    const notes = document.getElementById('qty_notes').value;
+                    if (quantity > originalQuantity) {
+                        alertify.error('Entered quantity is greater than the original quantity.');
+                    } else {
+                        po_product_update(poId, poNumber, status, notes, quantity, itemkey);
+                    }
+                }, function () {
+                    alertify.error('Cancel');
+                }).set({ labels: { ok: 'Submit', cancel: 'Cancel' }, title: 'Update Status' });
+            } else if (status === 'Fully Received') {
+                const quantity = this.getAttribute('data-quantity');
+                const notes = 'Fully received';
+                po_product_update(poId, poNumber, status, notes, quantity, itemkey);
+            } else {
+                po_product_update(poId, poNumber, status, '', '', itemkey);
+            }
+        });
+    });
+
+    // Add event listeners for show update options buttons
+    document.querySelectorAll('.show-update-options-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const updateOptions = this.nextElementSibling;
+            if (updateOptions) {
+                updateOptions.style.display = 'block';
+            }
+        });
+    });
+}
+
+function po_product_update(poId, poNumber, status, notes = '', quantity = '', itemkey) {
+    // Placeholder function to handle the update
+    console.log(`Updating PO ${poNumber} to status ${status} with notes: ${notes}, quantity: ${quantity}, and itemkey: ${itemkey}`);
+
+    fetch('./api/PO/update-po-status.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ po_id: poId, po_number: poNumber, status: status, notes: notes, quantity: quantity, itemkey: itemkey })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alertify.success(`Purchase Order status updated to ${status}`);
+                fetchSinglePurchaseOrder(poNumber); // Reload data to reflect the new status
+            } else {
+                alertify.error('Failed to update Purchase Order status');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating Purchase Order status:', error);
+            alertify.error('An unexpected error occurred.');
+        });
 }
 
 function deletePurchseOrder(po_id) {

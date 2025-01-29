@@ -25,10 +25,15 @@ if($purchase_order){
 
         $items_sql = mysqli_query($con,"SELECT * FROM `camp_po_items` where po_id='".$po_id."'");
         while($items_sql_result = mysqli_fetch_assoc($items_sql)){
+            $product['item_id'][] =  $items_sql_result['po_item_id'];
             $product['name'][] = $items_sql_result['product_name']; 
             $product['model_name'][] = $items_sql_result['model_name']; 
             $product['quantity'][] = $items_sql_result['quantity']; 
             $product['unit_price'][] = $items_sql_result['unit_price']; 
+            $product['total_price'][] = $items_sql_result['total_price'];
+            $product['receivedStatus'][] = $items_sql_result['receivedStatus']; 
+            $product['receivedQuantity'][] = $items_sql_result['receivedQuantity']; 
+            $product['notes'][] = $items_sql_result['notes']; 
         }
 
 
