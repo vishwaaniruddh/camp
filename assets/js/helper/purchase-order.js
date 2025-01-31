@@ -4,10 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const purchase_order = urlParams.get('purchase-order');
 
-
-
-
-
     const addPoFormData = document.querySelector("#addPoFormData");
     const purchaseOrderTableBody = document.querySelector("#purchaseOrderTableBody");
     const edit_po_container = document.querySelector("#edit-po-container");
@@ -27,8 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('product-rows').appendChild(newRow);
             updateSerialNumbers();
         });
-
-
         document.querySelector("#addPoFormData").addEventListener("submit", function (e) {
             e.preventDefault();
             addPO();
@@ -36,14 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (purchaseOrderTableBody) {
-
         fetchAllPOs();
     }
-
     if (purchase_order && edit_po_container) {
-
         fetchSinglePurchaseOrder(purchase_order);
-
     }
 
 

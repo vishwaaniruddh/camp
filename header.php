@@ -822,7 +822,7 @@ include('./config.php'); ?>
 		</div>
 		<!-- /Header -->
 
-		<?php include('./sidebar.php'); ?>
+		<?php include_once('./sidebar.php'); ?>
 
 		<!-- /Sidebar -->
 

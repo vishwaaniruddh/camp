@@ -45,7 +45,7 @@ function populateProductInventory(products) {
                 <td>${product.serial_number}</td>
                 <td>Rs. ${parseFloat(product.unit_price).toFixed(2)}</td>
                 <td>${product.working_status}</td>
-                <td>${product.serial_number}</td>
+                <td>${product.entry_date}</td>
                 
                 
 

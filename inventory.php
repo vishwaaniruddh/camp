@@ -49,48 +49,15 @@
 								<tr>
 									<th>#</th>
 									<th>Item</th>
-									<th>Code</th>
-									<th>Units</th>
-									<th>Quantity</th>
-									<th>Selling Price</th>
+									<th>Model</th>
+									<th>Serial Number</th>
 									<th>Purchase Price</th>
+									<th>Working Status</th>
+									<th>Entry Date</th>
 									<th class="no-sort">Action</th>
 								</tr>
 							</thead>
 							<tbody id="productInventory">
-								<tr>
-									<td>1</td>
-									<td>Lenovo 3rd Generation</td>
-									<td>P125389</td>
-									<td>Inches</td>
-									<td>2</td>
-									<td>$253.00</td>
-									<td>$248.00</td>
-									<td class="d-flex align-items-center">
-										<a href="#" class="btn btn-greys bg-history-light me-2" data-bs-toggle="modal" data-bs-target="#inventory_history">
-											<i class="far fa-eye me-1"></i> History
-										</a>
-										<a href="#" class="btn btn-greys bg-success-light me-2" data-bs-toggle="modal" data-bs-target="#stock_in">
-											<i class="fa fa-plus-circle me-1"></i> Stock in
-										</a>
-										<a href="#" class="btn btn-greys bg-danger-light me-2" data-bs-toggle="modal" data-bs-target="#stock_out">
-											<i class="fa fa-plus-circle me-1"></i> Stock out
-										</a>
-										<div class="dropdown dropdown-action">
-											<a href="#" class=" btn-action-icon " data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<ul>
-													<li>
-														<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_inventory"><i class="far fa-edit me-2"></i>Edit</a>
-													</li>
-													<li>
-														<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_stock"><i class="far fa-trash-alt me-2"></i>Delete</a>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</td>
-								</tr>
 
 							</tbody>
 						</table>
