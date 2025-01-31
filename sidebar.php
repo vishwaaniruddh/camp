@@ -335,6 +335,11 @@
 							<li>
 								<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
 							</li>
+
+							<li>
+								<a href="incoming_request.php"><i class="fe fe-user"></i> <span>Material Request</span></a>
+							</li>
+
 							<!-- /Inventory -->
 
 

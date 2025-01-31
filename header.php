@@ -628,7 +628,7 @@ include('./config.php'); ?>
 		<!-- Header -->
 		<div class="header header-one">
 			<a href="dashboard.php" class="d-inline-flex d-sm-inline-flex align-items-center d-md-inline-flex d-lg-none align-items-center device-logo">
-				<img src="assets/img/logo.png" class="img-fluid logo2" alt="Logo">
+				<img src="./logo_camp.jpg" class="img-fluid logo2" alt="Logo" style="height: 40px;">
 			</a>
 			<div class="main-logo d-inline float-start d-lg-flex align-items-center d-none d-sm-none d-md-none">
 				<div class="logo-white">
@@ -641,7 +641,7 @@ include('./config.php'); ?>
 				</div>
 				<div class="logo-color">
 					<a href="dashboard.php">
-						<img src="assets/img/logo.png" class="img-fluid logo-blue" alt="Logo">
+						<img src="./logo_camp.jpg" class="img-fluid logo-blue" alt="Logo" style="height: 40px;">
 					</a>
 					<a href="dashboard.php">
 						<img src="assets/img/logo-small.png" class="img-fluid logo-small" alt="Logo">
