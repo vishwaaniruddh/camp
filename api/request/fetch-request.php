@@ -37,6 +37,9 @@ $offset = ($page - 1) * $limit;
 
 if (isset($_REQUEST['status'])) {
     $_status = $_REQUEST['status'];
+    if($_status==6){
+        $_status= 0 ; 
+    }
     if ($_status == 1) {
         $baseQuery = "SELECT * FROM `material_inventory` WHERE status='" . $_status . "' AND material_inventory.mis_id IN (SELECT mis_details.id FROM mis_details, mis WHERE mis.id = mis_details.mis_id AND mis_details.status='material_requirement')";
     } else {
