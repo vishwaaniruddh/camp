@@ -4,7 +4,7 @@ include('../config.php');
 header('Content-Type: application/json');
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
 $offset = ($page - 1) * $limit;
 
 // Get filter parameters

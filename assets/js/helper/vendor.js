@@ -73,7 +73,7 @@ function updateVendorData(vendorId) {
 }
 
 // Function to fetch vendor data
-function fetchVendors(page = 1, limit = 10) {
+function fetchVendors(page = 1, limit = 20) {
     const tableBody = document.querySelector("#vendorTableBody"); // Assuming the table has an id of 'vendorTable'
     if (!tableBody) {
         console.error("Table body element not found");

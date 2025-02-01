@@ -299,39 +299,36 @@
 											<li>
 												<a href="delete-account-request.php"> <span>Delete Account Request</span></a>
 											</li>
+
+
 										</ul>
 									</li>
 
-								
+									<li>
+										<a href="vendors.php"><i class="fe fe-user"></i> <span>Vendors</span></a>
+									</li>
+
+									<li class="submenu">
+										<a href="#"><i class="fe fe-package"></i> <span> Products / Services</span> <span class="menu-arrow"></span></a>
+										<ul style="display: none;">
+											<li><a href="product-list.php">Product List</a></li>
+											<li><a href="category.php">Category</a></li>
+
+											<li><a href="units.php">Units</a></li>
+										</ul>
+									</li>
+
 								</ul>
 							</li>
 							<!-- /Main -->
 
 
-							<!-- Customers -->
-							<li class="menu-title"><span>Customers & Vendors</span></li>
-							<li>
-								<a href="vendors.php"><i class="fe fe-user"></i> <span>Vendors</span></a>
-							</li>
-							<!-- /Customers -->
+
 
 							<!-- Inventory -->
 							<li class="menu-title"><span>Inventory</span></li>
-							<li class="submenu">
-								<a href="#"><i class="fe fe-package"></i> <span> Products / Services</span> <span class="menu-arrow"></span></a>
-								<ul style="display: none;">
-									<li><a href="product-list.php">Product List</a></li>
-									<li><a href="category.php">Category</a></li>
 
-									<li><a href="units.php">Units</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="add-purchase-orders.php"><i class="fe fe-user"></i> <span>Add Purchase Orders</span></a>
-							</li>
-							<li>
-								<a href="purchase-orders.php"><i class="fe fe-user"></i> <span>View Purchase Orders</span></a>
-							</li>
+
 							<li>
 								<a href="inventory.php"><i class="fe fe-user"></i> <span>Inventory</span></a>
 							</li>
@@ -348,7 +345,10 @@
 							<li class="menu-title"><span>Purchases</span></li>
 
 							<li>
-								<a href="purchase-orders.php"><i class="fe fe-shopping-bag"></i> <span>Purchase Orders</span></a>
+								<a href="add-purchase-orders.php"><i class="fe fe-user"></i> <span>Add Purchase Orders</span></a>
+							</li>
+							<li>
+								<a href="purchase-orders.php"><i class="fe fe-user"></i> <span>View Purchase Orders</span></a>
 							</li>
 							<li>
 								<!-- debit-notes.php -->
