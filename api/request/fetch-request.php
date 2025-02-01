@@ -135,6 +135,7 @@ if ($view == 1) {
 
 echo json_encode([
     'success' => true,
+    'totalRecords'=>$totalRow['total'],
     'data' => $response,
     'pagination' => [
         'total_pages' => $totalPages,

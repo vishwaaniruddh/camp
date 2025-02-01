@@ -33,12 +33,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
 						</div>
 					</li>
-					<li>
-						<a class="btn btn-import" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#import_vendor"><i class="fe fe-check-square me-2" aria-hidden="true"></i>Import</a>
-					</li>
-					<li>
-						<a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add_vendor"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Vendors</a>
-					</li>
+
 				</ul>
 			</div>
 		</div>
@@ -53,8 +48,12 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
             <div class="row">
                 <div class="col-sm-12">
                     <div class=" card-table">
+                    <h6 style="text-align: right; font-size: 12px; color: #000; margin-bottom: 0px;">Total Records: <span id="count">0</span></h6>
+                    <br/>
                         <div class="card-body">
                             <div class="table-responsive">
+                                
+                                
                                 <table class="table table-center table-hover">
                                     <thead class="thead-light">
                                         <tr>

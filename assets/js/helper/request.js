@@ -32,13 +32,17 @@ function fetchRequest(page = 1, limit = 10) {
             .then(response => response.json())
             .then(data => {
                 if (data.success === true) {
+
+                    console.log(data)
+                    document.getElementById("count").innerHTML = data.totalRecords;
+
                     populateRequestData(data.data, page, limit);
                     setupPagination(data.pagination.total_pages, page);
 
                     // Show current selected status
                     const currentSelectedStatus = document.getElementById("currentSelectedStatus");
                     if (currentSelectedStatus) {
-                        currentSelectedStatus.textContent = `- ( Current Selected: ${statusLabels[filters.status]} ) `;
+                        currentSelectedStatus.textContent = ` ( Current Selected: ${statusLabels[filters.status]} ) `;
                     }
                 } else {
                     alertify.error('Failed to fetch requests');
