@@ -122,7 +122,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
 
 
-                <button id="applyFilters" class="btn btn-primary">Apply Filters</button>
+                <button id="applyFilters" class="btn btn-primary sidebar-closes">Apply Filters</button>
             </div>
         </div>
     </div>
