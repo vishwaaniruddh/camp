@@ -1,66 +1,134 @@
-<?php include('./header.php'); ?>
+<?php include('./header.php');
+
+$statuses = [
+    0 => "Select",
+    1 => "Material Requirement",
+    2 => "Available",
+    3 => "Not Available",
+    4 => "Dispatched",
+    5 => "Confirm Processed",
+    6 => "Cancelled",
+];
+$selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
+
+?>
 
 
 <div class="content container-fluid">
-				
-					<!-- Page Header -->
-					<div class="page-header">
-						<div class="content-page-header">						
-							<h5>Blank Page</h5>
+
+<div class="page-header">
+		<div class="content-page-header ">
+			<h5>Material Request
+                <span id="currentSelectedStatus" style="font-size:12px; color:red;"></span>
+            </h5>
+			<div class="list-btn">
+				<ul class="filter-list">
+					<li>
+						<a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg" alt="filter"></span>Filter </a>
+					</li>
+
+					<li class="">
+						<div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="download">
+							<a href="javascript:void(0);" id="downloadExcel" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
+
 						</div>
-					</div>
-					<!-- /Page Header -->
-					
-					<div class="row">
-						<div class="col-sm-12">
+					</li>
+					<li>
+						<a class="btn btn-import" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#import_vendor"><i class="fe fe-check-square me-2" aria-hidden="true"></i>Import</a>
+					</li>
+					<li>
+						<a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add_vendor"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Vendors</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
 
 
 
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class=" card-table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-center table-hover">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Actions</th>
+                                            <th>Ticket ID</th>
+                                            <th>Customer</th>
 
-                        <form action="<? echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                                    <div class="col-md-6">
-                                        <select id="status" class="form-control" name="status">
-                                            <option value="1" <? if (isset($_REQUEST['status'])) {
-                                                                    if ($_REQUEST['status'] == '1') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                } ?>>Material Requirement</option>
-                                            <option value="5" <? if (isset($_REQUEST['status'])) {
-                                                                    if ($_REQUEST['status'] == '5') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                } ?>>Confirm Processed</option>
-                                            <option value="2" <? if (isset($_REQUEST['status'])) {
-                                                                    if ($_REQUEST['status'] == '2') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                } ?>>Available</option>
+                                            <th>Bank</th>
+                                            <th>ATM ID</th>
+                                            <th>Material Condition</th>
+                                            <th>Require Material Name</th>
+                                            <th>Dispatch Address</th>
+                                            <th>Contact Person</th>
+                                            <th>Remark</th>
+                                            <th>Requested At</th>
+                                            <th>Location</th>
+                                            <th>City</th>
+                                            <th>State</th>
+                                            <th>Zone</th>
+                                            <th>MIS ID</th>
+                                            <th>Created By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="requestTableBody">
 
-                                            <option value="0" <? if (isset($_REQUEST['status'])) {
-                                                                    if ($_REQUEST['status'] == '0') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                } ?>>Cancelled</option>
-                                            <option value="3" <? if (isset($_REQUEST['status'])) {
-                                                                    if ($_REQUEST['status'] == '3') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                } ?>>Not Available</option>
-                                            <option value="4" <? if (isset($_REQUEST['status'])) {
-                                                                    if ($_REQUEST['status'] == '4') {
-                                                                        echo 'selected';
-                                                                    }
-                                                                } ?>>Dispatched</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <input type="submit" value="Search">
-                                    </div>
-                                </form>
+                                    </tbody>
+                                </table>
 
-                                
-						</div>			
-					</div>
-					
-				</div>
+
+
+                            </div>
+                            <div id="pagination" class="pagination-container"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pagination" class="pagination-container"></div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div class="toggle-sidebar">
+    <div class="sidebar-layout-filter">
+        <div class="sidebar-header">
+            <h5>Filter</h5>
+            <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+        </div>
+        <div class="sidebar-body">
+            <div class="filters">
+                <div class="form-custom mb-3">
+                    <select id="status" class="form-control" name="status">
+                        <?php foreach ($statuses as $value => $label): ?>
+                            <option value="<?php echo $value; ?>" <?php echo ($selectedStatus == $value) ? 'selected' : ''; ?>>
+                                <?php echo $label; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+
+
+                <button id="applyFilters" class="btn btn-primary">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="./assets/js/helper/request.js"></script>
+
 <?php include('./footer.php'); ?>

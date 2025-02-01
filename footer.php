@@ -351,8 +351,8 @@
 
 
 <!-- select CSS -->
-<script src="assets/plugins/select2/js/select2.min.js"></script>
-<script src="assets/plugins/select2/js/custom-select.js" ></script>
+<!-- <script src="assets/plugins/select2/js/select2.min.js"></script> -->
+<!-- <script src="assets/plugins/select2/js/custom-select.js" ></script> -->
 
 <!-- Slimscroll JS -->
 <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>

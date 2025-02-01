@@ -372,79 +372,79 @@
 
 <!-- Add Product Modal -->
 <div class="modal fade" id="add_inventory" tabindex="-1" aria-labelledby="addInventoryLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addInventoryLabel">Add New Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="add_inventory_form">
-                    <div class="mb-3">
-                        <label for="add_product_name" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="add_product_name" name="product_name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_product_model" class="form-label">Product Model</label>
-                        <input type="text" class="form-control" id="add_product_model" name="product_model">
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_serial_number" class="form-label">Serial Number</label>
-                        <input type="text" class="form-control" id="add_serial_number" name="serial_number">
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_unit_price" class="form-label">Unit Price</label>
-                        <input type="text" class="form-control" id="add_unit_price" name="unit_price">
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_working_status" class="form-label">Working Status</label>
-                        <select class="form-select" id="add_working_status" name="working_status">
-                            <option value="Working">Working</option>
-                            <option value="Not Working">Not Working</option>
-                        </select>
-                    </div>
-                    <div class="mb-3" id="add_not_working_type_block" style="display: none;">
-                        <label for="add_not_working_type" class="form-label">Not Working Type</label>
-                        <select class="form-select" id="add_not_working_type" name="not_working_type">
-                            <option value="Repairable">Repairable</option>
-                            <option value="Non-Repairable">Non-Repairable</option>
-                        </select>
-                    </div>
-                    <div class="mb-3" id="add_non_repairable_reason_block" style="display: none;">
-                        <label for="add_non_repairable_reason" class="form-label">Non-Repairable Reason</label>
-                        <select class="form-select" id="add_non_repairable_reason" name="non_repairable_reason">
-                            <option value="Scrapped">Scrapped</option>
-                            <option value="Discarded">Discarded</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_material_tag" class="form-label">Material Tag</label>
-                        <select name="material_tag" class="form-select" id="add_material_tag">
-                            <option value="">Select</option>
-                            <option value="New">New</option>
-                            <option value="Refurbished">Refurbished</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_status" class="form-label">Status</label>
-                        <select class="form-select" id="add_status" name="status">
-                            <option value="">Select</option>
-                            <option value="Available">Available</option>
-                            <option value="Not Available">Not Available</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="add_remarks" class="form-label">Remarks</label>
-                        <textarea class="form-control" id="add_remarks" name="remarks"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
-                        <button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addInventoryLabel">Add New Product</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="add_inventory_form">
+					<div class="mb-3">
+						<label for="add_product_name" class="form-label">Product Name</label>
+						<input type="text" class="form-control" id="add_product_name" name="product_name">
+					</div>
+					<div class="mb-3">
+						<label for="add_product_model" class="form-label">Product Model</label>
+						<input type="text" class="form-control" id="add_product_model" name="product_model">
+					</div>
+					<div class="mb-3">
+						<label for="add_serial_number" class="form-label">Serial Number</label>
+						<input type="text" class="form-control" id="add_serial_number" name="serial_number">
+					</div>
+					<div class="mb-3">
+						<label for="add_unit_price" class="form-label">Unit Price</label>
+						<input type="text" class="form-control" id="add_unit_price" name="unit_price">
+					</div>
+					<div class="mb-3">
+						<label for="add_working_status" class="form-label">Working Status</label>
+						<select class="form-select" id="add_working_status" name="working_status">
+							<option value="Working">Working</option>
+							<option value="Not Working">Not Working</option>
+						</select>
+					</div>
+					<div class="mb-3" id="add_not_working_type_block" style="display: none;">
+						<label for="add_not_working_type" class="form-label">Not Working Type</label>
+						<select class="form-select" id="add_not_working_type" name="not_working_type">
+							<option value="Repairable">Repairable</option>
+							<option value="Non-Repairable">Non-Repairable</option>
+						</select>
+					</div>
+					<div class="mb-3" id="add_non_repairable_reason_block" style="display: none;">
+						<label for="add_non_repairable_reason" class="form-label">Non-Repairable Reason</label>
+						<select class="form-select" id="add_non_repairable_reason" name="non_repairable_reason">
+							<option value="Scrapped">Scrapped</option>
+							<option value="Discarded">Discarded</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="add_material_tag" class="form-label">Material Tag</label>
+						<select name="material_tag" class="form-select" id="add_material_tag">
+							<option value="">Select</option>
+							<option value="New">New</option>
+							<option value="Refurbished">Refurbished</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="add_status" class="form-label">Status</label>
+						<select class="form-select" id="add_status" name="status">
+							<option value="">Select</option>
+							<option value="Available">Available</option>
+							<option value="Not Available">Not Available</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="add_remarks" class="form-label">Remarks</label>
+						<textarea class="form-control" id="add_remarks" name="remarks"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
+						<button type="submit" data-bs-dismiss="modal" class="btn btn-primary paid-continue-btn">Add</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="./assets/js/helper/inventory.js"></script>

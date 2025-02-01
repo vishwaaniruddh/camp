@@ -118,7 +118,6 @@ function vendor_populateTable(vendors, page, limit) {
             <td>${serialNumber}</td>
             <td>
                 <h2 class="table-avatar">
-                    
                     <a href="profile.html?vendorId=${vendor.id}">${vendor.name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} <span>${vendor.email}</span></a>
                 </h2>
             </td>
