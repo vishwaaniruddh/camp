@@ -1,18 +1,9 @@
 <?php
+include('./config.php');
 require 'vendor/autoload.php'; // Load PhpSpreadsheet
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-// Database Connection
-$host = "localhost"; // Change if using a remote database
-$user = "root"; // Your MySQL username
-$pass = ""; // Your MySQL password
-$dbname = "your_database"; // Change to your actual database
-
-$con = new mysqli($host, $user, $pass, $dbname);
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
-}
 
 // Check if file is uploaded
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
