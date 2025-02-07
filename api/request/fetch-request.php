@@ -32,18 +32,18 @@ $view = 0;
 
 // Get pagination parameters
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
 $offset = ($page - 1) * $limit;
 
 if (isset($_REQUEST['status'])) {
     $_status = $_REQUEST['status'];
-    if($_status==6){
-        $_status= 0 ; 
+    if ($_status == 6) {
+        $_status = 0;
     }
     if ($_status == 1) {
         $baseQuery = "SELECT * FROM `material_inventory` WHERE status='" . $_status . "' AND material_inventory.mis_id IN (SELECT mis_details.id FROM mis_details, mis WHERE mis.id = mis_details.mis_id AND mis_details.status='material_requirement')";
     } else {
-        $baseQuery = "SELECT * FROM material_inventory WHERE status='" . $_status . "' GROUP BY mis_id";
+        $baseQuery = "SELECT * FROM material_inventory WHERE status='" . $_status . "'";
     }
     $view = 1;
 } else {
@@ -108,37 +108,60 @@ if ($view == 1) {
                 $contact_person_name = $mis_his_sql_result['contact_person_name'];
             }
 
-            if ($count > 0) {
-                $response[] = [
-                    'id' => $i,
-                    'mis_id' => $sql_result['mis_id'],
-                    'ticket_id' => mis_details_data('ticket_id', $sql_result['mis_id']),
-                    'customer' => $customer,
-                    'bank' => $bank,
-                    'atmid' => mis_details_data('atmid', $sql_result['mis_id']),
-                    'bm' => $bm,
-                    'material_condition' => $material_condition,
-                    'material' => $sql_result['material'],
-                    'delivery_address' => mis_history_data('delivery_address', $sql_result['mis_id']),
-                    'contact_person_name' => mis_history_data('contact_person_name', $sql_result['mis_id']),
-                    'contact_person_mob' => mis_history_data('contact_person_mob', $sql_result['mis_id']),
-                    'remark' => mis_history_data('remark', $sql_result['mis_id']),
-                    'created_at' => $sql_result['created_at'],
-                    'location' => $location,
-                    'city' => $city,
-                    'state' => $state,
-                    'zone' => $zone,
-                    'user_created_by' => $user_created_by
-                ];
-                $i++;
-            }
+            $response[] = [
+                'id' => $i,
+                'mis_id' => $sql_result['mis_id'],
+                'ticket_id' => mis_details_data('ticket_id', $sql_result['mis_id']),
+                'customer' => $customer,
+                'bank' => $bank,
+                'atmid' => mis_details_data('atmid', $sql_result['mis_id']),
+                'bm' => $bm,
+                'material_condition' => $material_condition,
+                'material' => $sql_result['material'],
+                'delivery_address' => mis_history_data('delivery_address', $sql_result['mis_id']),
+                'contact_person_name' => mis_history_data('contact_person_name', $sql_result['mis_id']),
+                'contact_person_mob' => mis_history_data('contact_person_mob', $sql_result['mis_id']),
+                'remark' => mis_history_data('remark', $sql_result['mis_id']),
+                'created_at' => $sql_result['created_at'],
+                'location' => $location,
+                'city' => $city,
+                'state' => $state,
+                'zone' => $zone,
+                'user_created_by' => $user_created_by
+            ];
+            $i++;
         }
+    }
+
+    // Ensure the response has exactly 10 items
+    while (count($response) < 10) {
+        $response[] = [
+            'id' => null,
+            'mis_id' => null,
+            'ticket_id' => null,
+            'customer' => null,
+            'bank' => null,
+            'atmid' => null,
+            'bm' => null,
+            'material_condition' => null,
+            'material' => null,
+            'delivery_address' => null,
+            'contact_person_name' => null,
+            'contact_person_mob' => null,
+            'remark' => null,
+            'created_at' => null,
+            'location' => null,
+            'city' => null,
+            'state' => null,
+            'zone' => null,
+            'user_created_by' => null
+        ];
     }
 }
 
 echo json_encode([
     'success' => true,
-    'totalRecords'=>$totalRow['total'],
+    'totalRecords' => $totalRow['total'],
     'data' => $response,
     'pagination' => [
         'total_pages' => $totalPages,

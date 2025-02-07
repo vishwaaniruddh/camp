@@ -318,6 +318,10 @@
 										</ul>
 									</li>
 
+									<li>
+										<a href="couriers.php"><i class="fe fe-user"></i> <span>Courier</span></a>
+									</li>
+
 								</ul>
 							</li>
 							<!-- /Main -->

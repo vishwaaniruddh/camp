@@ -191,10 +191,10 @@ function populateRequestData(requestDatas, page, limit) {
             row.innerHTML = `
                 <td>${serialNumber}</td>
                 <td>
-                    <button style="border:none;" class="btn btn-outline-primary view-request-btn" data-request-id="${requestData.id}">View</button>
+                    <button style="border:none;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-primary view-request-btn" data-request-id="${requestData.id}">View</button>
                     <button style="border:none;" class="btn btn-outline-success accept-request-btn" data-request-id="${requestData.id}">Accept</button>
                 </td>
-                <td><strong>${requestData.ticket_id.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</strong></td>
+                <td><strong>${requestData.ticket_id}</strong></td>
                 <td>${requestData.customer}</td>
                 <td>${requestData.bank}</td>
                 <td>${requestData.atmid}</td>
@@ -219,6 +219,8 @@ function populateRequestData(requestDatas, page, limit) {
                 
             `;
             tableBody.appendChild(row);
+
+
         });
 
         // Add event listeners for view buttons

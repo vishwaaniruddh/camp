@@ -16,41 +16,41 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
 <div class="content container-fluid">
 
-<div class="page-header">
-		<div class="content-page-header ">
-			<h5>Material Request
+    <div class="page-header">
+        <div class="content-page-header ">
+            <h5>Material Request
                 <span id="currentSelectedStatus" style="font-size:12px; color:red;"></span>
             </h5>
 
-            
 
 
-			<div class="list-btn">
-				<ul class="filter-list">
-					<li>
-						<a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Advance filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg" alt="filter"></span>Advance Filter </a>
-					</li>
 
-					<li class="">
-						<div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="download">
-							<a href="javascript:void(0);" id="downloadExcel" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
+            <div class="list-btn">
+                <ul class="filter-list">
+                    <li>
+                        <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Advance filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg" alt="filter"></span>Advance Filter </a>
+                    </li>
 
-						</div>
-					</li>
+                    <li class="">
+                        <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="download">
+                            <a href="javascript:void(0);" id="downloadExcel" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
 
-				</ul>
-			</div>
-		</div>
+                        </div>
+                    </li>
 
-        <?php             
-            foreach($statuses as $key => $value){
-                if($key>0){
-                    echo '<a class="btn btn-outline-primary" href="./incoming_request.php?status=' . $key . '" data-bs-toggle="tooltip" data-bs-placement="bottom">' . $value . '</a> &nbsp;&nbsp;&nbsp;';
-                }
+                </ul>
+            </div>
+        </div>
+
+        <?php
+        foreach ($statuses as $key => $value) {
+            if ($key > 0) {
+                echo '<a class="btn btn-outline-primary" href="./incoming_request.php?status=' . $key . '" data-bs-toggle="tooltip" data-bs-placement="bottom">' . $value . '</a> &nbsp;&nbsp;&nbsp;';
             }
-            
-            ?>
-	</div>
+        }
+
+        ?>
+    </div>
 
 
     <div class="row">
@@ -61,12 +61,12 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
             <div class="row">
                 <div class="col-sm-12">
                     <div class=" card-table">
-                    <h6 style="text-align: right; font-size: 12px; color: #000; margin-bottom: 0px;">Total Records: <span id="count">0</span></h6>
-                    <br/>
+                        <h6 style="text-align: right; font-size: 12px; color: #000; margin-bottom: 0px;">Total Records: <span id="count">0</span></h6>
+                        <br />
                         <div class="card-body">
                             <div class="table-responsive">
-                                
-                                
+
+
                                 <table class="table table-center table-hover">
                                     <thead class="thead-light">
                                         <tr>
@@ -139,6 +139,105 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
         </div>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <div class="form-header modal-header-title text-start mb-0">
+                    <h4 class="mb-0">Add Stock in</h4>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                </button>
+            </div>
+            <form action="#">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Availability</label>
+                            <select class="form-control" name="availability" id="availability" required="">
+                                <option value="">Select</option>
+                                <option value="available">Material Dispatch</option>
+                                <option value="not_available">Material Not Available</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <!--onchange="setaddress()"-->
+                    <div class="row address_type">
+                        <div class="col-sm-4">
+                            <label>Address Type</label>
+                            <select class="form-control" id="address_type" name="address_type">
+                                <option value="Branch" id="Branch">Branch</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-8">
+                            <label>Address</label>
+                            <input class="form-control" readonly="" name="address" id="address" value="">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row contact">
+                        <div class="col-sm-6" id="Contactperson_name">
+                            <label for="Contactperson_name">Contact Person Name</label>
+                            <input type="text" class="form-control" name="Contactperson_name" value="BALAMURUGAN" id="Contactperson_name_text" readonly="">
+                        </div>
+                        <div class="col-sm-6" id="Contactperson_mob">
+                            <label for="Contactperson_mob">Contact Person Mobile</label>
+                            <input type="text" class="form-control" name="Contactperson_mob" value="8072228955" id="Contactperson_mob_text" readonly="">
+                        </div>
+                    </div>
+
+                    <div class="row cust_hide">
+
+                        <div class="col-sm-6">
+                            <label>POD</label>
+                            <input type="text" name="pod" class="form-control" placeholder="Enter POD ..">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Courier Name</label>
+                            <select name="courier_name" class="form-control">
+                                <option value="">-- Select --</option>
+                                <option value="Delhivery">Delhivery</option>
+                                <option value="Nandan Courier">Nandan Courier</option>
+                                <option value="Shri Nandan Courier">Shri Nandan Courier</option>
+                                <option value="Trackon Courier">Trackon Courier</option>
+                                <option value="Bluedart">Bluedart</option>
+                                <option value="DTDC">DTDC</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Dispatch Date</label>
+                            <input type="date" name="dispatch_date" class="form-control" value="2025-02-03">
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Serial Number</label>
+                            <input type="text" name="serial_number" id="serial_number" class="form-control" required="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label>Remark</label>
+                            <input type="text" name="remark" class="form-control">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> &nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
 
 
 <script src="./assets/js/helper/request.js"></script>
