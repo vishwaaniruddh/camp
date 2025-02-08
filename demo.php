@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
             $Work_Status = $row[18] ?? ''; // Column S
 
             // Prepare SQL statement
-            $sql = "INSERT INTO atm_requests (ATMID, AMOUNT, Payee_Type, BENE_NAME, BENE_BANK_NAME, BENE_ACC_No, IFSC_CODE, Requester, Request_Date, Engineer_Vendor_Details, Work_Type, Distance, Source_of_traveling, Fund_Transfer_Status, Fund_Transfer_Date, DESCRIPTION, REMARK, Complete_Address, Work_Status) 
+            $sql = "INSERT INTO fund_distribution (ATMID, AMOUNT, Payee_Type, BENE_NAME, BENE_BANK_NAME, BENE_ACC_No, IFSC_CODE, Requester, Request_Date, Engineer_Vendor_Details, Work_Type, Distance, Source_of_traveling, Fund_Transfer_Status, Fund_Transfer_Date, DESCRIPTION, REMARK, Complete_Address, Work_Status) 
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $con->prepare($sql);
