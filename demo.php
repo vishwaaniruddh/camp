@@ -1,82 +1,122 @@
-<?php
-include('./config.php');
-require 'vendor/autoload.php'; // Load PhpSpreadsheet
-
-use PhpOffice\PhpSpreadsheet\IOFactory;
-
-
-// Check if file is uploaded
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["excel_file"])) {
-    $file = $_FILES["excel_file"]["tmp_name"];
-
-    // Verify file extension
-    $allowed_extensions = ['xls', 'xlsx'];
-    $file_ext = pathinfo($_FILES["excel_file"]["name"], PATHINFO_EXTENSION);
-    if (!in_array($file_ext, $allowed_extensions)) {
-        die("Invalid file format! Please upload an Excel file (.xls or .xlsx).");
-    }
-
-    try {
-        // Load Excel file
-        $spreadsheet = IOFactory::load($file);
-        $sheet = $spreadsheet->getActiveSheet();
-        $data = $sheet->toArray(); // Convert to array
-
-        // Skip header (1st row)
-        for ($i = 1; $i < count($data); $i++) {
-            $row = $data[$i];
-
-            // Assigning Excel columns to variables
-            $ATMID = $row[0] ?? ''; // Column A
-            $AMOUNT = $row[1] ?? 0; // Column B
-            $Payee_Type = $row[2] ?? ''; // Column C
-            $BENE_NAME = $row[3] ?? ''; // Column D
-            $BENE_BANK_NAME = $row[4] ?? ''; // Column E
-            $BENE_ACC_No = $row[5] ?? ''; // Column F
-            $IFSC_CODE = $row[6] ?? ''; // Column G
-            $Requester = $row[7] ?? ''; // Column H
-            $Request_Date = date('Y-m-d', strtotime($row[8] ?? '')); // Column I
-            $Engineer_Vendor_Details = $row[9] ?? ''; // Column J
-            $Work_Type = $row[10] ?? ''; // Column K
-            $Distance = $row[11] ?? ''; // Column L
-            $Source_of_traveling = $row[12] ?? ''; // Column M
-            $Fund_Transfer_Status = $row[13] ?? ''; // Column N
-            $Fund_Transfer_Date = date('Y-m-d', strtotime($row[14] ?? '')); // Column O
-            $DESCRIPTION = $row[15] ?? ''; // Column P
-            $REMARK = $row[16] ?? ''; // Column Q
-            $Complete_Address = $row[17] ?? ''; // Column R
-            $Work_Status = $row[18] ?? ''; // Column S
-
-            // Prepare SQL statement
-            $sql = "INSERT INTO fund_distribution (ATMID, AMOUNT, Payee_Type, BENE_NAME, BENE_BANK_NAME, BENE_ACC_No, IFSC_CODE, Requester, Request_Date, Engineer_Vendor_Details, Work_Type, Distance, Source_of_traveling, Fund_Transfer_Status, Fund_Transfer_Date, DESCRIPTION, REMARK, Complete_Address, Work_Status) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            $stmt = $con->prepare($sql);
-            $stmt->bind_param("sdsssssssssssssssss", $ATMID, $AMOUNT, $Payee_Type, $BENE_NAME, $BENE_BANK_NAME, $BENE_ACC_No, $IFSC_CODE, $Requester, $Request_Date, $Engineer_Vendor_Details, $Work_Type, $Distance, $Source_of_traveling, $Fund_Transfer_Status, $Fund_Transfer_Date, $DESCRIPTION, $REMARK, $Complete_Address, $Work_Status);
-            $stmt->execute();
-        }
-
-        echo "<p style='color:green;'>✅ Data imported successfully!</p>";
-    } catch (Exception $e) {
-        echo "<p style='color:red;'>❌ Error loading file: " . $e->getMessage() . "</p>";
-    }
-}
-
-$con->close();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Excel File</title>
+    <title>CAMP Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f4f7fc;
+        }
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            background: #222;
+            padding-top: 20px;
+            color: #fff;
+        }
+        .sidebar a {
+            padding: 10px 20px;
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background: #444;
+        }
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <h2>Upload Excel File</h2>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="excel_file" accept=".xls,.xlsx" required>
-        <button type="submit">Upload</button>
-    </form>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="text-center">CAMP Dashboard</h4>
+        <a href="#">📦 Inventory</a>
+        <a href="#">🚀 Dispatch</a>
+        <a href="#">🛠 Service</a>
+        <a href="#">📊 Reports</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <!-- Cards -->
+                <div class="col-md-3">
+                    <div class="card p-3">
+                        <h5>Total Spares</h5>
+                        <h2>1,240</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3">
+                        <h5>Dispatched Items</h5>
+                        <h2>320</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3">
+                        <h5>Installed ATMs</h5>
+                        <h2>85</h2>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-3">
+                        <h5>Pending Requests</h5>
+                        <h2>27</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <canvas id="stockChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="dispatchChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inventory Chart
+        new Chart(document.getElementById("stockChart"), {
+            type: "bar",
+            data: {
+                labels: ["Adapters", "Batteries", "Cameras", "AI"],
+                datasets: [{
+                    label: "Stock Available",
+                    data: [120, 80, 50, 20],
+                    backgroundColor: ["#3498db", "#e74c3c", "#f1c40f", "#2ecc71"]
+                }]
+            }
+        });
+
+        // Dispatch Chart
+        new Chart(document.getElementById("dispatchChart"), {
+            type: "doughnut",
+            data: {
+                labels: ["Dispatched", "Remaining"],
+                datasets: [{
+                    data: [320, 920],
+                    backgroundColor: ["#1abc9c", "#95a5a6"]
+                }]
+            }
+        });
+    </script>
+
 </body>
 </html>
