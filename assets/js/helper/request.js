@@ -232,8 +232,8 @@ function populateRequestData(requestDatas, page, limit) {
             row.innerHTML = `
                 <td>${serialNumber}</td>
                 <td>
-                    <button style="border:none;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-primary view-request-btn" data-request-id="${requestData.id}">View</button>
-                    <button style="border:none;" class="btn btn-outline-success accept-request-btn" data-request-id="${requestData.id}">Accept</button>
+                    <button style="border:none;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-primary view-request-btn" data-request-id="${requestData.mis_id}">View</button>
+                    <button style="border:none;" class="btn btn-outline-success accept-request-btn" data-request-id="${requestData.mis_id}">Accept</button>
                 </td>
                 <td><strong>${requestData.ticket_id}</strong></td>
                 <td>${requestData.customer}</td>
@@ -283,8 +283,10 @@ function populateRequestData(requestDatas, page, limit) {
 }
 
 function viewRequestInfo(requestId) {
-    // Implement the logic to view request information
-    console.log(`View request info for ID: ${requestId}`);
+
+    // fetch()
+
+    fetchRequestInfo(requestId);
     fetchCouriers();
     // You can fetch and display the request details in a modal or another section of the page
 }
@@ -297,31 +299,34 @@ function acceptRequest(requestId) {
 
 
 
-function fetchRequestInfo(productId) {
-    fetch(`./api/inventory/fetch-product-info.php?product_id=${productId}`)
+function fetchRequestInfo(requestId) {
+    fetch(`./api/request/fetch-request-info.php?request_id=${requestId}`)
         .then(response => response.json())
         .then(data => {
 
-            console.table(data.product)
-            if (data.success === true) {
-                populateRequestInfoModal(data.product);
+            // console.table(data.request)
+            if (data.status === 'success') {
+                populateRequestInfoModal(data.request);
             } else {
-                alertify.error('Failed to fetch product information');
+                alertify.error('Failed to fetch request information');
             }
         })
         .catch(error => {
-            console.error('Error fetching product information:', error);
+            console.error('Error fetching request information:', error);
             alertify.error('An unexpected error occurred.');
         });
 }
 
-function populateRequestInfoModal(product) {
-    document.getElementById('product_name').value = product.product_name;
-    document.getElementById('product_model').value = product.product_model;
+function populateRequestInfoModal(request) {
+    console.table(request)
+
+    document.getElementById('address').value = request.delivery_address;
+    document.getElementById('contact_person_name').value = request.contact_person_name;
+    document.getElementById('contact_person_mobile').value = request.contact_person_mob;
 
 
-    // Store the product ID in a hidden field for later use
-    document.getElementById('product_id').value = product.id;
+    // Store the request ID in a hidden field for later use
+    document.getElementById('request_id').value = request.mis_id;
 }
 
 // Function to handle the update action
@@ -361,3 +366,54 @@ function updateRequestInfo(event) {
 // Add event listener to the update button
 // document.getElementById('edit_inventory_form').addEventListener('submit', updateRequestInfo);
 
+
+
+
+document.getElementById('submit_dispatch_info_form').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const productName = document.getElementById('add_product_name').value;
+    const productModel = document.getElementById('add_product_model').value;
+    const serialNumber = document.getElementById('add_serial_number').value;
+    const unitPrice = document.getElementById('add_unit_price').value;
+    const workingStatus = document.getElementById('add_working_status').value;
+    const notWorkingType = document.getElementById('add_not_working_type').value;
+    const nonRepairableReason = document.getElementById('add_non_repairable_reason').value;
+    const materialTag = document.getElementById('add_material_tag').value;
+    const status = document.getElementById('add_status').value;
+    const remarks = document.getElementById('add_remarks').value;
+
+    const data = {
+        product_name: productName,
+        product_model: productModel,
+        serial_number: serialNumber,
+        unit_price: unitPrice,
+        working_status: workingStatus,
+        not_working_type: notWorkingType,
+        non_repairable_reason: nonRepairableReason,
+        material_tag: materialTag,
+        status: status,
+        remarks: remarks
+    };
+
+    fetch('./api/request/fetch-request-info.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alertify.success('Product added successfully');
+            fetchProductsFromInventory(); // Refresh the inventory list
+        } else {
+            alertify.error('Failed to add product');
+        }
+    })
+    .catch(error => {
+        console.error('Error adding product:', error);
+        alertify.error('An unexpected error occurred.');
+    });
+});

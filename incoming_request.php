@@ -28,12 +28,16 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
             <div class="list-btn">
                 <ul class="filter-list">
                     <li>
-                        <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Advance filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg" alt="filter"></span>Advance Filter </a>
+                        <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip"
+                            data-bs-placement="bottom" title="Advance filter"><span class="me-2"><img
+                                    src="assets/img/icons/filter-icon.svg" alt="filter"></span>Advance Filter </a>
                     </li>
 
                     <li class="">
-                        <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="download">
-                            <a href="javascript:void(0);" id="downloadExcel" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
+                        <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="download">
+                            <a href="javascript:void(0);" id="downloadExcel" class="btn-filters download-item"><span><i
+                                        class="fe fe-download"></i></span></a>
 
                         </div>
                     </li>
@@ -61,7 +65,9 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
             <div class="row">
                 <div class="col-sm-12">
                     <div class=" card-table">
-                        <h6 style="text-align: right; font-size: 12px; color: #000; margin-bottom: 0px;">Total Records: <span id="count">0</span></h6>
+                        <h6 style="text-align: right; font-size: 12px; color: #000; margin-bottom: 0px;">Total Records:
+                            <span id="count">0</span>
+                        </h6>
                         <br />
                         <div class="card-body">
                             <div class="table-responsive">
@@ -142,7 +148,8 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
 
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
@@ -153,7 +160,8 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
                 </button>
             </div>
-            <form action="#">
+            <form action="#" id="submit_dispatch_info_form">
+                <input type="hidden" name="request_id" id="request_id" value="">
                 <div class="modal-body">
 
                     <div class="row">
@@ -168,6 +176,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
                     </div>
                     <!--onchange="setaddress()"-->
+                    <br>
                     <div class="row address_type">
                         <div class="col-sm-4">
                             <label>Address Type</label>
@@ -177,40 +186,56 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
                         </div>
                         <div class="col-sm-8">
                             <label>Address</label>
-                            <input class="form-control" readonly="" name="address" id="address" value="">
+                            <input class="form-control" name="address" id="address" value="Loading...">
                         </div>
                     </div>
                     <br>
                     <div class="row contact">
                         <div class="col-sm-6" id="Contactperson_name">
                             <label for="Contactperson_name">Contact Person Name</label>
-                            <input type="text" class="form-control" name="Contactperson_name" value="BALAMURUGAN" id="Contactperson_name_text" readonly="">
+                            <input type="text" class="form-control" name="Contactperson_name" value="Loading..."
+                                id="contact_person_name">
                         </div>
                         <div class="col-sm-6" id="Contactperson_mob">
                             <label for="Contactperson_mob">Contact Person Mobile</label>
-                            <input type="text" class="form-control" name="Contactperson_mob" value="8072228955" id="Contactperson_mob_text" readonly="">
+                            <input type="text" class="form-control" name="Contactperson_mob" value="Loading..."
+                                id="contact_person_mobile">
                         </div>
                     </div>
+                    <br>
 
                     <div class="row cust_hide">
 
-                        <div class="col-sm-6">
-                            <label>POD</label>
-                            <input type="text" name="pod" class="form-control" placeholder="Enter POD ..">
+                        <div class="col-sm-12 mb-3">
+                            <div class="row">
+
+                                <div class="col-sm-6">
+                                    <label>Courier Name</label>
+                                    <select name="courier_name" id="fetch_courier_dropdown" class="form-control">
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>POD</label>
+                                    <input type="text" name="pod" id="dispatch_pod" class="form-control" placeholder="Enter POD ..">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <label>Courier Name</label>
-                            <select name="courier_name" id="fetch_courier_dropdown" class="form-control">
-                            </select>
+
+                        <div class="col-sm-12 mb-3">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Dispatch Date</label>
+                                    <input type="date" name="dispatch_date" class="form-control"
+                                        value="<?php echo $date; ?>">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Serial Number</label>
+                                    <input type="text" name="serial_number" id="serial_number" class="form-control"
+                                        required="">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <label>Dispatch Date</label>
-                            <input type="date" name="dispatch_date" class="form-control" value="2025-02-03">
-                        </div>
-                        <div class="col-sm-6">
-                            <label>Serial Number</label>
-                            <input type="text" name="serial_number" id="serial_number" class="form-control" required="">
-                        </div>
+
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -221,8 +246,9 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> &nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <input type="submit" class="btn btn-primary" id="submit_dispatch_info" value="Submit">
                 </div>
             </form>
 
