@@ -3,7 +3,7 @@ include('../config.php');
 
 header('Content-Type: application/json');
 
-$sql = "SELECT * FROM camp_couriers";
+$sql = "SELECT * FROM camp_couriers order by couriername asc";
 $result = $conn->query($sql);
 
 $couriers = [];
