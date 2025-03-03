@@ -25,7 +25,7 @@ document.getElementById("addcourierForm").addEventListener("submit", function (e
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alertify.success(data.message || "courier added successfully!");
+                alertify.success(data.message || " Courier added successfully! ");
 
                 // Close the modal after successful submission
                 const modalElement = form.closest(".modal");
@@ -241,7 +241,6 @@ function fetchcourierData(courierId) {
             const courier = data.courier;
             document.querySelector("#editcourierForm input[name='courier_id']").value = courier.id || "";
             document.querySelector("#editcourierForm input[name='couriername']").value = courier.couriername || "";
-            document.querySelector("#editcourierForm input[name='slug']").value = courier.slug || "";
             document.querySelector("#editcourierForm select[name='status']").value = courier.status || "active";
         } else {
             alertify.error("Failed to fetch courier details.");

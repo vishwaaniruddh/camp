@@ -44,7 +44,7 @@
 						<li><a href="stock-adjustments.php"><i class="fe fe-refresh-cw"></i> Stock Adjustments</a></li>
 						<li><a href="stock-transfers.php"><i class="fe fe-truck"></i> Stock Transfers</a></li>
 						<li><a href="warehouses.php"><i class="fe fe-home"></i> Warehouse Management</a></li>
-						<li><a href="spare-parts.php"><i class="fe fe-tool"></i> Spare Parts Catalog</a></li>
+						<li><a href="spare-parts.php"><i class="fe fe-file-text"></i> Spare Parts Catalog</a></li>
 						<li><a href="stock-expiry.php"><i class="fe fe-clock"></i> Stock Expiry & Alerts</a></li>
 					</ul>
 				</li>
@@ -106,3 +106,24 @@
 		</div>
 	</div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let currentPage = window.location.pathname.split("/").pop(); // Get the current page filename
+    let menuItems = document.querySelectorAll("#sidebar-menu ul li a"); 
+
+    menuItems.forEach(item => {
+        if (item.getAttribute("href") === currentPage) {
+            item.classList.add("active"); // Highlight active menu item
+            let parentUl = item.closest("ul");
+            if (parentUl) {
+                parentUl.style.display = "block"; // Keep parent submenu open
+                let parentLi = parentUl.closest(".submenu");
+                if (parentLi) {
+                    parentLi.classList.add("active"); // Highlight the submenu title
+                }
+            }
+        }
+    });
+});
+</script>

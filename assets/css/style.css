@@ -3362,7 +3362,7 @@ span.select2-container.select2-container--default.select2-container--open {
   transition: all 0.5s ease;
   border-radius: 0 10px 10px 0px;
 }
-.sidebar .sidebar-menu ul li.active a::after {
+/* .sidebar .sidebar-menu ul li.active a::after {
   width: 8px;
   content: "";
   height: 5px;
@@ -3375,7 +3375,7 @@ span.select2-container.select2-container--default.select2-container--open {
   -ms-transition: all 0.5s;
   transition: all 0.5s;
   border-radius: 0 10px 10px 0px;
-}
+} */
 .sidebar .sidebar-menu ul li.active a svg {
   width: 18px;
 }

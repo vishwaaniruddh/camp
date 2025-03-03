@@ -3,14 +3,14 @@ include('../config.php');
 
 header('Content-Type: application/json');
 
-if (!isset($_REQUEST['courier_id']) || !isset($_REQUEST['couriername']) || !isset($_REQUEST['slug']) || !isset($_REQUEST['status'])) {
+if (!isset($_REQUEST['courier_id']) || !isset($_REQUEST['couriername']) ||  !isset($_REQUEST['status'])) {
     echo json_encode(['success' => false, 'message' => 'Invalid input']);
     exit;
 }
 
 $courierId = $_REQUEST['courier_id'];
 $couriername = $_REQUEST['couriername'];
-$slug = $_REQUEST['slug'];
+
 $status = $_REQUEST['status'];
 
 // Fetch the previous state
@@ -28,9 +28,9 @@ if (!$previousState) {
 }
 
 // Update the courier
-$updateSql = "UPDATE camp_couriers SET couriername = ?, slug = ?, status = ? WHERE id = ?";
+$updateSql = "UPDATE camp_couriers SET couriername = ?, status = ? WHERE id = ?";
 $stmt = $conn->prepare($updateSql);
-$stmt->bind_param("sssi", $couriername, $slug, $status, $courierId);
+$stmt->bind_param("ssi", $couriername,  $status, $courierId);
 
 if ($stmt->execute()) {
     // Fetch the new state

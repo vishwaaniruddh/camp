@@ -58,7 +58,6 @@
 								<tr>
 									<th>#</th>
 									<th>Courier Name</th>
-									<th>Short Name</th>
 									<th>Status</th>
 									<th class="no-sort">Action</th>
 								</tr>
@@ -92,12 +91,6 @@
 							<div class="input-block mb-3">
 								<label>courier Name*</label>
 								<input type="text" name="couriername" class="form-control string_valid required_valid" placeholder="Enter courier Name">
-							</div>
-						</div>
-						<div class="col-lg-12 col-sm-12">
-							<div class="input-block mb-3">
-								<label>Slug*</label>
-								<input type="text" name="slug" class="form-control string_valid required_valid" placeholder="Enter Slug">
 							</div>
 						</div>
 
@@ -140,13 +133,7 @@
 						<div class="col-lg-12 col-sm-12">
 							<div class="input-block mb-3">
 								<label>courier Name*</label>
-								<input type="text" name="couriername" class="form-control string_valid required_valid" placeholder="Enter courier Name">
-							</div>
-						</div>
-						<div class="col-lg-12 col-sm-12">
-							<div class="input-block mb-3">
-								<label>Slug*</label>
-								<input type="text" name="slug" class="form-control string_valid required_valid" placeholder="Enter Slug">
+								<input type="text" name="couriername" class="form-control required_valid" placeholder="Enter courier Name">
 							</div>
 						</div>
 						<div class="col-lg-12 col-sm-12">
@@ -162,7 +149,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" data-bs-dismiss="modal" class="btn btn-back cancel-btn me-2">Cancel</button>
-					<button type="submit" id="update_courier_modal" class class="btn btn-primary paid-continue-btn">Update courier</button>
+					<button type="submit" id="update_courier_modal" class="btn btn-primary paid-continue-btn">Update courier</button>
 				</div>
 			</form>
 		</div>
