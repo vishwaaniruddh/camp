@@ -372,31 +372,15 @@ function updateRequestInfo(event) {
 document.getElementById('submit_dispatch_info_form').addEventListener('submit', function (event) {
     event.preventDefault();
 
-    const productName = document.getElementById('add_product_name').value;
-    const productModel = document.getElementById('add_product_model').value;
-    const serialNumber = document.getElementById('add_serial_number').value;
-    const unitPrice = document.getElementById('add_unit_price').value;
-    const workingStatus = document.getElementById('add_working_status').value;
-    const notWorkingType = document.getElementById('add_not_working_type').value;
-    const nonRepairableReason = document.getElementById('add_non_repairable_reason').value;
-    const materialTag = document.getElementById('add_material_tag').value;
-    const status = document.getElementById('add_status').value;
-    const remarks = document.getElementById('add_remarks').value;
+    // Gather form data
+    const formData = new FormData(this);
+    let data = {};
+    formData.forEach((value, key) => {
+        data[key] = value.trim(); // Trim values to remove extra spaces
+    });
 
-    const data = {
-        product_name: productName,
-        product_model: productModel,
-        serial_number: serialNumber,
-        unit_price: unitPrice,
-        working_status: workingStatus,
-        not_working_type: notWorkingType,
-        non_repairable_reason: nonRepairableReason,
-        material_tag: materialTag,
-        status: status,
-        remarks: remarks
-    };
-
-    fetch('./api/request/fetch-request-info.php', {
+    // Send data using Fetch API
+    fetch('./api/request/submit-dispatch-info.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -404,16 +388,17 @@ document.getElementById('submit_dispatch_info_form').addEventListener('submit', 
         body: JSON.stringify(data)
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alertify.success('Product added successfully');
-            fetchProductsFromInventory(); // Refresh the inventory list
+    .then(responseData => {
+        if (responseData.success) {
+            alertify.success('Dispatch Info added successfully');
+            fetchRequest(); // Refresh the inventory list
+            document.getElementById('submit_dispatch_info_form').reset(); // Reset form after submission
         } else {
-            alertify.error('Failed to add product');
+            alertify.error(responseData.message || 'Failed to add Dispatch Info');
         }
     })
     .catch(error => {
-        console.error('Error adding product:', error);
+        console.error('Error adding Dispatch Info:', error);
         alertify.error('An unexpected error occurred.');
     });
 });

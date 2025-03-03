@@ -160,7 +160,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
 
                 </button>
             </div>
-            <form action="#" id="submit_dispatch_info_form">
+            <form id="submit_dispatch_info_form">
                 <input type="hidden" name="request_id" id="request_id" value="">
                 <div class="modal-body">
 
@@ -248,7 +248,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     &nbsp;&nbsp;&nbsp;
-                    <input type="submit" class="btn btn-primary" id="submit_dispatch_info" value="Submit">
+                    <input type="submit" class="btn btn-primary" id="submit_dispatch_info" value="Dispatch">
                 </div>
             </form>
 
