@@ -147,7 +147,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
         <div class="modal-content">
             <div class="modal-header border-0 pb-0">
                 <div class="form-header modal-header-title text-start mb-0">
-                    <h4 class="mb-0">Add Stock in</h4>
+                    <h4 class="mb-0">Enter Dispatch Information</h4>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 
@@ -200,14 +200,7 @@ $selectedStatus = isset($_REQUEST['status']) ? $_REQUEST['status'] : null;
                         </div>
                         <div class="col-sm-6">
                             <label>Courier Name</label>
-                            <select name="courier_name" class="form-control">
-                                <option value="">-- Select --</option>
-                                <option value="Delhivery">Delhivery</option>
-                                <option value="Nandan Courier">Nandan Courier</option>
-                                <option value="Shri Nandan Courier">Shri Nandan Courier</option>
-                                <option value="Trackon Courier">Trackon Courier</option>
-                                <option value="Bluedart">Bluedart</option>
-                                <option value="DTDC">DTDC</option>
+                            <select name="courier_name" id="fetch_courier_dropdown" class="form-control">
                             </select>
                         </div>
                         <div class="col-sm-6">

@@ -18,7 +18,48 @@ document.getElementById("applyFilters").addEventListener("click", function () {
     fetchRequest();
 });
 
+function fetchCouriers() {
+    return fetch('./api/couriers/fetch-couriers.php')
+        .then(response => response.json())
+        .then(data => {
+            
+            if (data.success) {
+                populateCourierOptions(data.couriers);
+            } else {
+                alertify.error('Failed to fetch couriers');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching couriers:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
 
+function populateCourierOptions(courier) {
+    const courierSelect = document.querySelector("#fetch_courier_dropdown");
+    if (!courierSelect) {
+        console.error('Courier select element not found');
+        return;
+    }
+    courierSelect.innerHTML = "";
+
+    // Add default first option
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = "Select a Courier";
+    courierSelect.appendChild(defaultOption);
+
+    if (courier.length === 0) {
+        courierSelect.innerHTML += `<option value="">No courier available</option>`;
+    } else {
+        courier.forEach(vendor => {
+            const option = document.createElement("option");
+            option.value = courier.couriername;
+            option.textContent = vendor.couriername;
+            courierSelect.appendChild(option);
+        });
+    }
+}
 
 function fetchRequest(page = 1, limit = 10) {
     const filters = {
@@ -244,6 +285,7 @@ function populateRequestData(requestDatas, page, limit) {
 function viewRequestInfo(requestId) {
     // Implement the logic to view request information
     console.log(`View request info for ID: ${requestId}`);
+    fetchCouriers();
     // You can fetch and display the request details in a modal or another section of the page
 }
 
