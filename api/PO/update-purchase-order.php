@@ -10,8 +10,6 @@ if (!$data) {
     exit;
 }
 
-
-
 $requiredFields = ['po_number', 'vendor_id', 'order_date', 'product_name'];
 foreach ($requiredFields as $field) {
     if (empty($data[$field])) {
@@ -20,6 +18,8 @@ foreach ($requiredFields as $field) {
         exit;
     }
 }
+// var_dump($data);
+// return ; 
 
 // Extract data
 $po_number = mysqli_real_escape_string($con, $data['po_number']);
@@ -31,36 +31,45 @@ $order_date = $data['order_date'];
 
 $expected_delivery_date = $data['expected_delivery_date'];
 $total_cost = $data['total_cost'];
-
+$po_id = $data['po_id'];
 
 mysqli_begin_transaction($con);
 
 try {
 
-    $insertPoQuery = "INSERT INTO camp_purchase_orders (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor) 
-                      VALUES ('$po_number','" . $order_date . "',
-                      '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "')";
+    $updatePoQuery = "UPDATE camp_purchase_orders 
+                  SET po_number = '$po_number',
+                      order_date = '$order_date',
+                      expected_delivery_date = '$expected_delivery_date',
+                      total_amount = '$total_cost',
+                      created_at = '$datetime',
+                      po_date = '$datetime',
+                      notes = '$notes',
+                      vendor = '$vendor_id'
+                  WHERE po_id = '$po_id'";
 
-    if (!mysqli_query($con, $insertPoQuery)) {
-        throw new Exception('Error inserting purchase order: ' . mysqli_error($con));
+
+    // $insertPoQuery = "INSERT INTO camp_purchase_orders (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor) 
+    //                   VALUES ('$po_number','" . $order_date . "',
+    //                   '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "')";
+
+    if (!mysqli_query($con, $updatePoQuery)) {
+        throw new Exception('Error updating purchase order: ' . mysqli_error($con));
     }
 
 
-    $po_id = mysqli_insert_id($con);
 
     $product_names = $data['product_name'];
     // $model_names = explode('-', $data['product_name'])[1];
 
     $quantitys = $data['quantity'];
     $unit_costs = $data['unit_cost'];
-
+    $item_id = $data['item_id'];
 
 
 
     $counter = 0;
-    foreach ($product_names as $product) {
-
-        // echo $product ; 
+    foreach ($item_id as $item_id_key => $item_id_val) {
 
 
         $product_names = explode('  ---  ', $product)[0];
@@ -69,30 +78,20 @@ try {
         $quantity = $quantitys[$counter];
         $unit_cost = $unit_costs[$counter];
 
+        if ($product_names && $model_name && $quantity && $unit_cost) {
 
-        $insertProductQuery = "INSERT INTO camp_po_items (po_id, product_name, model_name, quantity, unit_price, receivedQuantity, receivedStatus, notes) 
-        VALUES ($po_id, '$product_names', '$model_name', $quantity, $unit_cost, 0, 'Pending', '')";
+            $updatePoItemsQuery = "update camp_po_items set product_name = '$product_names', 
+            model_name = '$model_name', quantity = $quantity, unit_price = $unit_cost 
+            where po_item_id = $item_id_val";
 
-        if (!mysqli_query($con, $insertProductQuery)) {
-            throw new Exception('Error inserting product: ' . mysqli_error($con));
+            if (!mysqli_query($con, $updatePoItemsQuery)) {
+                throw new Exception('Error Updating Items: ' . mysqli_error($con));
+            }
+            $counter++;
+
         }
 
-        $po_item_id = mysqli_insert_id($con);
 
-        // for ($i = 0; $i < $quantity; $i++) {
-        //     $item_detailsquery = "insert into camp_po_items_details(po_item_id,po_id,isReceived,receivedDate,serial_number,isActive)
-        //      values('" . $po_item_id . "','" . $po_id . "','no','','','yes')";
-
-
-        //     if (!mysqli_query($con, $item_detailsquery)) {
-        //         throw new Exception('Error inserting product details: ' . mysqli_error($con));
-        //     }
-
-        // }
-
-
-
-        $counter++;
     }
 
 

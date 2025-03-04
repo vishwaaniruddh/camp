@@ -32,13 +32,13 @@
 
                                 
                                 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3 add-products">
                                         <label>Product Code (SKU)<span class="text-danger"> *</span></label>
                                         <input type="text" class="form-control" name="sku" id="sku" placeholder="Enter Product Code" required>
                                         <button type="button" class="btn btn-primary" onclick="generateSKU()">Generate Code</button>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Category <span class="text-danger"> *</span></label>
@@ -62,13 +62,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3 add-products">
                                         <label>Generate Barcode</label>
                                         <input type="text" class="form-control" name="barcode" id="barcode" placeholder="Enter Barcode Code">
                                         <button type="button" class="btn btn-primary" onclick="generateBarcode()">Generate Code</button>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-4 col-md-6 col-sm-12">
                                     <div class="input-block mb-3">
                                         <label>Alert Quantity</label>

@@ -18,6 +18,7 @@
 						<li><a href="users.php"><i class="fe fe-user"></i> Users</a></li>
 						<li><a href="roles-permission.php"><i class="fe fe-lock"></i> Roles & Permissions</a></li>
 						<li><a href="delete-account-request.php"><i class="fe fe-trash"></i> Delete Account Requests</a>
+						<li><a href="purchase-order-actions.php"><i class="fe fe-trash"></i> Purchase Orders</a>
 						</li>
 					</ul>
 				</li>

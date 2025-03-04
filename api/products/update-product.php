@@ -7,12 +7,11 @@ header('Content-Type: application/json');
 
 $product_id = $_POST['id'];
 $name = $_POST['name'];
-$sku = $_POST['sku'];
+
 $category = $_POST['category'];
 $purchase_price = $_POST['purchase_price'];
 $quantity = $_POST['quantity'];
 $units = $_POST['units'];
-$barcode = $_POST['barcode'];
 $alert_quantity = $_POST['alert_quantity'];
 $description = $_POST['description'];
 $serial_numbers = $_POST['serial_numbers'];
@@ -47,9 +46,9 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     $stmt->close();
 }
 
-$sql = "UPDATE camp_products SET name = ?, sku = ?, category = ?, purchase_price = ?, quantity = ?, units = ?, barcode = ?, alert_quantity = ?, description = ?, image_path = ?, created_by = ?, status = ? WHERE id = ?";
+$sql = "UPDATE camp_products SET name = ?,  category = ?, purchase_price = ?, quantity = ?, units = ?,  alert_quantity = ?, description = ?, image_path = ?, created_by = ?, status = ? WHERE id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssissssssss", $name, $sku, $category, $purchase_price, $quantity, $units, $barcode, $alert_quantity, $description, $image_path, $created_by, $status, $product_id);
+$stmt->bind_param("sssisssssss", $name,  $category, $purchase_price, $quantity, $units, $alert_quantity, $description, $image_path, $created_by, $status, $product_id);
 
 if ($stmt->execute()) {
     // Fetch existing serial numbers

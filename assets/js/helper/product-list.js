@@ -76,10 +76,13 @@ function populateProductTable(products) {
                         <a href="edit-products.php?id=${product.id}">${product.name}</a>
                     </h2>
                 </td>
-                <td>${product.sku}</td>
                 <td>${product.category}</td>
                 <td>${product.units}</td>
                 <td>Rs. ${parseFloat(product.purchase_price).toFixed(2)}</td>
+                <td>${product.requires_serial_numbers}</td>
+                <td>${product.alert_quantity}</td>
+
+
                 <td class="d-flex align-items-center">
                     <div class="dropdown dropdown-action">
                         <a href="#" class="btn-action-icon" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a>
@@ -122,11 +125,11 @@ function populateProductForm(product) {
     document.querySelector("#product_id").value = product.id;
     document.querySelector("#name").value = product.name;
     document.querySelector("#model").value = product.model;
-    document.querySelector("#sku").value = product.sku;
+    // document.querySelector("#sku").value = product.sku;
     document.querySelector("#category").value = product.category;
     document.querySelector("#purchase_price").value = product.purchase_price;
     document.querySelector("#units").value = product.units;
-    document.querySelector("#barcode").value = product.barcode;
+    // document.querySelector("#barcode").value = product.barcode;
     document.querySelector("#alert_quantity").value = product.alert_quantity;
     document.querySelector("#description").value = product.description;
     document.querySelector("#requires_serial_numbers").value = product.serial_numbers ? 'yes' : 'no';

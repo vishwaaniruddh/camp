@@ -52,10 +52,10 @@ function populateCourierOptions(courier) {
     if (courier.length === 0) {
         courierSelect.innerHTML += `<option value="">No courier available</option>`;
     } else {
-        courier.forEach(vendor => {
+        courier.forEach(courier => {
             const option = document.createElement("option");
             option.value = courier.couriername;
-            option.textContent = vendor.couriername;
+            option.textContent = courier.couriername;
             courierSelect.appendChild(option);
         });
     }
@@ -233,7 +233,6 @@ function populateRequestData(requestDatas, page, limit) {
                 <td>${serialNumber}</td>
                 <td>
                     <button style="border:none;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-primary view-request-btn" data-request-id="${requestData.mis_id}">View</button>
-                    <button style="border:none;" class="btn btn-outline-success accept-request-btn" data-request-id="${requestData.mis_id}">Accept</button>
                 </td>
                 <td><strong>${requestData.ticket_id}</strong></td>
                 <td>${requestData.customer}</td>
@@ -273,12 +272,12 @@ function populateRequestData(requestDatas, page, limit) {
         });
 
         // Add event listeners for accept buttons
-        document.querySelectorAll('.accept-request-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const requestId = this.getAttribute('data-request-id');
-                acceptRequest(requestId);
-            });
-        });
+        // document.querySelectorAll('.accept-request-btn').forEach(button => {
+        //     button.addEventListener('click', function () {
+        //         const requestId = this.getAttribute('data-request-id');
+        //         acceptRequest(requestId);
+        //     });
+        // });
     }
 }
 
@@ -291,11 +290,11 @@ function viewRequestInfo(requestId) {
     // You can fetch and display the request details in a modal or another section of the page
 }
 
-function acceptRequest(requestId) {
-    // Implement the logic to accept the request
-    console.log(`Accept request for ID: ${requestId}`);
-    // You can send a request to the server to update the status of the request
-}
+// function acceptRequest(requestId) {
+//     // Implement the logic to accept the request
+//     console.log(`Accept request for ID: ${requestId}`);
+//     // You can send a request to the server to update the status of the request
+// }
 
 
 

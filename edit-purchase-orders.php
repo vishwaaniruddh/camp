@@ -22,13 +22,15 @@
             <div class="row">
                 <div class="col-sm-12">
                     <form id="editPoFormData" enctype="multipart/form-data">
+                        <input type="hidden" name="po_id" id="po_id" value="">
 
                         <div class="row">
 
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="input-block mb-3 add-products">
                                     <label>Purchase Order Number</label>
-                                    <input type="text" class="form-control" name="po_number" id="po_number" placeholder="Enter PO Code" readonly>
+                                    <input type="text" class="form-control" name="po_number" id="po_number"
+                                        placeholder="Enter PO Code" readonly>
                                     <!-- <button type="button" class="btn btn-primary" onclick="generatePONumber()">Generate Code</button> -->
                                 </div>
                             </div>
@@ -47,7 +49,8 @@
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="input-block mb-3">
                                     <label for="date">Order Date:</label>
-                                    <input type="date" class="form-control" id="order_date" name="order_date" value="<?php echo $date; ?>" required>
+                                    <input type="date" class="form-control" id="order_date" name="order_date"
+                                        value="<?php echo $date; ?>" required>
                                 </div>
                             </div>
 
@@ -55,7 +58,8 @@
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="input-block mb-3">
                                     <label for="date">Expected Date of delivery:</label>
-                                    <input type="date" class="form-control" id="expected_delivery_date" name="expected_delivery_date" value="<?php echo $date; ?>" required>
+                                    <input type="date" class="form-control" id="expected_delivery_date"
+                                        name="expected_delivery_date" value="<?php echo $date; ?>" required>
                                 </div>
                             </div>
 
@@ -70,28 +74,33 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Product</th>
-                                        <th>Model Name</th>
+                                        <th>Product --- Model</th>
                                         <th>Stock (Qty)</th>
                                         <th>Unit Cost</th>
-                                        <th>Action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody id="product-rows">
                                     <tr class="product-row">
                                         <td class="serial-number">1</td>
-                                        <td><input type="text" class="form-control" name="product_name[]" required></td>
-                                        <td><input type="text" class="form-control" name="model_name[]" required></td>
-                                        <td><input type="number" class="form-control stock" name="quantity[]" required></td>
-                                        <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" required></td>
                                         <td>
-                                            <i class="fa fa-minus-circle me-1 remove-row"></i>
+                                            <select class="form-control product_name_model" name="product_name[]"
+                                                required></select>
+
+                                            <!-- <input type="text" class="form-control" name="product_name[]" required> -->
                                         </td>
+                                        <td><input type="text" class="form-control" name="model_name[]" required></td>
+                                        <td><input type="number" class="form-control stock" name="quantity[]" required>
+                                        </td>
+                                        <td><input type="number" step="0.01" class="form-control unit-cost"
+                                                name="unit_cost[]" required></td>
+
 
                                     </tr>
                                 </tbody>
                             </table>
-                            <a href="#" class="btn btn-greys bg-success-light me-2" id="add-row">
+                            <a href="#" class="btn btn-greys bg-success-light me-2 add-row" style="display:none;"
+                                id="add-row">
                                 <i class="fa fa-plus-circle me-1"></i> Add Product
                             </a>
 
@@ -101,7 +110,8 @@
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="input-block mb-3">
                                     <label for="total_cost">Total Cost:</label>
-                                    <input type="number" step="0.01" class="form-control" id="total_cost" name="total_cost" readonly>
+                                    <input type="number" step="0.01" class="form-control" id="total_cost"
+                                        name="total_cost" readonly>
                                 </div>
                             </div>
 
@@ -118,7 +128,8 @@
 
                         <div class="text-end">
                             <button type="reset" class="btn btn-primary cancel me-2">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Update Purchase Order</button>
+                            <button type="submit" class="btn btn-primary update_purchase_order">Update Purchase
+                                Order</button>
                         </div>
                     </form>
                 </div>

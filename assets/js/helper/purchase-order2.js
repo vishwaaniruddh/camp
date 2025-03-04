@@ -1,4 +1,4 @@
-
+fetchVendors();
 document.addEventListener("DOMContentLoaded", function () {
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -8,8 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const editPoFormData = document.querySelector("#editPoFormData");
 
     const purchaseOrderTableBody = document.querySelector("#purchaseOrderTableBody");
-    const purchaseOrderActionTableBody = document.querySelector("#purchaseOrderActionTableBody");
-
     const edit_po_container = document.querySelector("#edit-po-container");
 
     if (addPoFormData) {
@@ -39,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (purchaseOrderTableBody || purchaseOrderActionTableBody) {
+    if (purchaseOrderTableBody) {
         fetchAllPOs();
     }
     if (purchase_order && edit_po_container) {
@@ -94,8 +92,8 @@ function updatePO() {
                 alertify.success(`Purchase Order Updated successfully! PO ID: ${data.po_id}`);
                 // form.reset();
                 setTimeout(() => {
-
-                    window.location = "./purchase-orders.php";
+                    
+                    window.location="./purchase-orders.php";
                 }, 2000);
             } else {
                 alertify.error('Failed to update purchase order');
@@ -112,16 +110,7 @@ function fetchAllPOs() {
         .then(response => response.json())
         .then(data => {
             if (data.status == 'success') {
-
-                const currentPage = window.location.pathname.split('/').pop();
-                console.log(currentPage);
-                if (currentPage === 'purchase-order-actions.php') {
-                    console.log('purchase-order-actions.php')
-                    populatePODataActions(data.data);
-                }
-                if (currentPage === 'purchase-orders.php') {
-                    populatePOData(data.data);
-                }
+                populatePOData(data.data);
                 setupDeleteAction();
 
             } else {
@@ -166,7 +155,7 @@ function populatePOData(categories) {
             row.innerHTML = `
                 <td>${index + 1}</td>
                 <td>
-                    <a href="./purchase-order-action.php?purchase-order=${po.po_number}">${po.po_number}</a>
+                <a href="./purchase-order-action.php?purchase-order=${po.po_number}">${po.po_number}</a>
                 </td>
                 <td>${po.vendor}</td>
                 <td>${po.total_amount}</td>
@@ -186,49 +175,6 @@ function populatePOData(categories) {
         // Add event listeners for delete buttons
     }
 }
-
-
-function populatePODataActions(categories) {
-    console.log('this')
-    const tableBody = document.querySelector("#purchaseOrderActionTableBody");
-    tableBody.innerHTML = "";
-    if (categories.length === 0) {
-        showNoDataMessage();
-    } else {
-        categories.forEach((po, index) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>
-                    <a href="#" style="border:none;" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="view-request-btn" data-request-id="${po.po_number}">${po.po_number}</a>
-                </td>
-                <td>${po.vendor}</td>
-                <td>${po.total_amount}</td>
-                <td>${po.order_date}</td>
-                <td>${po.expected_delivery_date}</td>
-                <td>${getStatusBadge(po.status)}</td>
-                <td>${po.created_at}</td>
-                <td class="d-flex align-items-center">
-                    <a href="./pdf/generate-pdf.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="far fa-file-pdf"></i></a>
-                    <a href="./edit-purchase-orders.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="fe fe-edit"></i></a>
-                    <a href="javascript:void(0);" class="btn-action-icon delete-po-btn" data-purchase-order="${po.po_id}" data-po-number="${po.po_number}" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="fe fe-trash-2"></i></a>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-
-        // Add event listeners for delete buttons
-
-        document.querySelectorAll('.view-request-btn').forEach(button => {
-            button.addEventListener('click', function () {
-                const requestId = this.getAttribute('data-request-id');
-                console.log('requestId')
-                viewRequestInfo(requestId);
-            }); 
-    });
-    }
-}
-
 
 function setupDeleteAction() {
     // Select all delete buttons
@@ -319,7 +265,6 @@ function fetchVendors() {
 }
 
 function populateVendorsOptions(Vendors) {
-
     const vendorSelect = document.querySelector("#vendor");
     if (!vendorSelect) {
         console.error('vendor select element not found');
@@ -406,7 +351,6 @@ function populateProductForm(data) {
 
 
     // Populate items
-    console.log(items)
     for (let i = 0; i < items.name.length; i++) {
         const newRow = document.createElement('tr');
         newRow.classList.add('product-row');
@@ -443,9 +387,7 @@ function populateProductForm(data) {
                 .catch(error => console.error('Error fetching product list:', error));
 
 
-        }
-        else if (currentPage === 'purchase-order-action.php') {
-
+        } else if (currentPage === 'purchase-order-action.php') {
             const receivedStatus = items.receivedStatus[i] || 'Not Updated';
             const receivedQuantity = items.receivedQuantity[i] || '0';
             const notes = items.notes[i] || 'No notes';
@@ -647,8 +589,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch products on page load
     fetchCampProducts();
 
-
-
     // Update unit cost when product is selected
     document.addEventListener("change", function (event) {
         if (event.target.classList.contains("product_name_model")) {
@@ -658,149 +598,25 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === 'edit-purchase-orders.php' || currentPage === 'add-purchase-orders.php') {
-
-        fetchVendors();
-        document.querySelector(".add-row").addEventListener("click", function () {
-            let firstRow = document.querySelector(".product-row");
-            let newRow = firstRow.cloneNode(true);
-
-            // Clear inputs
-            newRow.querySelectorAll("input").forEach(input => input.value = "");
-
-            document.querySelector("table tbody").appendChild(newRow);
-
-            fetchCampProducts();
-        });
-
-        // Remove row
-        document.addEventListener("click", function (event) {
-            if (event.target.classList.contains("remove-row")) {
-                event.target.closest(".product-row").remove();
-            }
-        });
-    }
-
-        
-    
     // Dynamically add new rows
+    document.querySelector(".add-row").addEventListener("click", function () {
+        let firstRow = document.querySelector(".product-row");
+        let newRow = firstRow.cloneNode(true);
 
-});
+        // Clear inputs
+        newRow.querySelectorAll("input").forEach(input => input.value = "");
 
+        document.querySelector("table tbody").appendChild(newRow);
 
-
-
-
-function viewRequestInfo(requestId) {
-    fetchRequestInfo(requestId);
-}
-
-
-
-function fetchRequestInfo(purchase_order) {
-    setTimeout(() => {
-        fetch(`./api/PO/fetch-purchase-order.php?purchase-order=${purchase_order}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    displayPurchaseOrderDetails(data);
-                    
-                } else {
-                    document.getElementById('showPurchaseOrderDetails').innerHTML = '<p class="text-danger">No purchase order found.</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching product details:', error);
-                alertify.error('An unexpected error occurred.');
-            });
-    }, 1000);
-}
-
-function displayPurchaseOrderDetails(data) {
-    const po = data.po;
-    const items = data.items;
-    document.getElementById('request_id').value = po.po_id;
-    
-    let poDetails = `
-            <table class="table table-striped table-hover">
-                <tr><th>PO Number</th><td>${po.po_number}</td></tr>
-                <tr><th>Order Date</th><td>${po.order_date}</td></tr>
-                <tr><th>Expected Delivery</th><td>${po.expected_delivery_date}</td></tr>
-                <tr><th>Status</th><td>${po.status}</td></tr>
-                <tr><th>Total Amount</th><td>${po.total_amount}</td></tr>
-                <tr><th>Vendor</th><td>${po.vendor}</td></tr>
-
-                <tr><th>Notes</th><td>${po.notes || 'N/A'}</td></tr>
-            </table>
-        </div>
-        <div class="mt-4 border p-3">
-            <h5>Items</h5>
-            <table class="table table-striped table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Item Name</th>
-                        <th>Model</th>
-                        <th>Quantity</th>
-                        <th>Unit Price</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-    `;
-    
-    for (let i = 0; i < items.item_id.length; i++) {
-        poDetails += `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${items.name[i]}</td>
-                <td>${items.model_name[i]}</td>
-                <td>${items.quantity[i]}</td>
-                <td>${items.unit_price[i]}</td>
-                <td>${items.total_price[i]}</td>
-            </tr>
-        `;
-    }
-    
-    poDetails += `</tbody></table>`;
-    
-    document.getElementById('showPurchaseOrderDetails').innerHTML = poDetails;
-}
-
-// updateActionsPurchaseOrder
-
-document.getElementById('updateActionsPurchaseOrder').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    // Gather form data
-    const formData = new FormData(this);
-    let data = {};
-    formData.forEach((value, key) => {
-        data[key] = value.trim(); // Trim values to remove extra spaces
+        fetchCampProducts();
     });
 
-    // Send data using Fetch API
-    fetch('./api/PO/update-purchase-order-actions.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(responseData => {
-        if (responseData.success) {
-            alertify.success('Updated successfully');
-            populatePODataActions(); // Refresh the inventory list
-            // document.getElementById('submit_dispatch_info_form').reset(); // Reset form after submission
-        } else {
-            alertify.error(responseData.message || 'Failed to Update Info');
+    // Remove row
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains("remove-row")) {
+            event.target.closest(".product-row").remove();
         }
-    })
-    .catch(error => {
-        console.error('Error Updating Info:', error);
-        alertify.error('An unexpected error occurred.');
     });
 });
+
 

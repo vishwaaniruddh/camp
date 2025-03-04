@@ -84,7 +84,6 @@ $purchase_order = $_REQUEST['purchase-order'];
                                     <tr>
                                         <th>#</th>
                                         <th>Product</th>
-                                        <th>Model Name</th>
                                         <th>Stock (Qty)</th>
                                         <th>Unit Cost</th>
                                         <th>Action</th>
@@ -94,8 +93,6 @@ $purchase_order = $_REQUEST['purchase-order'];
                                     <tr class="product-row purchase-order-action">
                                         <td class="serial-number">1</td>
                                         <td><span class="form-control" name="product_name[]"></span></td>
-                                        <!-- <td><input type="text" class="form-control" name="product_name[]" required></td> -->
-                                        <td><input type="text" class="form-control" name="model_name[]" required></td>
                                         <td><input type="number" class="form-control stock" name="quantity[]" required></td>
                                         <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" required></td>
                                         <td>

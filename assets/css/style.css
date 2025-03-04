@@ -3362,6 +3362,7 @@ span.select2-container.select2-container--default.select2-container--open {
   transition: all 0.5s ease;
   border-radius: 0 10px 10px 0px;
 }
+
 /* .sidebar .sidebar-menu ul li.active a::after {
   width: 8px;
   content: "";
@@ -26663,3 +26664,10 @@ td .invoice-detail i {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+
+@media (min-width: 992px) {
+  .modal-lg, .modal-xl {
+      --bs-modal-width: 1200px;
+  }
+}

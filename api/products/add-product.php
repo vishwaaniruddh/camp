@@ -4,18 +4,16 @@ include('../config.php');
 header('Content-Type: application/json');
 
 $name = $_POST['name'];
-$sku = $_POST['sku'];
+
 $category = $_POST['category'];
 $purchase_price = $_POST['purchase_price'];
 $units = $_POST['units'];
-$barcode = $_POST['barcode'];
 $alert_quantity = $_POST['alert_quantity'];
 $model = $_POST['model'];
 $requires_serial_numbers = $_POST['requires_serial_numbers'];
 
 $description = $_POST['description'];
 $created_by = 'current_user'; // Replace with actual user ID or name
-$status = 'active'; // Default status
 
 // Handle file upload
 $image_path = null;
@@ -33,16 +31,37 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     }
 }
 
-$sql = "INSERT INTO camp_products (name,model, sku, category, purchase_price, requires_serial_numbers, units, barcode, alert_quantity, description, image_path, created_by, status) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ssssdsssissss", $name,$model, $sku, $category,  $purchase_price, $requires_serial_numbers, $units, $barcode, $alert_quantity,  $description, $image_path, $created_by, $status);
 
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Product added successfully']);
+$query = "INSERT INTO camp_products 
+    (name, model, category, purchase_price, requires_serial_numbers, units, alert_quantity, description, image_path, created_by) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param(
+    $stmt,
+    "sssdssisss",
+    $name,
+    $model,
+    $category,
+    $purchase_price,
+    $requires_serial_numbers,
+    $units,
+    $alert_quantity,
+    $description,
+    $image_path,
+    $created_by
+);
+
+if (mysqli_stmt_execute($stmt)) {
+    http_response_code(200);
+
+    echo json_encode(['status' => 200, 'success' => true, 'message' => 'Product added successfully']);
+
 } else {
-    echo json_encode(['success' => false, 'message' => 'Failed to add product']);
+    http_response_code(500);
+    echo json_encode(['status' => 500, 'success' => false, 'message' => 'Failed to add product']);
 }
 
-$stmt->close();
-$conn->close();
+mysqli_stmt_close($stmt);
+
 ?>

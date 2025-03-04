@@ -95,10 +95,13 @@
 									<tr>
 										<th>#</th>
 										<th>Item</th>
-										<th>Code</th>
 										<th>Category</th>
 										<th>Units</th>
 										<th>Purchase Price</th>
+
+										<th>Required Serial Number</th>
+										<th>Alert Quantity</th>
+										
 										<th class="no-sort">Action</th>
 									</tr>
 								</thead>
