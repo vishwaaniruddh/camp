@@ -20,12 +20,12 @@ document.addEventListener("DOMContentLoaded", function () {
             newRow.querySelector('.remove-row').addEventListener('click', function () {
                 newRow.remove();
                 calculateTotalCost();
-                updateSerialNumbers();
+                // updateSerialNumbers();
             });
             newRow.querySelector('.stock').addEventListener('input', calculateTotalCost);
             newRow.querySelector('.unit-cost').addEventListener('input', calculateTotalCost);
             document.getElementById('product-rows').appendChild(newRow);
-            updateSerialNumbers();
+            // updateSerialNumbers();
         });
         document.querySelector("#addPoFormData").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -163,25 +163,44 @@ function populatePOData(categories) {
     } else {
         categories.forEach((po, index) => {
             const row = document.createElement("tr");
+
+            let actionLink = "";
+            if (po.status === "Approved") {
+                actionLink = `<a href="./purchase-order-action.php?purchase-order=${po.po_number}">${po.po_number}</a>`;
+            } else if (po.status === "Pending") {
+                actionLink = `<a href="javascript:void(0);" onclick="alertify.error('This purchase order is pending approval. Please wait for approval.')">${po.po_number}</a>`;
+            } else {
+                actionLink = `<span>${po.po_number}</span>`; // Show the PO number without a link for other statuses
+            }
+
+            let editButton = "";
+            let deleteButton = "";
+            if (po.status === "Pending") {
+                editButton = `<a href="./edit-purchase-orders.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="fe fe-edit"></i></a>`;
+                deleteButton = `<a href="javascript:void(0);" class="btn-action-icon delete-po-btn" data-purchase-order="${po.po_id}" data-po-number="${po.po_number}" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="fe fe-trash-2"></i></a>`;
+            }
+
+
+
             row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>
-                    <a href="./purchase-order-action.php?purchase-order=${po.po_number}">${po.po_number}</a>
-                </td>
-                <td>${po.vendor}</td>
-                <td>${po.total_amount}</td>
-                <td>${po.order_date}</td>
-                <td>${po.expected_delivery_date}</td>
-                <td>${getStatusBadge(po.status)}</td>
-                <td>${po.created_at}</td>
-                <td class="d-flex align-items-center">
-                    <a href="./pdf/generate-pdf.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="far fa-file-pdf"></i></a>
-                    <a href="./edit-purchase-orders.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="fe fe-edit"></i></a>
-                    <a href="javascript:void(0);" class="btn-action-icon delete-po-btn" data-purchase-order="${po.po_id}" data-po-number="${po.po_number}" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="fe fe-trash-2"></i></a>
-                </td>
-            `;
+        <td>${index + 1}</td>
+        <td>${actionLink}</td>
+        <td>${po.vendor}</td>
+        <td>${po.total_amount}</td>
+        <td>${po.order_date}</td>
+        <td>${po.expected_delivery_date}</td>
+        <td>${getStatusBadge(po.status)}</td>
+        <td>${po.created_at}</td>
+        <td class="d-flex align-items-center">
+            <a href="./pdf/generate-pdf.php?purchase-order=${po.po_number}" class="btn-action-icon me-2 edit-po-btn"><i class="far fa-file-pdf"></i></a>
+            ${editButton}  <!-- Only appears if status is Pending -->
+            ${deleteButton} <!-- Only appears if status is Pending -->
+        </td>
+    `;
+
             tableBody.appendChild(row);
         });
+
 
         // Add event listeners for delete buttons
     }
@@ -224,8 +243,8 @@ function populatePODataActions(categories) {
                 const requestId = this.getAttribute('data-request-id');
                 console.log('requestId')
                 viewRequestInfo(requestId);
-            }); 
-    });
+            });
+        });
     }
 }
 
@@ -279,11 +298,11 @@ function calculateTotalCost() {
     }
 }
 
-function updateSerialNumbers() {
-    document.querySelectorAll('.product-row').forEach((row, index) => {
-        row.querySelector('.serial-number').textContent = index + 1;
-    });
-}
+// function updateSerialNumbers() {
+//     document.querySelectorAll('.product-row').forEach((row, index) => {
+//         row.querySelector('.serial-number').textContent = index + 1;
+//     });
+// }
 
 
 
@@ -291,7 +310,7 @@ document.querySelectorAll('.remove-row').forEach(button => {
     button.addEventListener('click', function () {
         button.closest('tr').remove();
         calculateTotalCost();
-        updateSerialNumbers();
+        // updateSerialNumbers();
     });
 });
 
@@ -299,7 +318,7 @@ document.querySelectorAll('.stock, .unit-cost').forEach(input => {
     input.addEventListener('input', calculateTotalCost);
 });
 
-updateSerialNumbers();
+// updateSerialNumbers();
 
 
 function fetchVendors() {
@@ -402,6 +421,9 @@ function populateProductForm(data) {
         document.querySelector("#total_cost").innerHTML = po.total_amount;
         document.querySelector("#notes").innerHTML = po.notes;
 
+        fetch_camp_po_items_details(po.po_id);
+
+
     }
 
 
@@ -446,52 +468,56 @@ function populateProductForm(data) {
         }
         else if (currentPage === 'purchase-order-action.php') {
 
-            const receivedStatus = items.receivedStatus[i] || 'Not Updated';
-            const receivedQuantity = items.receivedQuantity[i] || '0';
-            const notes = items.notes[i] || 'No notes';
 
-            newRow.innerHTML = `
-                <td class="serial-number">${i + 1}</td>
-                <td><span>${items.name[i]}</span></td>
-                <td><span>${items.model_name[i]}</span></td>
-                <td><span>${items.quantity[i]}</span></td>
-                <td><span>${items.unit_price[i]}</span></td>
-                <td>
-    <span>Status: ${receivedStatus}</span><br>
-    <span>Quantity: ${receivedQuantity}</span><br>
-    <span>Notes: ${notes}</span><br>
-    ${receivedStatus === 'Pending' || receivedStatus === 'Partly Received' ? `
-        <button type="button" class="btn btn-warning btn-sm update-status-btn" 
-            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
-        <button type="button" class="btn btn-success btn-sm update-status-btn" 
-            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
-            data-quantity="${items.quantity[i]}">Fully Received</button>
-        <button type="button" class="btn btn-info btn-sm update-status-btn" 
-            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
-            data-original-quantity="${items.quantity[i]}">Partly Received</button>
-    ` : receivedStatus !== 'Fully Received' ? `
-        <button type="button" class="btn btn-secondary btn-sm show-update-options-btn" 
-            data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            data-itemkey="${items.item_id[i]}" data-status="${receivedStatus}">Update</button>
-        <div class="update-options" style="display: none;">
-            <button type="button" class="btn btn-warning btn-sm update-status-btn" 
-                data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-                data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
-            <button type="button" class="btn btn-success btn-sm update-status-btn" 
-                data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-                data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
-                data-quantity="${items.quantity[i]}">Fully Received</button>
-            <button type="button" class="btn btn-info btn-sm update-status-btn" 
-                data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-                data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
-                data-original-quantity="${items.quantity[i]}">Partly Received</button>
-        </div>
-    ` : ''}
-</td>
-            `;
+
+
+
+            //             const receivedStatus = items.receivedStatus[i] || 'Not Updated';
+            //             const receivedQuantity = items.receivedQuantity[i] || '0';
+            //             const notes = items.notes[i] || 'No notes';
+
+            //             newRow.innerHTML = `
+            //                 <td class="serial-number">${i + 1}</td>
+            //                 <td><span>${items.name[i]}</span></td>
+            //                 <td><span>${items.model_name[i]}</span></td>
+            //                 <td><span>${items.quantity[i]}</span></td>
+            //                 <td><span>${items.unit_price[i]}</span></td>
+            //                 <td>
+            //     <span>Status: ${receivedStatus}</span><br>
+            //     <span>Quantity: ${receivedQuantity}</span><br>
+            //     <span>Notes: ${notes}</span><br>
+            //     ${receivedStatus === 'Pending' || receivedStatus === 'Partly Received' ? `
+            //         <button type="button" class="btn btn-warning btn-sm update-status-btn" 
+            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //             data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
+            //         <button type="button" class="btn btn-success btn-sm update-status-btn" 
+            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //             data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
+            //             data-quantity="${items.quantity[i]}">Fully Received</button>
+            //         <button type="button" class="btn btn-info btn-sm update-status-btn" 
+            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //             data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
+            //             data-original-quantity="${items.quantity[i]}">Partly Received</button>
+            //     ` : receivedStatus !== 'Fully Received' ? `
+            //         <button type="button" class="btn btn-secondary btn-sm show-update-options-btn" 
+            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //             data-itemkey="${items.item_id[i]}" data-status="${receivedStatus}">Update</button>
+            //         <div class="update-options" style="display: none;">
+            //             <button type="button" class="btn btn-warning btn-sm update-status-btn" 
+            //                 data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //                 data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
+            //             <button type="button" class="btn btn-success btn-sm update-status-btn" 
+            //                 data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //                 data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
+            //                 data-quantity="${items.quantity[i]}">Fully Received</button>
+            //             <button type="button" class="btn btn-info btn-sm update-status-btn" 
+            //                 data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
+            //                 data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
+            //                 data-original-quantity="${items.quantity[i]}">Partly Received</button>
+            //         </div>
+            //     ` : ''}
+            // </td>
+            //             `;
         }
 
         // Add event listeners for the new row
@@ -509,7 +535,7 @@ function populateProductForm(data) {
     }
 
     // Update serial numbers
-    updateSerialNumbers();
+    // updateSerialNumbers();
     // Recalculate total cost
     calculateTotalCost();
 
@@ -682,8 +708,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-        
-    
+
+
     // Dynamically add new rows
 
 });
@@ -705,7 +731,7 @@ function fetchRequestInfo(purchase_order) {
             .then(data => {
                 if (data.status === 'success') {
                     displayPurchaseOrderDetails(data);
-                    
+
                 } else {
                     document.getElementById('showPurchaseOrderDetails').innerHTML = '<p class="text-danger">No purchase order found.</p>';
                 }
@@ -721,7 +747,7 @@ function displayPurchaseOrderDetails(data) {
     const po = data.po;
     const items = data.items;
     document.getElementById('request_id').value = po.po_id;
-    
+
     let poDetails = `
             <table class="table table-striped table-hover">
                 <tr><th>PO Number</th><td>${po.po_number}</td></tr>
@@ -749,7 +775,7 @@ function displayPurchaseOrderDetails(data) {
                 </thead>
                 <tbody>
     `;
-    
+
     for (let i = 0; i < items.item_id.length; i++) {
         poDetails += `
             <tr>
@@ -762,9 +788,9 @@ function displayPurchaseOrderDetails(data) {
             </tr>
         `;
     }
-    
+
     poDetails += `</tbody></table>`;
-    
+
     document.getElementById('showPurchaseOrderDetails').innerHTML = poDetails;
 }
 
@@ -788,19 +814,215 @@ document.getElementById('updateActionsPurchaseOrder').addEventListener('submit',
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(responseData => {
-        if (responseData.success) {
-            alertify.success('Updated successfully');
-            populatePODataActions(); // Refresh the inventory list
-            // document.getElementById('submit_dispatch_info_form').reset(); // Reset form after submission
-        } else {
-            alertify.error(responseData.message || 'Failed to Update Info');
-        }
-    })
-    .catch(error => {
-        console.error('Error Updating Info:', error);
-        alertify.error('An unexpected error occurred.');
-    });
+        .then(response => response.json())
+        .then(responseData => {
+            if (responseData.success) {
+                alertify.success('Updated successfully');
+                populatePODataActions(); // Refresh the inventory list
+                // document.getElementById('submit_dispatch_info_form').reset(); // Reset form after submission
+            } else {
+                alertify.error(responseData.message || 'Failed to Update Info');
+            }
+        })
+        .catch(error => {
+            console.error('Error Updating Info:', error);
+            alertify.error('An unexpected error occurred.');
+        });
 });
 
+
+function fetch_camp_po_items_details(po_id) {
+    fetch(`./api/PO/fetch-camp_po_items_details.php?po_id=${po_id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const tbody = document.getElementById("product-rows");
+                tbody.innerHTML = ""; // Clear existing rows
+
+                data.data.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.classList.add('product-row');
+
+                    // Convert receivedDate format from "YYYY-MM-DD HH:MM:SS" to "YYYY-MM-DD"
+                    let formattedDate = item.receivedDate && item.receivedDate !== '0000-00-00 00:00:00'
+                        ? item.receivedDate.split(' ')[0] // Extract only YYYY-MM-DD
+                        : '';
+
+                    tr.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${item.product_name} --- ${item.model_name}</td>
+                        <td>
+                            <select name="isReceived" class="form-control isReceived" onchange="toggleDateInput(this)">
+                                <option value="no" ${item.isReceived === "no" ? "selected" : ""}>No</option>
+                                <option value="yes" ${item.isReceived === "yes" ? "selected" : ""}>Yes</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="date" name="receivedDate" class="form-control receivedDate" 
+                                value="${formattedDate}" ${item.isReceived === "yes" ? "" : "disabled"}>
+                        </td>
+                        <td>
+                            <div class="input-block mb-3 add-products">
+                                <input type="text" class="form-control serialNumber" name="serialNumber"
+                                    placeholder="Enter Serial Number" value="${item.serial_number || ""}" required>
+                                <button type="button" class="btn btn-primary generate-btn" 
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Generate Serial Number"
+                                    ${item.isReceived === "yes" ? "" : "disabled"} style="top: 5px !important; ">
+                                    <i class="fas fa-cogs"></i> <!-- Font Awesome icon -->
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary update-btn" data-id="${item.id}" disabled>Update</button>
+                        </td>
+                    `;
+
+
+
+                    tbody.appendChild(tr);
+
+
+                    const generateButton_2 = tr.querySelector('.generate-btn');
+                    new bootstrap.Tooltip(generateButton_2);
+            
+                    // Enable/disable generate button based on isReceived selection
+                    const selectElement_2 = tr.querySelector('.isReceived');
+                    selectElement_2.addEventListener('change', function () {
+                        generateButton_2.disabled = this.value !== "yes";
+                    });
+            
+                    // Attach change event listeners to enable/disable update button
+                    const row = tbody.lastElementChild;
+                    const selectElement = row.querySelector('.isReceived');
+                    const dateInput = row.querySelector('.receivedDate');
+                    const serialInput = row.querySelector('.serialNumber');
+                    const updateButton = row.querySelector('.update-btn');
+                    const generateButton = row.querySelector('.generate-btn');
+
+                    const initialValues = {
+                        isReceived: selectElement.value,
+                        receivedDate: dateInput.value,
+                        serialNumber: serialInput.value
+                    };
+
+                    function checkForChanges() {
+                        const hasChanges =
+                            selectElement.value !== initialValues.isReceived ||
+                            dateInput.value !== initialValues.receivedDate ||
+                            serialInput.value.trim() !== initialValues.serialNumber.trim();
+
+                        updateButton.disabled = !hasChanges;
+                    }
+
+                    selectElement.addEventListener('change', function () {
+                        toggleDateInput(selectElement);
+                        checkForChanges();
+                    });
+
+                    dateInput.addEventListener('input', checkForChanges);
+                    serialInput.addEventListener('input', checkForChanges);
+
+                    generateButton.addEventListener('click', function () {
+                        serialInput.value = generateSerialNumber();
+                        checkForChanges();
+                    });
+
+                    updateButton.addEventListener('click', function () {
+                        submitPoItem(updateButton);
+                    });
+                });
+
+            } else {
+                alertify.error("Failed to fetch PO details.");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching product details:", error);
+            alertify.error("An unexpected error occurred.");
+        });
+}
+
+// New Serial Number Generator Function
+function generateSerialNumber() {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const digits = "0123456789";
+
+    let prefix = "";
+    for (let i = 0; i < 3; i++) {
+        prefix += letters[Math.floor(Math.random() * letters.length)];
+    }
+
+    let randomDigits = "";
+    for (let i = 0; i < 4; i++) {
+        randomDigits += digits[Math.floor(Math.random() * digits.length)];
+    }
+
+    let suffix = "";
+    for (let i = 0; i < 3; i++) {
+        suffix += letters[Math.floor(Math.random() * letters.length)];
+    }
+
+    const year = new Date().getFullYear();
+    return `${prefix}-${randomDigits}-${suffix}-${year}`;
+}
+
+
+function toggleDateInput(selectElement) {
+    const row = selectElement.closest('tr');
+    const dateInput = row.querySelector('.receivedDate');
+    const serialInput = row.querySelector('.serialNumber');
+    const updateButton = row.querySelector('.update-btn');
+
+    if (selectElement.value === "yes") {
+        dateInput.disabled = false;
+        serialInput.required = true;
+        dateInput.required = true;
+    } else {
+        dateInput.disabled = true;
+        serialInput.required = false;
+        dateInput.required = false;
+        dateInput.value = ""; // Clear the date input when set to "No"
+    }
+
+    updateButton.disabled = true; // Reset button state when changing received status
+}
+
+// Function to handle form submission with validation
+function submitPoItem(button) {
+    const row = button.closest('tr');
+    const id = button.getAttribute('data-id');
+
+    const isReceived = row.querySelector('.isReceived').value;
+    const receivedDate = row.querySelector('.receivedDate').value;
+    const serialNumber = row.querySelector('.serialNumber').value;
+
+    // Validation: If received = "yes", then date and serial number must be filled
+    if (isReceived === "yes" && (!receivedDate || !serialNumber.trim())) {
+        alertify.error("Received Date and Serial Number are required when status is 'Yes'.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("id", id);
+    formData.append("isReceived", isReceived);
+    formData.append("receivedDate", receivedDate);
+    formData.append("serialNumber", serialNumber);
+
+    fetch('./api/PO/purchse-order-to-stocks.php', {
+        method: "POST",
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alertify.success("Record updated successfully.");
+                button.disabled = true; // Disable button after successful update
+            } else {
+                alertify.error("Failed to update Record.");
+            }
+        })
+        .catch(error => {
+            console.error("Error updating Record:", error);
+            alertify.error("An unexpected error occurred.");
+        });
+}

@@ -19,6 +19,8 @@
 						<li><a href="roles-permission.php"><i class="fe fe-lock"></i> Roles & Permissions</a></li>
 						<li><a href="delete-account-request.php"><i class="fe fe-trash"></i> Delete Account Requests</a>
 						<li><a href="purchase-order-actions.php"><i class="fe fe-trash"></i> Purchase Orders</a>
+						<li><a href="customers.php"><i class="fe fe-trash"></i> Customers </a>
+						<li><a href="banks.php"><i class="fe fe-trash"></i> Banks </a>
 						</li>
 					</ul>
 				</li>
@@ -33,6 +35,17 @@
 						<li><a href="units.php"><i class="fe fe-box"></i> Units</a></li>
 					</ul>
 				</li>
+
+
+				<li class="submenu">
+					<a href="#"><i class="fe fe-package"></i> <span>BOQ Management</span> <span
+							class="menu-arrow"></span></a>
+					<ul style="display: none;">
+						<li><a href="boq-management.php"><i class="fe fe-list"></i> Add Boq</a></li>
+					</ul>
+				</li>
+				
+
 				<li><a href="couriers.php"><i class="fe fe-truck"></i> <span>Courier</span></a></li>
 
 				<li class="menu-title"><span>Inventory Management</span></li>

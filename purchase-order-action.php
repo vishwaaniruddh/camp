@@ -1,4 +1,4 @@
-<?php include('./header.php'); 
+<?php include('./header.php');
 
 $purchase_order = $_REQUEST['purchase-order'];
 ?>
@@ -8,7 +8,8 @@ $purchase_order = $_REQUEST['purchase-order'];
         display: none;
     }
 
-    label,th {
+    label,
+    th {
         font-weight: 700 !important;
     }
 </style>
@@ -76,8 +77,30 @@ $purchase_order = $_REQUEST['purchase-order'];
 
                         </div>
 
-
+                        <!-- New  -->
                         <div class="form-group-item">
+                            <label for="products">Products:</label>
+                            <table class="table table-bordered" id="product-table">
+                                <thead>
+                                    <tr>
+                                        <th>Sr No</th>
+                                        <th>Product --- Model</th>
+                                        <th>Is Received</th>
+                                        <th>Received Date</th>
+                                        <th>Serial Number</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="product-rows"></tbody>
+                            </table>
+
+                        </div>
+
+
+
+
+                        <!-- Old -->
+                        <!-- <div class="form-group-item">
                             <label for="products">Products:</label>
                             <table class="table table-bordered" id="product-table">
                                 <thead>
@@ -93,8 +116,10 @@ $purchase_order = $_REQUEST['purchase-order'];
                                     <tr class="product-row purchase-order-action">
                                         <td class="serial-number">1</td>
                                         <td><span class="form-control" name="product_name[]"></span></td>
-                                        <td><input type="number" class="form-control stock" name="quantity[]" required></td>
-                                        <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" required></td>
+                                        <td><input type="number" class="form-control stock" name="quantity[]" required>
+                                        </td>
+                                        <td><input type="number" step="0.01" class="form-control unit-cost"
+                                                name="unit_cost[]" required></td>
                                         <td>
                                             saa
                                         </td>
@@ -104,7 +129,7 @@ $purchase_order = $_REQUEST['purchase-order'];
                             </table>
 
 
-                        </div>
+                        </div> -->
 
                         <div class="row">
                             <div class="col-lg-4 col-md-6 col-sm-12">
@@ -128,8 +153,9 @@ $purchase_order = $_REQUEST['purchase-order'];
                         <!-- 'Pending','Approved','Fulfilled','Cancelled','Deleted' -->
                         <div class="text-end">
                             <a href="./purchase-orders.php" class="btn btn-primary cancel me-2"> Cancel </a>
-                            <a href="./pdf/generate-receipt.php?purchase-order=<?php echo $purchase_order; ?>" class="btn btn-primary"> Make Receipt </a>
-                            
+                            <a href="./pdf/generate-receipt.php?purchase-order=<?php echo $purchase_order; ?>"
+                                class="btn btn-primary"> Make Receipt </a>
+
                         </div>
                     </form>
                 </div>

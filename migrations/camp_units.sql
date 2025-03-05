@@ -1,9 +1,0 @@
-CREATE TABLE camp_units (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    unitname VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) NOT NULL,
-    parentunit INT DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    status ENUM('active', 'deleted') DEFAULT 'active'
-);
