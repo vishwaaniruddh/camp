@@ -2,9 +2,9 @@
 
 return [
     "base_url" => "http://localhost/camp/api",
-    
+
     "apis" => [
-       
+
         [
             "group" => "Banks",
             "endpoints" => [
