@@ -1,6 +1,10 @@
 <?php session_start();
 date_default_timezone_set('Asia/Kolkata');
 
+header("Access-Control-Allow-Origin: *"); // Allow all origins
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Allowed headers
+
+
 error_reporting(0);
 // ini_set('display_errors', 1);
 // ini_set('display_startup_errors', 1);
@@ -55,3 +59,6 @@ function logChange($conn, $tableName, $recordId, $previousState, $newState, $use
 
     $stmt->close();
 }
+
+$userid = 1;
+$username = 'Aniruddh Vishwakarma';

@@ -21,6 +21,7 @@
 						<li><a href="purchase-order-actions.php"><i class="fe fe-trash"></i> Purchase Orders</a>
 						<li><a href="customers.php"><i class="fe fe-trash"></i> Customers </a>
 						<li><a href="banks.php"><i class="fe fe-trash"></i> Banks </a>
+						<li><a href="couriers.php"><i class="fe fe-truck"></i> Courier</a></li>
 						</li>
 					</ul>
 				</li>
@@ -35,23 +36,14 @@
 						<li><a href="units.php"><i class="fe fe-box"></i> Units</a></li>
 					</ul>
 				</li>
+				<li><a href="boq-management.php"><i class="fe fe-list"></i> <span>BOQ Management</span></a></li>
+				<li><a href="customer-purchase-order.php"><i class="fe fe-list"></i> <span>Customer Purchase Orders</span></a></li>
 
 
-				<li class="submenu">
-					<a href="#"><i class="fe fe-package"></i> <span>BOQ Management</span> <span
-							class="menu-arrow"></span></a>
-					<ul style="display: none;">
-						<li><a href="boq-management.php"><i class="fe fe-list"></i> Add Boq</a></li>
-					</ul>
-				</li>
-				
-
-				<li><a href="couriers.php"><i class="fe fe-truck"></i> <span>Courier</span></a></li>
 
 				<li class="menu-title"><span>Inventory Management</span></li>
 				<li class="submenu">
-					<a href="#"><i class="fe fe-box"></i> <span>Inventory</span> <span
-							class="menu-arrow"></span></a>
+					<a href="#"><i class="fe fe-box"></i> <span>Inventory</span> <span class="menu-arrow"></span></a>
 					<ul style="display: none;">
 						<li><a href="inventory.php"><i class="fe fe-box"></i> Stock Overview</a></li>
 						<li><a href="incoming_request.php"><i class="fe fe-file-text"></i> Material Requests</a></li>
@@ -91,8 +83,10 @@
 
 				<!-- Purchases -->
 				<li class="menu-title"><span>Purchases</span></li>
+
 				<li><a href="add-purchase-orders.php"><i class="fe fe-plus-circle"></i> <span>Add Purchase
 							Order</span></a></li>
+
 				<li><a href="purchase-orders.php"><i class="fe fe-list"></i> <span>View Purchase Orders</span></a></li>
 				<li><a href="#"><i class="fe fe-file-text"></i> <span>Debit Notes (Coming Soon)</span></a></li>
 
@@ -122,22 +116,22 @@
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    let currentPage = window.location.pathname.split("/").pop(); // Get the current page filename
-    let menuItems = document.querySelectorAll("#sidebar-menu ul li a"); 
+	document.addEventListener("DOMContentLoaded", function () {
+		let currentPage = window.location.pathname.split("/").pop(); // Get the current page filename
+		let menuItems = document.querySelectorAll("#sidebar-menu ul li a");
 
-    menuItems.forEach(item => {
-        if (item.getAttribute("href") === currentPage) {
-            item.classList.add("active"); // Highlight active menu item
-            let parentUl = item.closest("ul");
-            if (parentUl) {
-                parentUl.style.display = "block"; // Keep parent submenu open
-                let parentLi = parentUl.closest(".submenu");
-                if (parentLi) {
-                    parentLi.classList.add("active"); // Highlight the submenu title
-                }
-            }
-        }
-    });
-});
+		menuItems.forEach(item => {
+			if (item.getAttribute("href") === currentPage) {
+				item.classList.add("active"); // Highlight active menu item
+				let parentUl = item.closest("ul");
+				if (parentUl) {
+					parentUl.style.display = "block"; // Keep parent submenu open
+					let parentLi = parentUl.closest(".submenu");
+					if (parentLi) {
+						parentLi.classList.add("active"); // Highlight the submenu title
+					}
+				}
+			}
+		});
+	});
 </script>

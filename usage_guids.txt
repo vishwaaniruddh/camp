@@ -1,0 +1,3 @@
+for swagger UI run this command
+php api/generate_openapi.php in cmd
+from root 

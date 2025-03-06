@@ -4553,6 +4553,7 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 .table tbody tr td {
   border-color: #dee2e6;
+  white-space: normal;
 }
 .table tbody td h2 {
   display: inline-block;

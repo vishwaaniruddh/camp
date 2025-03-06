@@ -1,6 +1,7 @@
 {
     "require": {
         "phpoffice/phpspreadsheet": "^3.9",
-        "tecnickcom/tcpdf": "*"
+        "tecnickcom/tcpdf": "*",
+        "zircote/swagger-php": "^5.0"
     }
 }

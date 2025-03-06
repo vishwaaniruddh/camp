@@ -14,7 +14,7 @@
             <!-- Page Header -->
             <div class="page-header">
                 <div class="content-page-header">
-                    <h5>Customer Purchase Order (PO)</h5>
+                    <h5>Purchase Order (PO)</h5>
                 </div>
             </div>
 
