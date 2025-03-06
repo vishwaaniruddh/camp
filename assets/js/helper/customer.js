@@ -178,6 +178,7 @@ function fetchcustomerData(customerId) {
                 const customer = data.customer;
                 document.querySelector("#editcustomerForm input[name='customer_id']").value = customer.id || "";
                 document.querySelector("#editcustomerForm input[name='name']").value = customer.name || "";
+                document.querySelector("#customer_status").value = customer.status || "";
             } else {
                 alertify.error('Failed to fetch customer details');
             }
