@@ -178,6 +178,7 @@ function fetchbankData(bankId) {
                 const bank = data.bank;
                 document.querySelector("#editbankForm input[name='bank_id']").value = bank.id || "";
                 document.querySelector("#editbankForm input[name='name']").value = bank.name || "";
+                document.querySelector("#bank_status").value = bank.status || "";
             } else {
                 alertify.error('Failed to fetch bank details');
             }
