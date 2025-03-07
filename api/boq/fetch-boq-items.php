@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $response = [
             "status" => "success",
             "boq_number" => $boq_number,
+            "boq_id"=>$boq_id,
             "items" => $items
         ];
     } else {

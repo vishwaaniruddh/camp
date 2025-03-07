@@ -76,7 +76,7 @@ function fetchCustomerPurchaseOrders() {
                                     ${order.status}
                                 </span>
                             </td>
-                            <td>
+                            <td style="display: flex;">
                                 <a href="./edit-customer-purchase-orders.php?purchase_order_id=${order.id}" class="btn-action-icon me-2 edit-po-btn" data-courier-id="${order.id}"><i class="far fa-edit"></i></a>
                                 <a href="javascript:void(0);" class="btn-action-icon delete-customer-po-btn" data-purchase-order="${order.id}"><i class="fe fe-trash-2"></i></a>
 

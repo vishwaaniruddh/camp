@@ -114,18 +114,10 @@
                                     <tr>
                                         <th>Item Name</th>
                                         <th>Quantity</th>
-                                        <th>Action</th>
+                                        <th>Unit Price</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <!-- First row -->
-                                    <tr>
-                                        <td><input type="text" class="form-control" name="item_name[]"
-                                                placeholder="Enter item name"></td>
-                                        <td><input type="number" class="form-control" name="quantity[]" min="1"
-                                                value="1"></td>
-                                        <td></td>
-                                    </tr>
+                                <tbody id="product-rows">
                                 </tbody>
                             </table>
                             <button type="button" class="btn btn-success" id="addRow"><i class="fa fa-plus"></i> Add

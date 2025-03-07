@@ -12,13 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode($response);
         exit;
     }
-
+    
+    // $boqID = $inputData['boqID'];
     $boq_number = $inputData['boq_number'];
     $item_name = $inputData['item_name'];
     $quantity = intval($inputData['quantity']);
 
-    $stmt = $conn->prepare("INSERT INTO camp_boq_items (boq_id, spare_name, quantity) VALUES ((SELECT id FROM camp_boq_master WHERE boq_number = ?), ?, ?)");
-    $stmt->bind_param("ssi", $boq_number, $item_name, $quantity);
+    $stmt = $conn->prepare("INSERT INTO camp_boq_items (boq_id, spare_name, quantity) VALUES ((SELECT id FROM camp_boq_master WHERE id = ?), ?, ?)");
+    $stmt->bind_param("isi", $boq_number, $item_name, $quantity);
     
     if ($stmt->execute()) {
         $response = ["status" => "success", "message" => "Item added successfully"];

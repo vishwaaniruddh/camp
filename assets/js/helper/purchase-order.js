@@ -1,5 +1,71 @@
-
 document.addEventListener("DOMContentLoaded", function () {
+
+
+    const currentPage = window.location.pathname.split('/').pop();
+    if (currentPage === 'add-purchase-orders.php') {
+
+        const poTypeSelect = document.getElementById("po_type");
+        const customerPoContainer = document.getElementById("customer_po_container");
+        const customerPoSelect = document.getElementById("customer_po_select");
+        const poNumberInput = document.querySelector("input[name='po_number']");
+        const generateCodeButton = document.querySelector(".add-products button");
+    
+        if (!poTypeSelect || !customerPoContainer || !customerPoSelect || !poNumberInput || !generateCodeButton) {
+            console.error("Required elements not found!");
+            return;
+        }
+    
+        // Function to fetch customer purchase orders
+        function fetchCustomerPurchaseOrders() {
+            fetch("./api/customer-purchase-order/fetch-customer-purchase-orders.php")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success" && Array.isArray(data.orders)) {
+                        customerPoSelect.innerHTML = '<option value="">Select Purchase Order</option>';
+                        data.orders.forEach(order => {
+                            customerPoSelect.innerHTML += `<option value="${order.id}" data-po-number="${order.po_number}">${order.po_number}</option>`;
+                        });
+                    } else {
+                        console.error("Failed to fetch purchase orders:", data.message);
+                    }
+                })
+                .catch(error => console.error("Error fetching purchase orders:", error));
+        }
+    
+        // Event listener for Purchase Order Type selection change
+        poTypeSelect.addEventListener("change", function () {
+            if (this.value === "customer_po") {
+                customerPoContainer.style.display = "block";
+                fetchCustomerPurchaseOrders(); // Fetch orders when customer PO is selected
+            } else {
+                customerPoContainer.style.display = "none";
+                customerPoSelect.innerHTML = '<option value="">Select</option>'; // Reset options
+                poNumberInput.value = ""; // Clear PO number input
+                generateCodeButton.disabled = false; // Enable generate button
+            }
+        });
+    
+        // Event listener for customer PO selection change
+        customerPoSelect.addEventListener("change", function () {
+            const selectedOption = customerPoSelect.options[customerPoSelect.selectedIndex];
+            const selectedPoNumber = selectedOption.getAttribute("data-po-number") || "";
+    
+            if (selectedPoNumber) {
+                poNumberInput.value = selectedPoNumber; // Set PO number input
+                generateCodeButton.disabled = true; // Disable generate button
+            } else {
+                poNumberInput.value = ""; // Clear input
+                generateCodeButton.disabled = false; // Enable generate button
+            }
+        });
+
+
+
+
+
+
+    }
+
 
     const urlParams = new URLSearchParams(window.location.search);
     const purchase_order = urlParams.get('purchase-order');
@@ -50,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+// Event listener for Purchase Order Type selection change
 
 
 function generatePONumber() {
@@ -884,13 +951,13 @@ function fetch_camp_po_items_details(po_id) {
 
                     const generateButton_2 = tr.querySelector('.generate-btn');
                     new bootstrap.Tooltip(generateButton_2);
-            
+
                     // Enable/disable generate button based on isReceived selection
                     const selectElement_2 = tr.querySelector('.isReceived');
                     selectElement_2.addEventListener('change', function () {
                         generateButton_2.disabled = this.value !== "yes";
                     });
-            
+
                     // Attach change event listeners to enable/disable update button
                     const row = tbody.lastElementChild;
                     const selectElement = row.querySelector('.isReceived');

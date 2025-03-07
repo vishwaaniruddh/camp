@@ -22,11 +22,35 @@
                 <div class="col-sm-12">
                     <form id="addPoFormData" enctype="multipart/form-data">
                         <div class="row">
+
+
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="input-block mb-3">
+                                    <label for="po_type">Purchase Order Type:</label>
+                                    <select class="form-select" name="po_type" id="po_type" required>
+                                        <option value="">Select</option>
+                                        <option value="customer_po">Customer Purchase Order</option>
+                                        <option value="internal_po">Internal Purchase Order</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-sm-12 customer_po" id="customer_po_container"
+                                style="display: none;">
+                                <div class="input-block mb-3">
+                                    <label for="customer_po_select">Select Purchase Order:</label>
+                                    <select class="form-select" name="customer_po" id="customer_po_select" required>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
                             <div class="col-lg-4 col-md-6 col-sm-12">
                                 <div class="input-block mb-3 add-products">
                                     <label>Purchase Order Number</label>
-                                    <input type="text" class="form-control" name="po_number"
-                                        placeholder="Enter PO Code" required>
+                                    <input type="text" class="form-control" name="po_number" placeholder="Enter PO Code"
+                                        required>
                                     <button type="button" class="btn btn-primary" onclick="generatePONumber()">Generate
                                         Code</button>
                                 </div>
@@ -77,9 +101,10 @@
                                     <tr class="product-row">
                                         <td class="serial-number">1</td>
                                         <td>
-                                        <select class="form-control product_name_model" name="product_name[]" required></select>
-    
-                                             </td>
+                                            <select class="form-control product_name_model" name="product_name[]"
+                                                required></select>
+
+                                        </td>
                                         <td><input type="number" class="form-control stock" name="quantity[]" required>
                                         </td>
                                         <td><input type="number" step="0.01" class="form-control unit-cost"

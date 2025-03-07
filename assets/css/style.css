@@ -26672,3 +26672,9 @@ td .invoice-detail i {
       --bs-modal-width: 1200px;
   }
 }
+
+
+input[readonly], select[readonly] {
+  background: #8b8888;
+  color: white;
+}
