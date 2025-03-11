@@ -12,7 +12,7 @@ $name = isset($_GET['name']) ? $_GET['name'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Build the SQL query with filters
-$sql = "SELECT * FROM camp_categories WHERE 1=1";
+$sql = "SELECT * FROM camp_customers WHERE 1=1";
 
 if ($name !== '') {
     $sql .= " AND name LIKE '%" . $conn->real_escape_string($name) . "%'";
@@ -30,16 +30,16 @@ $sql .= " order by id desc LIMIT $limit OFFSET $offset";
 
 $result = $conn->query($sql);
 
-$categories = [];
+$banks = [];
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $categories[] = $row;
+        $banks[] = $row;
     }
 }
 
 echo json_encode([
     'success' => true,
-    'categories' => $categories,
+    'customer' => $banks,
     'pagination' => [
         'total_pages' => $totalPages,
         'current_page' => $page

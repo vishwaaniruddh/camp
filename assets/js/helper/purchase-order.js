@@ -1,6 +1,34 @@
 document.addEventListener("DOMContentLoaded", function () {
 
 
+    function calculateTotalCost() {
+
+        setTimeout(() => {
+            console.log('trigger calculateTotalCost');
+            let totalCost = 0;
+
+            document.querySelectorAll('.product-row').forEach(row => {
+                const stockElement = row.querySelector('.stock');
+                const unitCostElement = row.querySelector('.unit-cost');
+
+                if (stockElement && unitCostElement) {
+                    const stock = parseFloat(stockElement.value) || 0;
+                    const unitCost = parseFloat(unitCostElement.value) || 0;
+                    totalCost += stock * unitCost;
+                }
+            });
+
+            const totalCostElement = document.getElementById('total_cost');
+            if (totalCostElement) {
+                totalCostElement.value = totalCost.toFixed(2);
+            } else {
+                console.error('Error: Total cost element not found.');
+            }
+        }, 1000);
+
+
+    }
+
     const currentPage = window.location.pathname.split('/').pop();
     if (currentPage === 'add-purchase-orders.php') {
 
@@ -9,12 +37,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const customerPoSelect = document.getElementById("customer_po_select");
         const poNumberInput = document.querySelector("input[name='po_number']");
         const generateCodeButton = document.querySelector(".add-products button");
-    
+
         if (!poTypeSelect || !customerPoContainer || !customerPoSelect || !poNumberInput || !generateCodeButton) {
             console.error("Required elements not found!");
             return;
         }
-    
+
         // Function to fetch customer purchase orders
         function fetchCustomerPurchaseOrders() {
             fetch("./api/customer-purchase-order/fetch-customer-purchase-orders.php")
@@ -31,40 +59,145 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .catch(error => console.error("Error fetching purchase orders:", error));
         }
-    
+
         // Event listener for Purchase Order Type selection change
+
         poTypeSelect.addEventListener("change", function () {
             if (this.value === "customer_po") {
                 customerPoContainer.style.display = "block";
                 fetchCustomerPurchaseOrders(); // Fetch orders when customer PO is selected
+
+                document.getElementById("internal_po_container").style.display = "none";
+                document.getElementById("customer_purchase_order").style.display = "block";
             } else {
                 customerPoContainer.style.display = "none";
                 customerPoSelect.innerHTML = '<option value="">Select</option>'; // Reset options
                 poNumberInput.value = ""; // Clear PO number input
                 generateCodeButton.disabled = false; // Enable generate button
+
+                document.getElementById("internal_po_container").style.display = "block";
+                document.getElementById("customer_purchase_order").style.display = "none";
+
+                // Fetch products from API and populate the select dropdown
+                fetch("./api/products/fetch-products.php")
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success === true) {
+                            let productOptions = '<option value="">Select Product</option>';
+                            data.products.forEach((product) => {
+                                productOptions += `<option value="${product.name}  ---  ${product.model}" data-cost="${product.purchase_price}">${product.name}  ---  ${product.model}</option>`;
+                            });
+
+                            let internalHtml = `
+                                <tr class="product-row">
+                                    <td class="serial-number">1</td>
+                                    <td>
+                                        <select class="form-control product_name_model" name="product_name[]" required>
+                                            ${productOptions}
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control stock" name="quantity[]" required></td>
+                                    <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" required></td>
+                                    <td>
+                                        <i class="fa fa-minus-circle me-1 remove-row"></i>
+                                    </td>
+                                </tr>
+                            `;
+
+                            let productRows = document.getElementById("product-rows");
+                            if (productRows) {
+                                productRows.innerHTML += internalHtml; // Append new row
+                            }
+                        } else {
+                            console.log("Failed to fetch products");
+                        }
+                    })
+                    .catch((error) => console.error("Error fetching products:", error));
             }
         });
-    
+
         // Event listener for customer PO selection change
         customerPoSelect.addEventListener("change", function () {
             const selectedOption = customerPoSelect.options[customerPoSelect.selectedIndex];
             const selectedPoNumber = selectedOption.getAttribute("data-po-number") || "";
-    
+
             if (selectedPoNumber) {
                 poNumberInput.value = selectedPoNumber; // Set PO number input
                 generateCodeButton.disabled = true; // Disable generate button
+                poNumberInput.setAttribute("readonly", true);
+
             } else {
                 poNumberInput.value = ""; // Clear input
                 generateCodeButton.disabled = false; // Enable generate button
+                poNumberInput.removeAttribute("readonly");
+
+            }
+
+            console.log(poNumberInput.value);
+            console.log(selectedPoNumber);
+
+
+
+
+            fetchItemsForCustomerPurchaseOrder(selectedPoNumber)
+
+
+
+
+
+        });
+
+
+
+        document.querySelector("tbody").addEventListener("input", function (event) {
+            if (["stock", "product_name_model", "unit-cost"].some(cls => event.target.classList.contains(cls))) {
+                calculateTotalCost(event);
             }
         });
 
 
 
-
-
-
     }
+    else  if (currentPage === 'purchase-order-actions.php') {
+        document.getElementById('updateActionsPurchaseOrder').addEventListener('submit', function (event) {
+            event.preventDefault();
+    
+            console.log('purchase-order-actions.php')
+    
+            // Gather form data
+            const formData = new FormData(this);
+            let data = {};
+            formData.forEach((value, key) => {
+                data[key] = value.trim(); // Trim values to remove extra spaces
+            });
+    
+            // Send data using Fetch API
+            fetch('./api/PO/update-purchase-order-actions.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(responseData => {
+                    if (responseData.success) {
+                        alertify.success('Updated successfully');
+                        fetchAllPOs(); // Refresh the inventory list
+                        // document.getElementById('submit_dispatch_info_form').reset(); // Reset form after submission
+                    } else {
+                        alertify.error(responseData.message || 'Failed to Update Info');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error Updating Info:', error);
+                    // alertify.error('An unexpected error occurred.');
+                });
+        });
+    }
+
+
+
 
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -80,6 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (addPoFormData) {
         document.getElementById('add-row').addEventListener('click', function () {
+
             var productRow = document.querySelector('.product-row');
             var newRow = productRow.cloneNode(true);
             newRow.querySelectorAll('input').forEach(input => input.value = '');
@@ -88,8 +222,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 calculateTotalCost();
                 // updateSerialNumbers();
             });
-            newRow.querySelector('.stock').addEventListener('input', calculateTotalCost);
-            newRow.querySelector('.unit-cost').addEventListener('input', calculateTotalCost);
             document.getElementById('product-rows').appendChild(newRow);
             // updateSerialNumbers();
         });
@@ -119,10 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
 // Event listener for Purchase Order Type selection change
 
 
-function generatePONumber() {
-    const skuField = document.querySelector("input[name='po_number']");
-    skuField.value = 'CAMP-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-}
 
 
 function addPO() {
@@ -203,22 +331,6 @@ function fetchAllPOs() {
         });
 }
 
-function getStatusBadge(status) {
-    switch (status) {
-        case 'Pending':
-            return '<span class="badge bg-warning badge d-inline-flex align-items-center">Pending</span>';
-        case 'Approved':
-            return '<span class="badge bg-success d-inline-flex align-items-center">Approved</span>';
-        case 'Fulfilled':
-            return '<span class="badge bg-primary d-inline-flex align-items-center">Fulfilled</span>';
-        case 'Cancelled':
-            return '<span class="badge bg-danger d-inline-flex align-items-center">Cancelled</span>';
-        case 'Deleted':
-            return '<span class="badge bg-danger d-inline-flex align-items-center">Deleted</span>';
-        default:
-            return '<span class="badge bg-secondary d-inline-flex align-items-center">Unknown</span>';
-    }
-}
 
 
 
@@ -275,7 +387,7 @@ function populatePOData(categories) {
 
 
 function populatePODataActions(categories) {
-    console.log('this')
+    // console.log('this')
     const tableBody = document.querySelector("#purchaseOrderActionTableBody");
     tableBody.innerHTML = "";
     if (categories.length === 0) {
@@ -308,7 +420,7 @@ function populatePODataActions(categories) {
         document.querySelectorAll('.view-request-btn').forEach(button => {
             button.addEventListener('click', function () {
                 const requestId = this.getAttribute('data-request-id');
-                console.log('requestId')
+                console.log('requestId'+requestId)
                 viewRequestInfo(requestId);
             });
         });
@@ -339,38 +451,19 @@ function setupDeleteAction() {
 }
 
 function showNoDataMessage() {
+
     const tableBody = document.querySelector("#purchaseOrderTableBody");
+    if(tableBody){
+        tableBody.innerHTML = "<tr><td colspan='9' class='text-center'>No data available</td></tr>";
+    }else{
+    const tableBody = document.querySelector("#purchaseOrderActionTableBody");
+
     tableBody.innerHTML = "<tr><td colspan='9' class='text-center'>No data available</td></tr>";
-}
-
-// Example function to handle the delete action
-function calculateTotalCost() {
-    let totalCost = 0;
-    document.querySelectorAll('.product-row').forEach(row => {
-        const stockElement = row.querySelector('.stock');
-        const unitCostElement = row.querySelector('.unit-cost');
-
-        if (stockElement && unitCostElement) {
-            const stock = parseFloat(stockElement.value) || 0;
-            const unitCost = parseFloat(unitCostElement.value) || 0;
-            totalCost += stock * unitCost;
-        }
-    });
-
-    const totalCostElement = document.getElementById('total_cost');
-    if (totalCostElement) {
-        totalCostElement.value = totalCost.toFixed(2);
-    } else {
-        console.error('Error: Total cost element not found.');
+        
     }
 }
 
-// function updateSerialNumbers() {
-//     document.querySelectorAll('.product-row').forEach((row, index) => {
-//         row.querySelector('.serial-number').textContent = index + 1;
-//     });
-// }
-
+// Example function to handle the delete action
 
 
 document.querySelectorAll('.remove-row').forEach(button => {
@@ -381,9 +474,6 @@ document.querySelectorAll('.remove-row').forEach(button => {
     });
 });
 
-document.querySelectorAll('.stock, .unit-cost').forEach(input => {
-    input.addEventListener('input', calculateTotalCost);
-});
 
 // updateSerialNumbers();
 
@@ -491,7 +581,11 @@ function populateProductForm(data) {
         fetch_camp_po_items_details(po.po_id);
 
 
+      
     }
+    
+    
+    
 
 
     // Populate items
@@ -538,73 +632,14 @@ function populateProductForm(data) {
 
 
 
-
-            //             const receivedStatus = items.receivedStatus[i] || 'Not Updated';
-            //             const receivedQuantity = items.receivedQuantity[i] || '0';
-            //             const notes = items.notes[i] || 'No notes';
-
-            //             newRow.innerHTML = `
-            //                 <td class="serial-number">${i + 1}</td>
-            //                 <td><span>${items.name[i]}</span></td>
-            //                 <td><span>${items.model_name[i]}</span></td>
-            //                 <td><span>${items.quantity[i]}</span></td>
-            //                 <td><span>${items.unit_price[i]}</span></td>
-            //                 <td>
-            //     <span>Status: ${receivedStatus}</span><br>
-            //     <span>Quantity: ${receivedQuantity}</span><br>
-            //     <span>Notes: ${notes}</span><br>
-            //     ${receivedStatus === 'Pending' || receivedStatus === 'Partly Received' ? `
-            //         <button type="button" class="btn btn-warning btn-sm update-status-btn" 
-            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //             data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
-            //         <button type="button" class="btn btn-success btn-sm update-status-btn" 
-            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //             data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
-            //             data-quantity="${items.quantity[i]}">Fully Received</button>
-            //         <button type="button" class="btn btn-info btn-sm update-status-btn" 
-            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //             data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
-            //             data-original-quantity="${items.quantity[i]}">Partly Received</button>
-            //     ` : receivedStatus !== 'Fully Received' ? `
-            //         <button type="button" class="btn btn-secondary btn-sm show-update-options-btn" 
-            //             data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //             data-itemkey="${items.item_id[i]}" data-status="${receivedStatus}">Update</button>
-            //         <div class="update-options" style="display: none;">
-            //             <button type="button" class="btn btn-warning btn-sm update-status-btn" 
-            //                 data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //                 data-itemkey="${items.item_id[i]}" data-status="Pending">Pending</button>
-            //             <button type="button" class="btn btn-success btn-sm update-status-btn" 
-            //                 data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //                 data-itemkey="${items.item_id[i]}" data-status="Fully Received" 
-            //                 data-quantity="${items.quantity[i]}">Fully Received</button>
-            //             <button type="button" class="btn btn-info btn-sm update-status-btn" 
-            //                 data-po-id="${po.po_id}" data-po-number="${po.po_number}" 
-            //                 data-itemkey="${items.item_id[i]}" data-status="Partly Received" 
-            //                 data-original-quantity="${items.quantity[i]}">Partly Received</button>
-            //         </div>
-            //     ` : ''}
-            // </td>
-            //             `;
         }
 
         // Add event listeners for the new row
         if (currentPage === 'edit-purchase-orders.php') {
-            // newRow.querySelector('.remove-row').addEventListener('click', function () {
-            //     newRow.remove();
-            //     calculateTotalCost();
-            //     updateSerialNumbers();
-            // });
-            newRow.querySelector('.stock').addEventListener('input', calculateTotalCost);
-            newRow.querySelector('.unit-cost').addEventListener('input', calculateTotalCost);
         }
 
         productRows.appendChild(newRow);
     }
-
-    // Update serial numbers
-    // updateSerialNumbers();
-    // Recalculate total cost
-    calculateTotalCost();
 
     // Add event listeners for status update buttons
     document.querySelectorAll('.update-status-btn').forEach(button => {
@@ -747,6 +782,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.target.classList.contains("product_name_model")) {
             let selectedOption = event.target.selectedOptions[0];
             let unitCost = selectedOption.getAttribute("data-cost") || 0;
+            event.target.closest(".product-row").querySelector(".stock").value = 1;
             event.target.closest(".product-row").querySelector(".unit-cost").value = unitCost;
         }
     });
@@ -754,18 +790,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const currentPage = window.location.pathname.split('/').pop();
     if (currentPage === 'edit-purchase-orders.php' || currentPage === 'add-purchase-orders.php') {
 
+
+
+
         fetchVendors();
-        document.querySelector(".add-row").addEventListener("click", function () {
-            let firstRow = document.querySelector(".product-row");
-            let newRow = firstRow.cloneNode(true);
+        // document.getElementById("add-row").addEventListener("click", function () {
+        //     let firstRow = document.querySelector(".product-row");
+        //     let newRow = firstRow.cloneNode(true);
 
-            // Clear inputs
-            newRow.querySelectorAll("input").forEach(input => input.value = "");
+        //     // Clear inputs
+        //     newRow.querySelectorAll("input").forEach(input => input.value = "");
 
-            document.querySelector("table tbody").appendChild(newRow);
+        //     document.querySelector("table tbody").appendChild(newRow);
 
-            fetchCampProducts();
-        });
+        //     fetchCampProducts();
+        // });
 
         // Remove row
         document.addEventListener("click", function (event) {
@@ -774,11 +813,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-
-
-
-    // Dynamically add new rows
-
 });
 
 
@@ -863,39 +897,7 @@ function displayPurchaseOrderDetails(data) {
 
 // updateActionsPurchaseOrder
 
-document.getElementById('updateActionsPurchaseOrder').addEventListener('submit', function (event) {
-    event.preventDefault();
 
-    // Gather form data
-    const formData = new FormData(this);
-    let data = {};
-    formData.forEach((value, key) => {
-        data[key] = value.trim(); // Trim values to remove extra spaces
-    });
-
-    // Send data using Fetch API
-    fetch('./api/PO/update-purchase-order-actions.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(responseData => {
-            if (responseData.success) {
-                alertify.success('Updated successfully');
-                populatePODataActions(); // Refresh the inventory list
-                // document.getElementById('submit_dispatch_info_form').reset(); // Reset form after submission
-            } else {
-                alertify.error(responseData.message || 'Failed to Update Info');
-            }
-        })
-        .catch(error => {
-            console.error('Error Updating Info:', error);
-            alertify.error('An unexpected error occurred.');
-        });
-});
 
 
 function fetch_camp_po_items_details(po_id) {
@@ -917,7 +919,7 @@ function fetch_camp_po_items_details(po_id) {
 
                     tr.innerHTML = `
                         <td>${item.id}</td>
-                        <td>${item.product_name} --- ${item.model_name}</td>
+                        <td>${item.product_name}  ---  ${item.model_name}</td>
                         <td>
                             <select name="isReceived" class="form-control isReceived" onchange="toggleDateInput(this)">
                                 <option value="no" ${item.isReceived === "no" ? "selected" : ""}>No</option>
@@ -1010,28 +1012,6 @@ function fetch_camp_po_items_details(po_id) {
 }
 
 // New Serial Number Generator Function
-function generateSerialNumber() {
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const digits = "0123456789";
-
-    let prefix = "";
-    for (let i = 0; i < 3; i++) {
-        prefix += letters[Math.floor(Math.random() * letters.length)];
-    }
-
-    let randomDigits = "";
-    for (let i = 0; i < 4; i++) {
-        randomDigits += digits[Math.floor(Math.random() * digits.length)];
-    }
-
-    let suffix = "";
-    for (let i = 0; i < 3; i++) {
-        suffix += letters[Math.floor(Math.random() * letters.length)];
-    }
-
-    const year = new Date().getFullYear();
-    return `${prefix}-${randomDigits}-${suffix}-${year}`;
-}
 
 
 function toggleDateInput(selectElement) {
@@ -1092,4 +1072,78 @@ function submitPoItem(button) {
             console.error("Error updating Record:", error);
             alertify.error("An unexpected error occurred.");
         });
+}
+
+function fetchItemsForCustomerPurchaseOrder(order) {
+    fetch(`./api/customer-purchase-order/fetch-overall-items.php?customer_purchase_order_id=${order}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                const table = document.querySelector("#customer_purchase_order #product-table");
+
+                document.getElementById("isCustomerPurchaseOrder").value = data.isCustomerPurchaseOrder;
+                document.getElementById("customerPurchaseOrderId").value = data.customerPurchaseOrderId;
+                document.getElementById("customerPurchaseOrderNumber").value = data.customerPurchaseOrderNumber;
+
+
+
+
+                // Check if products exist
+                if (data.products.length === 0) {
+                    table.innerHTML = "<tr><td colspan='2' class='text-center'>No products found</td></tr>";
+                    return;
+                }
+
+                // Build table headers
+                let tableHTML = `
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                let grandTotalCost = 0; // Initialize grand total
+
+
+                // Loop through products and populate table rows
+                data.products.forEach(product => {
+                    const totalCost = product.quantity * product.unit_price; // Calculate total cost for each product
+                    grandTotalCost += totalCost; // Add to grand total
+
+                    tableHTML += `
+        <tr>
+            <td>
+                <input type="text" name="product_name[]" class="form-control product_name_model" value="${product.spare_name}" required readonly />
+            </td>
+            <td>
+                <input type="number" class="form-control stock" name="quantity[]" value="${product.quantity}" required readonly>
+            </td>
+            <td>
+                <input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" value="${product.unit_price}" required >
+            </td>
+            <td>
+                <input type="number" step="0.01" class="form-control total_unit_cost" name="total_unit_cost[]" value="${totalCost.toFixed(2)}" required readonly>
+            </td>
+        </tr>
+    `;
+                });
+
+
+                tableHTML += "</tbody>";
+                table.innerHTML = tableHTML;
+
+                document.getElementById('total_cost').value = grandTotalCost.toFixed(2);
+
+
+
+            } else {
+                alertify.error("Failed to fetch purchase order items.");
+            }
+        })
+        .catch(error => console.error("Error fetching items:", error));
 }

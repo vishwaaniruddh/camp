@@ -9916,9 +9916,16 @@ table .badge {
 }
 
 .input-block input.form-control {
-  color: #3F4254;
+  color: black;
   font-size: 14px;
 }
+
+.input-block input.form-control[readonly] {
+  background: #8b8888;
+  color: white;
+
+}
+
 
 .description-box .note-fullscreen, .description-box .note-fontname, .description-box .note-undo, .description-box .note-redo, .description-box .note-fontsize, .description-box .note-para {
   display: none;
@@ -26677,4 +26684,8 @@ td .invoice-detail i {
 input[readonly], select[readonly] {
   background: #8b8888;
   color: white;
+}
+
+.grid-item label{
+  margin-bottom: 0;
 }

@@ -611,6 +611,7 @@ include('./config.php'); ?>
 	<link rel="stylesheet" href="assets/plugins/alertify/alertify.min.css">
 
 	<script src="./components/validation.js"></script>
+	<script src="./assets/js/helper/main.js"></script>
 
 </head>
 

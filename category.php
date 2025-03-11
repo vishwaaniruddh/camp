@@ -8,26 +8,16 @@
 			<h5>Category </h5>
 			<div class="list-btn">
 				<ul class="filter-list">
-					<li>
-						<a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg" alt="filter"></span>Filter </a>
+				<li>
+						<a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="filter"><span class="me-2"><img src="assets/img/icons/filter-icon.svg" alt="filter"></span>Filter </a>
 					</li>
+
+
 					<li class="">
-						<div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Download">
-							<a href="#" class="btn-filters" data-bs-toggle="dropdown" aria-expanded="false"><span><i class="fe fe-download"></i></span></a>
-							<div class="dropdown-menu dropdown-menu-right">
-								<ul class="d-block">
-									<li>
-										<a class="d-flex align-items-center download-item" href="javascript:void(0);" download><i class="far fa-file-pdf me-2"></i>PDF</a>
-									</li>
-									<li>
-										<a class="d-flex align-items-center download-item" href="javascript:void(0);" download><i class="far fa-file-text me-2"></i>CVS</a>
-									</li>
-								</ul>
-							</div>
+						<div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="download">
+							<a href="javascript:void(0);" id="downloadCSV" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
+
 						</div>
-					</li>
-					<li>
-						<a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Print"><span><i class="fe fe-printer"></i></span> </a>
 					</li>
 					<li>
 						<a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add_category"><i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Category</a>
@@ -104,6 +94,9 @@
 
 							</tbody>
 						</table>
+
+						<div id="pagination" class="pagination-container"></div>
+
 					</div>
 				</div>
 			</div>
@@ -240,6 +233,49 @@
 	</div>
 </div>
 <!-- /Delete Items Modal -->
+
+
+<?php
+$names = $conn->query("SELECT DISTINCT name FROM camp_categories")->fetch_all(MYSQLI_ASSOC);
+$statuses = $conn->query("SELECT DISTINCT status FROM camp_categories")->fetch_all(MYSQLI_ASSOC);
+?>
+
+
+<div class="toggle-sidebar">
+    <div class="sidebar-layout-filter">
+        <div class="sidebar-header">
+            <h5>Filter</h5>
+            <a href="#" class="sidebar-closes"><i class="fa-regular fa-circle-xmark"></i></a>
+        </div>
+        <div class="sidebar-body">
+            <div class="filters">
+                <div class="form-custom mb-3">
+                    <input type="text" class="form-control" id="filterName" list="nameList" placeholder="Filter by Name">
+                    <span><img src="assets/img/icons/search.svg" alt="img"></span>
+					<datalist id="nameList">
+                        <?php foreach ($names as $name): ?>
+                            <option value="<?php echo htmlspecialchars($name['name']); ?>">
+                        <?php endforeach; ?>
+                    </datalist>
+                </div>
+
+             
+
+                <div class="form-custom mb-3">
+                    <select class="form-select" id="filterStatus">
+                        <option value="">Filter by Status</option>
+                        <?php foreach ($statuses as $status): ?>
+                            <option value="<?php echo htmlspecialchars($status['status']); ?>"><?php echo ucwords(htmlspecialchars($status['status'])); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+			    </div>
+
+                <button id="applyFilters" class="btn btn-primary">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="./assets/js/helper/category.js"></script>
 <?php include('./footer.php'); ?>

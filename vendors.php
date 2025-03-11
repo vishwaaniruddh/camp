@@ -14,7 +14,7 @@
 
 					<li class="">
 						<div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" title="download">
-							<a href="javascript:void(0);" id="downloadExcel" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
+							<a href="javascript:void(0);" id="downloadCSV" class="btn-filters download-item"><span><i class="fe fe-download"></i></span></a>
 
 						</div>
 					</li>

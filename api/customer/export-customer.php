@@ -8,36 +8,24 @@ include('../config.php');
 
 // Set headers for CSV download
 header('Content-Type: text/csv; charset=UTF-8');
-header('Content-Disposition: attachment; filename="CAMP_VENDOR_DATA.csv"');
+header('Content-Disposition: attachment; filename="CAMP_CUSTOMER_Data.csv"');
 header('Cache-Control: max-age=0');
 
 // Open output stream
 $output = fopen('php://output', 'w');
 
 // Add CSV column headers
-fputcsv($output, ['ID', 'Name', 'Email', 'Phone', 'Address', 'Status', 'Created At']);
+fputcsv($output, ['ID', 'Name', 'Created At']);
 
 // Get filter parameters
 $name = isset($_GET['name']) ? $_GET['name'] : '';
-$phone = isset($_GET['phone']) ? $_GET['phone'] : '';
-$email = isset($_GET['email']) ? $_GET['email'] : '';
-$gstin = isset($_GET['gstin']) ? $_GET['gstin'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Build the SQL query with filters
-$sql = "SELECT * FROM camp_vendors WHERE 1=1";
+$sql = "SELECT * FROM camp_customers WHERE 1=1";
 
 if ($name !== '') {
     $sql .= " AND name LIKE '%" . $conn->real_escape_string($name) . "%'";
-}
-if ($phone !== '') {
-    $sql .= " AND phone LIKE '%" . $conn->real_escape_string($phone) . "%'";
-}
-if ($email !== '') {
-    $sql .= " AND email LIKE '%" . $conn->real_escape_string($email) . "%'";
-}
-if ($gstin !== '') {
-    $sql .= " AND gstin LIKE '%" . $conn->real_escape_string($gstin) . "%'";
 }
 if ($status !== '') {
     $sql .= " AND status = '" . $conn->real_escape_string($status) . "'";
@@ -51,10 +39,6 @@ if ($result->num_rows > 0) {
         fputcsv($output, [
             $row['id'],
             $row['name'],
-            $row['email'],
-            $row['phone'],
-            $row['address'],
-            $row['status'],
             $row['created_at']
         ]);
     }

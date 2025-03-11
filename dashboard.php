@@ -22,7 +22,7 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 							<i class="fas fa-dollar-sign"></i>
 						</span>
 						<div class="dash-count">
-							<div class="dash-title">Total Produts</div>
+							<div class="dash-title">Total Quantity</div>
 							<div class="dash-counts">
 								<p><?php echo $inv_count; ?></p>
 							</div>

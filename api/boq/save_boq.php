@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!empty($items)) {
             $stmt = mysqli_prepare($conn, "INSERT INTO camp_boq_items (boq_id, spare_name, quantity) VALUES (?, ?, ?)");
             foreach ($items as $item) {
-                $spare_name = trim($item['item_name']); // Convert item_name to spare_name
+                $spare_name = ($item['item_name']); // Convert item_name to spare_name
                 $quantity = intval($item['quantity']);
                 mysqli_stmt_bind_param($stmt, "isi", $boq_id, $spare_name, $quantity);
                 if (!mysqli_stmt_execute($stmt)) {

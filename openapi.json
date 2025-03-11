@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "CAMP API's",
+        "title": "My PHP API",
         "version": "1.0.0",
         "description": "API documentation"
     },
@@ -9,13 +9,30 @@
         {
             "url": "http:\/\/localhost\/camp\/api",
             "description": "Local Server"
-        },
-        {
-            "url": "https://sarsspl.com/css/dash/esir/camp/api/",
-            "description": "Live Server"
         }
     ],
     "paths": {
+        "\/bank\/add-bank.php": {
+            "post": {
+                "tags": [
+                    "Banks"
+                ],
+                "summary": "Add Banks",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application\/json": {
+                                "example": {
+                                    "message": "Response from \/bank\/add-bank.php"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "\/bank\/fetch-banks.php": {
             "get": {
                 "tags": [
@@ -36,152 +53,12 @@
                     }
                 }
             }
-        },
-        "\/customer-purchase-order\/create-purchase-order.php": {
-            "post": {
-                "tags": [
-                    "Customer Purchase Order"
-                ],
-                "summary": "Create a new purchase order",
-                "parameters": [
-                    {
-                        "name": "customer_id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "description": "Customer ID"
-                    },
-                    {
-                        "name": "order_items",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array"
-                        },
-                        "description": "List of items"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application\/json": {
-                                "example": {
-                                    "message": "Response from \/customer-purchase-order\/create-purchase-order.php"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "\/customer-purchase-order\/fetch-customer-purchase-orders.php": {
-            "get": {
-                "tags": [
-                    "Customer Purchase Order"
-                ],
-                "summary": "Fetch all customer purchase orders",
-                "parameters": [
-                    {
-                        "name": "customer_id",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "description": "Customer ID"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application\/json": {
-                                "example": {
-                                    "message": "Response from \/customer-purchase-order\/fetch-customer-purchase-orders.php"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "\/inventory\/get-stock.php": {
-            "get": {
-                "tags": [
-                    "Inventory"
-                ],
-                "summary": "Get stock details",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application\/json": {
-                                "example": {
-                                    "message": "Response from \/inventory\/get-stock.php"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "\/inventory\/update-stock.php": {
-            "post": {
-                "tags": [
-                    "Inventory"
-                ],
-                "summary": "Update stock",
-                "parameters": [
-                    {
-                        "name": "item_id",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "description": "Item ID"
-                    },
-                    {
-                        "name": "quantity",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "description": "New stock quantity"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application\/json": {
-                                "example": {
-                                    "message": "Response from \/inventory\/update-stock.php"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "tags": [
         {
             "name": "Banks",
             "description": "APIs related to Banks"
-        },
-        {
-            "name": "Customer Purchase Order",
-            "description": "APIs related to Customer Purchase Order"
-        },
-        {
-            "name": "Inventory",
-            "description": "APIs related to Inventory"
         }
     ]
 }

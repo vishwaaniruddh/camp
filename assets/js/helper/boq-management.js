@@ -167,7 +167,7 @@ function createNewRow(products) {
         <td>
             <select class="form-control product_name_model" name="item_name[]" required>
                 <option value="">Select Product</option>
-                ${products.map(product => `<option value="${product.name} --- ${product.model}" data-price="${product.purchase_price}">${product.name} --- ${product.model}</option>`).join("")}
+                ${products.map(product => `<option value="${product.name}  ---  ${product.model}" data-price="${product.purchase_price}">${product.name} --- ${product.model}</option>`).join("")}
             </select>
         </td>
         <td><input type="number" class="form-control stock" name="quantity[]" value="1" min="1" required readonly></td>

@@ -21,6 +21,18 @@ foreach ($requiredFields as $field) {
     }
 }
 
+if(isset($data['isCustomerPurchaseOrder'])){
+
+    $isCustomerPurchaseOrder = $data['isCustomerPurchaseOrder'] ; 
+    $customerPurchaseOrderId = $data['customerPurchaseOrderId'] ; 
+    $customerPurchaseOrderNumber = $data['customerPurchaseOrderNumber'] ; 
+}else{
+    $isCustomerPurchaseOrder = null; 
+    $customerPurchaseOrderId = null ; 
+    $customerPurchaseOrderNumber = null ; 
+}
+
+
 // Extract data
 $po_number = mysqli_real_escape_string($con, $data['po_number']);
 $vendor_id = $data['vendor_id'];
@@ -37,9 +49,9 @@ mysqli_begin_transaction($con);
 
 try {
 
-    $insertPoQuery = "INSERT INTO camp_purchase_orders (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor) 
+    $insertPoQuery = "INSERT INTO camp_purchase_orders (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor,isCustomerPurchaseOrder,customerPurchaseOrderId,customerPurchaseOrderNumber) 
                       VALUES ('$po_number','" . $order_date . "',
-                      '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "')";
+                      '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "','".$isCustomerPurchaseOrder."','".$customerPurchaseOrderId."','".$customerPurchaseOrderNumber."')";
 
     if (!mysqli_query($con, $insertPoQuery)) {
         throw new Exception('Error inserting purchase order: ' . mysqli_error($con));

@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
         bulkvendoradd();
     });
 
-    document.getElementById("downloadExcel").addEventListener("click", function () {
-        downloadExcel();
+    document.getElementById("downloadCSV").addEventListener("click", function () {
+        downloadCSV();
     });
 
     // Attach event listener for the edit vendor form submission
@@ -279,7 +279,7 @@ function uploadExcel() {
         });
 }
 
-function downloadExcel() {
+function downloadCSV() {
     // Show loading message
     const loadingMessage = alertify.message('Preparing your download, please wait...', 0); // 0 means the message will not auto-dismiss
 
@@ -296,7 +296,7 @@ function downloadExcel() {
     fetch(`./api/vendor/export-vendor.php?${queryString}`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Type': 'text/csv',
         },
     })
         .then(response => response.blob())
@@ -305,7 +305,7 @@ function downloadExcel() {
             const a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = 'vendor_data.xlsx';
+            a.download = 'vendor_data.csv';
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -315,9 +315,9 @@ function downloadExcel() {
             alertify.success('Download started');
         })
         .catch(error => {
-            console.error('Error downloading Excel file:', error);
+            console.error('Error downloading CSV file:', error);
             alertify.dismissAll();
-            alertify.error('Error downloading Excel file');
+            alertify.error('Error downloading CSV file');
         });
 }
 

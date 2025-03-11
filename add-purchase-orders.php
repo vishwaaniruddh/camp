@@ -85,7 +85,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group-item">
+                        <div class="form-group-item" id="internal_po_container" style="display: none;">
                             <label for="products">Products:</label>
                             <table class="table table-bordered" id="product-table">
                                 <thead>
@@ -98,28 +98,28 @@
                                     </tr>
                                 </thead>
                                 <tbody id="product-rows">
-                                    <tr class="product-row">
-                                        <td class="serial-number">1</td>
-                                        <td>
-                                            <select class="form-control product_name_model" name="product_name[]"
-                                                required></select>
-
-                                        </td>
-                                        <td><input type="number" class="form-control stock" name="quantity[]" required>
-                                        </td>
-                                        <td><input type="number" step="0.01" class="form-control unit-cost"
-                                                name="unit_cost[]" required></td>
-                                        <td>
-                                            <i class="fa fa-minus-circle me-1 remove-row"></i>
-                                        </td>
-
-                                    </tr>
+                                    
                                 </tbody>
                             </table>
+
                             <a href="#" class="btn btn-greys bg-success-light me-2" id="add-row">
                                 <i class="fa fa-plus-circle me-1"></i> Add Product
                             </a>
                         </div>
+
+                        <div class="form-group-item" id="customer_purchase_order" style="display: none;">
+                            <label for="products">Products:</label>
+
+                            <input type="hidden" name="isCustomerPurchaseOrder" id="isCustomerPurchaseOrder" value="" />
+                            <input type="hidden" name="customerPurchaseOrderId" id="customerPurchaseOrderId" value="" />
+                            <input type="hidden" name="customerPurchaseOrderNumber" id="customerPurchaseOrderNumber"
+                                value="" />
+
+                            <table class="table table-bordered" id="product-table">
+
+                            </table>
+                        </div>
+
 
                         <div class="row">
                             <div class="col-lg-4 col-md-6 col-sm-12">
