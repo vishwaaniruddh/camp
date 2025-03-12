@@ -187,8 +187,16 @@ function addOrUpdateProduct(productId) {
                 alertify.success(productId ? 'Product updated successfully' : 'Product added successfully');
                 if (!productId) {
                     form.reset();
+                    
+                 
+                    
+
                 } else {
+                    
                     fetchProductDetails(productId); // Refresh the form with updated data
+                    setTimeout(() => {
+                        window.location.href="./product-list.php"; 
+                     }, 2000);
                 }
             } else {
                 alertify.error(productId ? 'Failed to update product' : 'Failed to add product');

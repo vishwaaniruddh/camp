@@ -1,4 +1,4 @@
 TRUNCATE `camp_inventory`;
 TRUNCATE `camp_po_items`;
-TRUNCATE `camp_purchase_orders`;
+TRUNCATE `camp_purchase_orders_new`;
 TRUNCATE camp_po_items_details

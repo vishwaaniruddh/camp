@@ -1,29 +1,84 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    fetchCustomers();
-    fetchBanks();
 
     
-    document.getElementById("selectAllCustomers").addEventListener("change", toggleSelectAllCustomers);
-    document.getElementById("selectAllBanks").addEventListener("change", toggleSelectAllBanks);
-    document.getElementById("selectAllZones").addEventListener("change", toggleSelectAllZones);
-    document.getElementById("selectAllPermissions").addEventListener("change", toggleSelectAll);
-
     
     const userForm = document.getElementById("userForm");
+    const pemission_assign = document.getElementById("pemission_assign");
 
-    // if (!userForm) return;
+    if(pemission_assign){
 
-    const phoneInput = document.querySelector("input[name='phone']");
-    const emailInput = document.querySelector("input[name='email']");
+        fetchCustomers();
+        fetchBanks();
+        fetchZones();
 
-    // Add password fields dynamically
-    addPasswordFields();
+        document.getElementById("selectAllCustomers").addEventListener("change", toggleSelectAllCustomers);
+        document.getElementById("selectAllBanks").addEventListener("change", toggleSelectAllBanks);
+        document.getElementById("selectAllZones").addEventListener("change", toggleSelectAllZones);
+        document.getElementById("selectAllPermissions").addEventListener("change", toggleSelectAll);
+    
+        
+
+
+
+
+        const zoneContainer = document.getElementById("multiselect_zones");
+        const branchContainer = document.getElementById("multiselect_branches");
+    
+        zoneContainer.addEventListener("change", function () {
+            const selectedZones = [...document.querySelectorAll("#multiselect_zones input:checked")]
+                .map(input => input.value);
+            
+            if (selectedZones.length > 0) {
+                fetch(`./api/branch/get_branches.php?zones=${selectedZones.join(",")}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            branchContainer.innerHTML = data.branches.map(branch =>
+                                `<label>
+                                    <input type="checkbox" name="branches[]" value="${branch.id}">
+                                    ${branch.name}
+                                </label>`
+                            ).join("");
+                        } else {
+                            branchContainer.innerHTML = "<p>No branches found.</p>";
+                        }
+                    })
+                    .catch(error => console.error("Error fetching branches:", error));
+            } else {
+                branchContainer.innerHTML = "<p>Please select zones first.</p>";
+            }
+        });
+
+
+
+
+
+
+
+
+    }
+    
+    
+    
+    if (userForm) {
+        
+        const phoneInput = document.querySelector("input[name='phone']");
+        
+        
+        const emailInput = document.querySelector("input[name='email']");
+        addPasswordFields();
+
+            // Add password fields dynamically
 
     // Event Listeners
     phoneInput?.addEventListener("input", handlePhoneValidation);
     emailInput?.addEventListener("input", handleEmailValidation);
     userForm.addEventListener("submit", handleSubmit);
+
+    }
+
+
 
     function addPasswordFields() {
         const passwordContainer = document.createElement("div");
@@ -214,6 +269,36 @@ async function fetchBanks() {
         }
     } catch (error) {
         console.error("Error fetching banks:", error);
+    }
+}
+
+// Fetch and populate customers
+async function fetchZones() {
+    try {
+        const response = await fetch("./api/zone/fetch-zones.php");
+        const data = await response.json();
+        if (data.success && Array.isArray(data.zones)) {
+            populateGrid("#multiselect_zones", data.zones, "zones[]");
+        } else {
+            console.error("Failed to fetch zones:", data.message);
+        }
+    } catch (error) {
+        console.error("Error fetching zones:", error);
+    }
+}
+
+// Fetch and populate customers
+async function fetchBranchs() {
+    try {
+        const response = await fetch("./api/branch/fetch-branchs.php");
+        const data = await response.json();
+        if (data.success && Array.isArray(data.branchs)) {
+            populateGrid("#multiselect_branchs", data.branchs, "branchs[]");
+        } else {
+            console.error("Failed to fetch branchs:", data.message);
+        }
+    } catch (error) {
+        console.error("Error fetching branchs:", error);
     }
 }
 

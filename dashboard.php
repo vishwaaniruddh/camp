@@ -6,7 +6,7 @@ $inv_count = mysqli_num_rows($inv_sql);
 $vendor_sql = mysqli_query($con, "select * from camp_vendors");
 $vendor_count = mysqli_num_rows($vendor_sql);
 
-$purchase_order_sql = mysqli_query($con, "select * from camp_purchase_orders");
+$purchase_order_sql = mysqli_query($con, "select * from camp_purchase_orders_new");
 $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 
 
@@ -29,7 +29,8 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 						</div>
 					</div>
 					<div class="progress progress-sm mt-3">
-						<div class="progress-bar bg-5" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar bg-5" role="progressbar" style="width: 75%" aria-valuenow="75"
+							aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 				</div>
 			</div>
@@ -49,7 +50,8 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 						</div>
 					</div>
 					<div class="progress progress-sm mt-3">
-						<div class="progress-bar bg-6" role="progressbar" style="width: 65%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar bg-6" role="progressbar" style="width: 65%" aria-valuenow="75"
+							aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 
 				</div>
@@ -70,7 +72,8 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 						</div>
 					</div>
 					<div class="progress progress-sm mt-3">
-						<div class="progress-bar bg-7" role="progressbar" style="width: 85%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar bg-7" role="progressbar" style="width: 85%" aria-valuenow="75"
+							aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 
 				</div>
@@ -91,7 +94,8 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 						</div>
 					</div>
 					<div class="progress progress-sm mt-3">
-						<div class="progress-bar bg-8" role="progressbar" style="width: 45%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+						<div class="progress-bar bg-8" role="progressbar" style="width: 45%" aria-valuenow="75"
+							aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 
 				</div>
@@ -100,8 +104,8 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 	</div>
 
 
-	<div class="row">
-		<div class="col-md-6 col-sm-6">
+	<div class="row mb-3">
+		<div class="col-md-12 col-sm-12">
 			<div class="card mb-0">
 				<div class="card-header">
 					<div class="row align-center">
@@ -118,10 +122,14 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 				<div class="card-body">
 					<div class="mb-3">
 						<div class="progress progress-md rounded-pill mb-3">
-							<div class="progress-bar bg-success" role="progressbar" style="width: 47%" aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
-							<div class="progress-bar bg-warning" role="progressbar" style="width: 28%" aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"></div>
-							<div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-							<div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-success" role="progressbar" style="width: 47%"
+								aria-valuenow="47" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-warning" role="progressbar" style="width: 28%"
+								aria-valuenow="28" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="15"
+								aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10"
+								aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 						<div class="row">
 							<div class="col-auto">
@@ -154,7 +162,7 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 							<tbody>
 
 								<?php
-								$purchase_order_sql = mysqli_query($con, "SELECT * FROM camp_purchase_orders");
+								$purchase_order_sql = mysqli_query($con, "SELECT * FROM camp_purchase_orders_new");
 								while ($purchase_order_row = mysqli_fetch_array($purchase_order_sql)) {
 									$po_number = $purchase_order_row['po_number'];
 									$order_date = $purchase_order_row['order_date'];
@@ -162,32 +170,40 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 									$total_amount = $purchase_order_row['total_amount'];
 									$vendor = $purchase_order_row['vendor'];
 									$status = $purchase_order_row['status'];
-								?>
+									?>
 
 									<tr>
 										<td>
 											<h2 class="table-avatar">
-												<?php echo $vendor ; ?>
+												<?php echo $vendor; ?>
 											</h2>
 										</td>
-										<td><?php echo $total_amount ;  ?></td>
-										<td><?php echo $order_date ; ?></td>
+										<td><?php echo $total_amount; ?></td>
+										<td><?php echo $order_date; ?></td>
 										<td><span class="badge bg-success-light"><?php echo $status; ?></span></td>
 										<td class="text-end">
 											<div class="dropdown dropdown-action">
-												<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+												<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+													aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
 												<div class="dropdown-menu dropdown-menu-right">
-													<a class="dropdown-item" href="./edit-purchase-orders.php?purchase-order=<?php echo $po_number ; ?>"><i class="far fa-edit me-2"></i>Edit</a>
-													<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-													<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-													<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-													<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Invoice</a>
-													<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-copy me-2"></i>Clone Invoice</a>
+													<a class="dropdown-item"
+														href="./edit-purchase-orders.php?purchase-order=<?php echo $po_number; ?>"><i
+															class="far fa-edit me-2"></i>Edit</a>
+													<a class="dropdown-item" href="invoice-details.html"><i
+															class="far fa-eye me-2"></i>View</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-trash-alt me-2"></i>Delete</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-check-circle me-2"></i>Mark as sent</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-paper-plane me-2"></i>Send Invoice</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-copy me-2"></i>Clone Invoice</a>
 												</div>
 											</div>
 										</td>
 									</tr>
-								<?php
+									<?php
 								}
 								?>
 							</tbody>
@@ -196,7 +212,11 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6 col-sm-6">
+	</div>
+	
+	<div class="row mb-3">
+
+		<div class="col-md-12 col-sm-6">
 			<div class="card mb-0">
 				<div class="card-header">
 					<div class="row align-center">
@@ -211,7 +231,7 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 					</div>
 				</div>
 				<div class="card-body">
-					
+
 					<div class="table-responsive">
 						<table class="table table-hover">
 							<thead class="thead-light">
@@ -225,44 +245,53 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 							</thead>
 							<tbody>
 
-							<?php
-							$inv_sql = mysqli_query($con,"SELECT product_name,product_model,working_status, count(1) FROM `camp_inventory` group by product_name,product_model,working_status");
-							while($inv_sql_rows = mysqli_fetch_array($inv_sql)){
-								$product_name = $inv_sql_rows['product_name'];
-								$product_model = $inv_sql_rows['product_model'];
-								$working_status = $inv_sql_rows['working_status'];
-								$count = $inv_sql_rows['count(1)'];
+								<?php
+								$inv_sql = mysqli_query($con, "SELECT product_name,product_model,working_status, count(1) FROM `camp_inventory` group by product_name,product_model,working_status");
+								while ($inv_sql_rows = mysqli_fetch_array($inv_sql)) {
+									$product_name = $inv_sql_rows['product_name'];
+									$product_model = $inv_sql_rows['product_model'];
+									$working_status = $inv_sql_rows['working_status'];
+									$count = $inv_sql_rows['count(1)'];
 
-								?>
-								<tr>
-									<td>
-										<h2 class="table-avatar">
-                                            <?php echo $product_name ; ?>
-										</h2>
-									</td>
-									<td><?php echo $product_model; ?></td>
-									<td><?php echo $working_status ; ?></td>
-									<td><?php echo $count ; ?></td>
-									
-									<td class="text-end">
-										<div class="dropdown dropdown-action">
-											<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="edit-invoice.html"><i class="far fa-edit me-2"></i>Edit</a>
-												<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-trash-alt me-2"></i>Delete</a>
-												<a class="dropdown-item" href="invoice-details.html"><i class="far fa-eye me-2"></i>View</a>
-												<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-file-alt me-2"></i>Convert to Invoice</a>
-												<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as sent</a>
-												<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-paper-plane me-2"></i>Send Estimate</a>
-												<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-check-circle me-2"></i>Mark as Accepted</a>
-												<a class="dropdown-item" href="javascript:void(0);"><i class="far fa-times-circle me-2"></i>Mark as Rejected</a>
+									?>
+									<tr>
+										<td>
+											<h2 class="table-avatar">
+												<?php echo $product_name; ?>
+											</h2>
+										</td>
+										<td><?php echo $product_model; ?></td>
+										<td><?php echo $working_status; ?></td>
+										<td><?php echo $count; ?></td>
+
+										<td class="text-end">
+											<div class="dropdown dropdown-action">
+												<a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+													aria-expanded="false"><i class="fas fa-ellipsis-h"></i></a>
+												<div class="dropdown-menu dropdown-menu-right">
+													<a class="dropdown-item" href="edit-invoice.html"><i
+															class="far fa-edit me-2"></i>Edit</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-trash-alt me-2"></i>Delete</a>
+													<a class="dropdown-item" href="invoice-details.html"><i
+															class="far fa-eye me-2"></i>View</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-file-alt me-2"></i>Convert to Invoice</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-check-circle me-2"></i>Mark as sent</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-paper-plane me-2"></i>Send Estimate</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-check-circle me-2"></i>Mark as Accepted</a>
+													<a class="dropdown-item" href="javascript:void(0);"><i
+															class="far fa-times-circle me-2"></i>Mark as Rejected</a>
+												</div>
 											</div>
-										</div>
-									</td>
-								</tr>
-<?php
-							}
-							?>
+										</td>
+									</tr>
+									<?php
+								}
+								?>
 
 
 							</tbody>
@@ -272,5 +301,7 @@ $purchase_order_count = mysqli_num_rows($purchase_order_sql);
 			</div>
 		</div>
 	</div>
+
+	
 </div>
 <?php include('./footer.php'); ?>

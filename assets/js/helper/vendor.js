@@ -10,6 +10,15 @@ document.addEventListener("DOMContentLoaded", function () {
         bulkvendoradd();
     });
 
+
+    document.getElementById("addVendorForm").addEventListener("submit", function (e) {
+        e.preventDefault(); 
+        addVendor();
+    });
+
+
+    
+
     document.getElementById("downloadCSV").addEventListener("click", function () {
         downloadCSV();
     });
@@ -24,6 +33,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
+function addVendor() {
+    const form = document.querySelector("#addVendorForm");
+    const formData = new FormData(form);
+
+    fetch('./api/vendor/add-vendor.php', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alertify.success('Vendor added successfully');
+                fetchVendors();
+                // form.reset();
+                const modalElement = document.querySelector("#add_vendor");
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) modalInstance.hide();
+            } else {
+                alertify.error('Failed to add vendor');
+            }
+        })
+        .catch(error => {
+            console.error('Error adding vendor:', error);
+            alertify.error('An unexpected error occurred.');
+        });
+}
+
 
 function updateVendorData(vendorId) {
 

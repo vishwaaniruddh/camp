@@ -265,7 +265,11 @@ function addPO() {
         .then(data => {
             if (data.status === 'success') {
                 alertify.success(`Purchase Order created successfully! PO ID: ${data.po_id}`);
-                form.reset();
+                // form.reset();
+                setTimeout(() => {
+                    window.location.href="./purchase-orders.php"
+                }, 2000);
+
             } else {
                 alertify.error('Failed to add Purchase Order');
             }

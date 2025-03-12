@@ -365,6 +365,10 @@ function addCustomerPO() {
             if (data.status === "success") {
                 alertify.success(`Customer Purchase Order added successfully! PO ID: ${data.po_id}`);
 
+                setTimeout(() => {
+                   window.location.href="./customer-purchase-order.php"; 
+                }, 2000);
+
                 // form.reset(); // Reset form after successful submission
             } else {
                 alertify.error("Error: " + data.message);

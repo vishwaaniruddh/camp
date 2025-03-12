@@ -7,11 +7,11 @@ header("Content-Type: application/json");
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitize and retrieve form data
-    $vendor_name = filter_input(INPUT_POST, 'vendor_name', FILTER_SANITIZE_STRING);
+    $vendor_name = filter_input(INPUT_POST, 'vendor_name', FILTER_SANITIZE_SPECIAL_CHARS);
     $vendor_email = filter_input(INPUT_POST, 'vendor_email', FILTER_VALIDATE_EMAIL);
     $vendor_phoneno = filter_input(INPUT_POST, 'vendor_phoneno', FILTER_SANITIZE_NUMBER_INT);
-    $vendor_address = filter_input(INPUT_POST, 'vendor_address', FILTER_SANITIZE_STRING);
-    $vendor_gstin = filter_input(INPUT_POST, 'vendor_gstin', FILTER_SANITIZE_STRING);
+    $vendor_address = filter_input(INPUT_POST, 'vendor_address', FILTER_SANITIZE_SPECIAL_CHARS);
+    $vendor_gstin = filter_input(INPUT_POST, 'vendor_gstin', FILTER_SANITIZE_SPECIAL_CHARS);
 
     // Validate required fields
     if (!$vendor_name || !$vendor_email || !$vendor_phoneno) {

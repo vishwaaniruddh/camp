@@ -24,7 +24,7 @@ $con->begin_transaction();
 
 try {
     // Update purchase order status
-    $updateQuery = "UPDATE camp_purchase_orders SET status = ? WHERE po_id = ?";
+    $updateQuery = "UPDATE camp_purchase_orders_new SET status = ? WHERE po_id = ?";
     $stmt = $con->prepare($updateQuery);
     $stmt->bind_param("si", $approvalStatus, $request_id);
     if (!$stmt->execute()) {

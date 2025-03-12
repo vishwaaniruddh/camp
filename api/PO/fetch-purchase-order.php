@@ -7,7 +7,7 @@ $purchase_order = isset($_GET['purchase-order']) ? $_GET['purchase-order'] : '';
 if($purchase_order){
     
     // Build the query with filters
-    $query = "SELECT * FROM camp_purchase_orders WHERE po_number = '$purchase_order' order by po_id desc";
+    $query = "SELECT * FROM camp_purchase_orders_new WHERE po_number = '$purchase_order' order by po_id desc";
     
     $result = mysqli_query($conn, $query);
     

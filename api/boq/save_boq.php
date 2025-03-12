@@ -65,11 +65,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Insert items into `camp_boq_items`
         if (!empty($items)) {
-            $stmt = mysqli_prepare($conn, "INSERT INTO camp_boq_items (boq_id, spare_name, quantity) VALUES (?, ?, ?)");
+            $stmt = mysqli_prepare($conn, "INSERT INTO camp_boq_items (boq_id, spare_name, quantity,unit_price) VALUES (?, ?, ?, ?)");
             foreach ($items as $item) {
                 $spare_name = ($item['item_name']); // Convert item_name to spare_name
                 $quantity = intval($item['quantity']);
-                mysqli_stmt_bind_param($stmt, "isi", $boq_id, $spare_name, $quantity);
+                $unit_price = intval($item['unit_cost']);
+
+                mysqli_stmt_bind_param($stmt, "isis", $boq_id, $spare_name, $quantity,$unit_price);
                 if (!mysqli_stmt_execute($stmt)) {
                     throw new Exception("Item Insert Failed: " . mysqli_error($conn));
                 }

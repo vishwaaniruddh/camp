@@ -37,7 +37,7 @@ mysqli_begin_transaction($con);
 
 try {
 
-    $updatePoQuery = "UPDATE camp_purchase_orders 
+    $updatePoQuery = "UPDATE camp_purchase_orders_new 
                   SET po_number = '$po_number',
                       order_date = '$order_date',
                       expected_delivery_date = '$expected_delivery_date',
@@ -49,7 +49,7 @@ try {
                   WHERE po_id = '$po_id'";
 
 
-    // $insertPoQuery = "INSERT INTO camp_purchase_orders (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor) 
+    // $insertPoQuery = "INSERT INTO camp_purchase_orders_new (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor) 
     //                   VALUES ('$po_number','" . $order_date . "',
     //                   '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "')";
 

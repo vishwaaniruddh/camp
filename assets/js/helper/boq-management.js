@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchData('./api/bank/fetch-banks.php', populateBankData, 'Banks');
         fetchData('./api/boq/get_boqs.php', displayBOQs, 'BOQs');
 
-        document.getElementById("addRow").addEventListener("click", addNewRow);
+        // document.getElementById("addRow").addEventListener("click", addNewRow);
     }
     
     document.getElementById("add_item_btn").addEventListener("click", handleAddItem);
@@ -150,9 +150,16 @@ function handleAddItem() {
 
 function addNewRow() {
     fetch('./api/products/fetch-products.php')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
-            if (!data.products) throw new Error("No products received");
+            if (!data || !data.products || data.products.length === 0) {
+                throw new Error("No products received");
+            }
             createNewRow(data.products);
         })
         .catch(error => console.error('Error fetching product list:', error));
@@ -167,16 +174,63 @@ function createNewRow(products) {
         <td>
             <select class="form-control product_name_model" name="item_name[]" required>
                 <option value="">Select Product</option>
-                ${products.map(product => `<option value="${product.name}  ---  ${product.model}" data-price="${product.purchase_price}">${product.name} --- ${product.model}</option>`).join("")}
+                ${products.map(product => `
+                    <option value="${product.name}  ---  ${product.model}" 
+                            data-price="${product.purchase_price}">
+                        ${product.name} --- ${product.model}
+                    </option>
+                `).join("")}
             </select>
         </td>
-        <td><input type="number" class="form-control stock" name="quantity[]" value="1" min="1" required readonly></td>
+        <td><input type="number" class="form-control stock" name="quantity[]" value="1" min="1" required></td>
         <td><input type="number" step="0.01" class="form-control unit-cost" name="unit_cost[]" value="0.00" required readonly></td>
+        <td><input type="number" step="0.01" class="form-control total-amount" name="total_amount[]" value="0.00" required readonly></td>
         <td><button type="button" class="btn btn-danger removeRow"><i class="fa fa-trash"></i></button></td>
     `;
 
     tableBody.appendChild(newRow);
+
+    // Automatically attach event listener for product selection
+    newRow.querySelector(".product_name_model").addEventListener("change", function (e) {
+        let selectedOption = e.target.options[e.target.selectedIndex];
+        let unitPrice = parseFloat(selectedOption.dataset.price) || 0;
+
+        console.log("Selected Product:", selectedOption.value);
+        console.log("Unit Price:", unitPrice);
+
+        let row = e.target.closest("tr");
+        if (row) {
+            row.querySelector(".unit-cost").value = unitPrice.toFixed(2);
+            row.querySelector(".stock").removeAttribute("readonly"); // Enable quantity input
+            updateTotal(row);
+        }
+    });
+
+    // Attach event listener for quantity change
+    newRow.querySelector(".stock").addEventListener("input", function () {
+        updateTotal(newRow);
+    });
 }
+
+// Function to update total price (quantity × unit price)
+function updateTotal(row) {
+    let quantity = parseInt(row.querySelector(".stock").value) || 1;
+    let unitPrice = parseFloat(row.querySelector(".unit-cost").value) || 0;
+    let totalAmount = quantity * unitPrice;
+
+    row.querySelector(".total-amount").value = totalAmount.toFixed(2);
+}
+
+// Event listener for adding new row
+document.getElementById("addRow").addEventListener("click", addNewRow);
+
+// Event listener for removing row
+document.addEventListener("click", function (e) {
+    if (e.target.closest(".removeRow")) {
+        e.target.closest("tr").remove();
+    }
+});
+
 
 // Event Delegation for removing rows
 document.querySelector("#boq_items_table tbody").addEventListener("click", function (event) {
@@ -197,13 +251,15 @@ document.getElementById("submit_adding_new_boq").addEventListener("submit", func
     document.querySelectorAll("#boq_items_table tbody tr").forEach(function (row) {
         let itemSelect = row.querySelector("select[name='item_name[]']"); // Fix: Get select element
         let quantityInput = row.querySelector("input[name='quantity[]']");
+        let unitcostInput = row.querySelector("input[name='unit_cost[]']");
 
         if (itemSelect && quantityInput) { 
             let selectedItem = itemSelect.options[itemSelect.selectedIndex]; // Get selected option
 
             boqData.items.push({
                 item_name: selectedItem.value, // Get item name from select
-                quantity: quantityInput.value
+                quantity: quantityInput.value,
+                unit_cost: unitcostInput.value
             });
         }
     });
@@ -218,10 +274,11 @@ document.getElementById("submit_adding_new_boq").addEventListener("submit", func
     })
     .then(response => response.json())
     .then(data => {
-        console.log('ajax calling');
+        // console.log('ajax calling');
         if (data.status === "success") {
             // location.reload();
-            displayBOQs();
+            // displayBOQs();
+window.location.reload();
             // console.log(data.message);
         }
     })
@@ -345,5 +402,3 @@ function addNewItem() {
         }
     );
 }
-
-        

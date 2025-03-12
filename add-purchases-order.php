@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     try {
         // Insert purchase order
-        $sql = "INSERT INTO camp_purchase_orders_new (
+        $sql = "INSERT INTO camp_purchase_orders_new_new (
             vendor_id, po_number, reference_no, order_date, due_date,
             discount_type, discount_value, tax_rate, bank_account,
             notes, taxable_amount, total_discount, total_tax,

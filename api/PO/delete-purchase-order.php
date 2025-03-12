@@ -9,7 +9,7 @@ $inputData = json_decode(file_get_contents('php://input'), true);
 $po_id = isset($inputData['id']) ? $inputData['id'] : '';
 
 // Build the query with filters
-$query = "update camp_purchase_orders set status='Deleted' where po_id='$po_id'";
+$query = "update camp_purchase_orders_new set status='Deleted' where po_id='$po_id'";
 
 
 $result = mysqli_query($conn, $query);

@@ -8,7 +8,7 @@ if (!$po_id) {
     die("Error: Purchase order ID is required.");
 }
 
-$query = "SELECT * FROM camp_purchase_orders WHERE po_number = '" . mysqli_real_escape_string($con, $po_id) . "'";
+$query = "SELECT * FROM camp_purchase_orders_new WHERE po_number = '" . mysqli_real_escape_string($con, $po_id) . "'";
 $result = mysqli_query($con, $query);
 $po = mysqli_fetch_assoc($result);
 

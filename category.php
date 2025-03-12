@@ -84,7 +84,7 @@
 								<tr>
 									<th>#</th>
 									<th>Category Name</th>
-									<th>Total Products</th>
+									<th>Short Name</th>
 									<th>Status</th>
 
 									<th class="no-sort">Action</th>

@@ -12,7 +12,7 @@ $name = isset($_GET['name']) ? $_GET['name'] : '';
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Build the SQL query with filters
-$sql = "SELECT * FROM camp_customers WHERE 1=1";
+$sql = "SELECT * FROM camp_banks WHERE 1=1";
 
 if ($name !== '') {
     $sql .= " AND name LIKE '%" . $conn->real_escape_string($name) . "%'";

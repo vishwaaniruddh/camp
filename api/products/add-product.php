@@ -34,7 +34,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
 
 $query = "INSERT INTO camp_products 
     (name, model, category, purchase_price, requires_serial_numbers, units, alert_quantity, description, image_path, created_by) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = mysqli_prepare($con, $query);
 mysqli_stmt_bind_param(

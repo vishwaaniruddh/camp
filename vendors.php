@@ -376,14 +376,9 @@ $statuses = $conn->query("SELECT DISTINCT status FROM camp_vendors")->fetch_all(
 			</div>
 			<form id="importVendorForm" action="#">
 				<div class="modal-body">
-					<div class="custom-file-container" data-upload-id="myFirstImage">
+					<div class="" >
 						<label>Upload (Single File) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear data">x</a></label>
-						<label class="custom-file-container__custom-file">
-							<input name="importVendor" type="file" class="custom-file-container__custom-file__custom-file-input" accept=".xlsx, .xls">
-							<input type="hidden" name="MAX_FILE_SIZE" value="10485760">
-							<span class="custom-file-container__custom-file__custom-file-control"></span>
-						</label>
-						<div class="custom-file-container__image-preview"></div>
+						<input type="file" name="importVendorForm" id="importVendorForm">
 					</div>
 				</div>
 				<div class="modal-footer">

@@ -4,6 +4,10 @@ include('../config.php');
 header('Content-Type: application/json');
 $data = $_REQUEST;
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if (!$data) {
     http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Invalid JSON input.']);
@@ -21,15 +25,15 @@ foreach ($requiredFields as $field) {
     }
 }
 
-if(isset($data['isCustomerPurchaseOrder'])){
+if (isset($data['isCustomerPurchaseOrder'])) {
 
-    $isCustomerPurchaseOrder = $data['isCustomerPurchaseOrder'] ; 
-    $customerPurchaseOrderId = $data['customerPurchaseOrderId'] ; 
-    $customerPurchaseOrderNumber = $data['customerPurchaseOrderNumber'] ; 
-}else{
-    $isCustomerPurchaseOrder = null; 
-    $customerPurchaseOrderId = null ; 
-    $customerPurchaseOrderNumber = null ; 
+    $isCustomerPurchaseOrder = $data['isCustomerPurchaseOrder'];
+    $customerPurchaseOrderId = $data['customerPurchaseOrderId'];
+    $customerPurchaseOrderNumber = $data['customerPurchaseOrderNumber'];
+} else {
+    $isCustomerPurchaseOrder = null;
+    $customerPurchaseOrderId = null;
+    $customerPurchaseOrderNumber = null;
 }
 
 
@@ -49,9 +53,9 @@ mysqli_begin_transaction($con);
 
 try {
 
-    $insertPoQuery = "INSERT INTO camp_purchase_orders (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor,isCustomerPurchaseOrder,customerPurchaseOrderId,customerPurchaseOrderNumber) 
+    $insertPoQuery = "INSERT INTO camp_purchase_orders_new (po_number, order_date, expected_delivery_date, total_amount, created_at, po_date, notes, vendor,isCustomerPurchaseOrder,customerPurchaseOrderId,customerPurchaseOrderNumber) 
                       VALUES ('$po_number','" . $order_date . "',
-                      '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "','".$isCustomerPurchaseOrder."','".$customerPurchaseOrderId."','".$customerPurchaseOrderNumber."')";
+                      '$expected_delivery_date','$total_cost','" . $datetime . "','" . $datetime . "','" . $notes . "','" . $vendor_id . "','" . $isCustomerPurchaseOrder . "','" . $customerPurchaseOrderId . "','" . $customerPurchaseOrderNumber . "')";
 
     if (!mysqli_query($con, $insertPoQuery)) {
         throw new Exception('Error inserting purchase order: ' . mysqli_error($con));
@@ -72,8 +76,6 @@ try {
     $counter = 0;
     foreach ($product_names as $product) {
 
-        // echo $product ; 
-
 
         $product_names = explode('  ---  ', $product)[0];
         $model_name = explode('  ---  ', $product)[1];
@@ -90,18 +92,6 @@ try {
         }
 
         $po_item_id = mysqli_insert_id($con);
-
-        // for ($i = 0; $i < $quantity; $i++) {
-        //     $item_detailsquery = "insert into camp_po_items_details(po_item_id,po_id,isReceived,receivedDate,serial_number,isActive)
-        //      values('" . $po_item_id . "','" . $po_id . "','no','','','yes')";
-
-
-        //     if (!mysqli_query($con, $item_detailsquery)) {
-        //         throw new Exception('Error inserting product details: ' . mysqli_error($con));
-        //     }
-
-        // }
-
 
 
         $counter++;
