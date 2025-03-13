@@ -85,20 +85,6 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="input-block mb-3">
-                                    <label for="">Select Products</label>
-
-
-                                    <div id="productTypeSelection"></div>
-
-                                </div>
-                            </div>
-
-                        </div>
-
-
                         <div class="form-group-item" id="internal_po_container" style="display: none;">
                             <label for="products">Products:</label>
                             <table class="table table-bordered" id="product-table">
@@ -112,7 +98,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="product-rows">
-
+                                    
                                 </tbody>
                             </table>
 

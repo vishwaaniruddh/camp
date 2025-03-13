@@ -9,6 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
         fetchBoqs();
     }
 
+
+    document.addEventListener("click", function (event) {
+        if (event.target && event.target.id === "bulkUploadBtn") {
+            addSitesToForm();
+        }
+    });
+    
     // Check if elements exist before adding event listeners
     let boqElement = document.getElementById("boq");
     if (boqElement) {
@@ -49,8 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-
 });
+
 
 function fetchCustomerPurchaseOrders() {
     fetch("./api/customer-purchase-order/fetch-customer-purchase-orders.php")
@@ -253,41 +260,88 @@ function add_info_container() {
         return;
     }
 
-    let html = `<div class="table-responsive">
-                    <table class="table table-bordered" id="info_table">
-                        <thead>
-                            <tr>
-                                <th>ATM ID</th>
-                                <th>Address</th>
-                                <th>Remarks</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" class="form-control" name="atm_id[]"></td>
-                                <td><input type="text" class="form-control" name="address[]"></td>
-                                <td><input type="text" class="form-control" name="remarks[]"></td>
-                                <td>
-                                    <button type="button" class="btn btn-success btn-sm" onclick="addRow()">
-                                        +
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">
-                                        -
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+    let html = `
+    <p>Add entries individually or <a href="./excel_formats/customer_purchase_order_bulk_add_atm_sites.csv" download>click here</a> to download the bulk upload template.</p>
 
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12"><hr />
-                            </div>
-                            
-                `;
+<div id="customer_purchase_order_bulk_add_atm_sites">
+    <label for="bulkUpload">Upload CSV file:</label>
+    <input type="file" name="bulkUpload" id="bulkUpload" accept=".csv" required>
+    <button type="button" id="bulkUploadBtn">Upload</button>
+</div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered" id="info_table">
+            <thead>
+                <tr>
+                    <th>ATM ID</th>
+                    <th>Address</th>
+                    <th>Remarks</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" class="form-control" name="atm_id[]"></td>
+                    <td><input type="text" class="form-control" name="address[]"></td>
+                    <td><input type="text" class="form-control" name="remarks[]"></td>
+                    <td>
+                        <button type="button" class="btn btn-success btn-sm" onclick="addRow()">+</button>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12"><hr /></div>
+    `;
 
     addInfoContainer.innerHTML = html;
 }
+
+function addSitesToForm() {
+    let fileInput = document.getElementById("bulkUpload");
+    let file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a CSV file to upload.");
+        return;
+    }
+
+    let reader = new FileReader();
+
+    reader.onload = function (event) {
+        let csvData = event.target.result;
+        let rows = csvData.split("\n").map(row => row.trim()).filter(row => row);
+        let tbody = document.querySelector("#info_table tbody");
+
+        tbody.innerHTML = ""; // Clear existing rows
+
+        for (let i = 1; i < rows.length; i++) {
+            let cols = rows[i].split(",");
+
+            if (cols.length < 3) continue; // Skip if not enough columns
+
+            let atmid = cols[1].trim();
+            let address = cols[2].trim();
+            let remarks = cols.length > 3 ? cols[3].trim() : "";
+
+            let newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td><input type="text" class="form-control" name="atm_id[]" value="${atmid}"></td>
+                <td><input type="text" class="form-control" name="address[]" value="${address}"></td>
+                <td><input type="text" class="form-control" name="remarks[]" value="${remarks}"></td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm" onclick="addRow()">+</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">-</button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+        }
+    };
+
+    reader.readAsText(file);
+}
+
 
 function addRow() {
     let table = document.getElementById("info_table").getElementsByTagName('tbody')[0];
@@ -366,7 +420,7 @@ function addCustomerPO() {
                 alertify.success(`Customer Purchase Order added successfully! PO ID: ${data.po_id}`);
 
                 setTimeout(() => {
-                   window.location.href="./customer-purchase-order.php"; 
+                    window.location.href = "./customer-purchase-order.php";
                 }, 2000);
 
                 // form.reset(); // Reset form after successful submission
@@ -398,9 +452,9 @@ function fetchSingleCustomerPO(purchaseOrderId) {
             fetchCustomers(order.customer_id);
             fetchBanks(order.bank_id);
             fetchBoqs(order.boq_id);
-            
+
             // Populate form fields
-            
+
             document.getElementById("purchase_order_id").value = order.id;
             document.getElementById("po_number").value = order.po_number;
             document.getElementById("order_received_date").value = order.order_received_date;

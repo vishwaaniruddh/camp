@@ -83,7 +83,7 @@
                         <div class="mt-2 col-md-6">
                             <div class="form-group">
                                 <label>Customer</label>
-                                <select class="form-control" name="customer" id="customer">
+                                <select class="form-control" name="customer" id="customer" required>
                                     <option value="">Select Customer</option>
                                 </select>
                             </div>
@@ -91,7 +91,7 @@
                         <div class="col-md-6 mt-2">
                             <div class=" form-group">
                                 <label>Bank</label>
-                                <select class="form-control" name="bank" id="bank">
+                                <select class="form-control" name="bank" id="bank" required>
                                     <option value="">Select Bank</option>
                                 </select>
                             </div>
@@ -100,7 +100,7 @@
                             <div class="form-group">
                                 <label>BOQ Name</label>
                                 <input type="text" class="form-control" name="boq_name" id="boq_name"
-                                    placeholder="Enter BOQ Name">
+                                    placeholder="Enter BOQ Name" required>
                             </div>
                         </div>
                     </div>

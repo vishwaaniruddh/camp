@@ -64,11 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         poTypeSelect.addEventListener("change", function () {
             if (this.value === "customer_po") {
+
                 customerPoContainer.style.display = "block";
                 fetchCustomerPurchaseOrders(); // Fetch orders when customer PO is selected
 
                 document.getElementById("internal_po_container").style.display = "none";
                 document.getElementById("customer_purchase_order").style.display = "block";
+                
             } else {
                 customerPoContainer.style.display = "none";
                 customerPoSelect.innerHTML = '<option value="">Select</option>'; // Reset options
@@ -121,11 +123,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedOption = customerPoSelect.options[customerPoSelect.selectedIndex];
             const selectedPoNumber = selectedOption.getAttribute("data-po-number") || "";
 
+
             if (selectedPoNumber) {
                 poNumberInput.value = selectedPoNumber; // Set PO number input
                 generateCodeButton.disabled = true; // Disable generate button
                 poNumberInput.setAttribute("readonly", true);
 
+
+                getDistinctProducts(selectedPoNumber);
+                // document.getElementById("productTypeSelection").innerHTML = "block";
+
+                
             } else {
                 poNumberInput.value = ""; // Clear input
                 generateCodeButton.disabled = false; // Enable generate button
@@ -249,6 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Event listener for Purchase Order Type selection change
+
 
 
 
@@ -1120,7 +1129,7 @@ function fetchItemsForCustomerPurchaseOrder(order) {
                     grandTotalCost += totalCost; // Add to grand total
 
                     tableHTML += `
-        <tr>
+        <tr data-category="${product.category}">
             <td>
                 <input type="text" name="product_name[]" class="form-control product_name_model" value="${product.spare_name}" required readonly />
             </td>
@@ -1150,4 +1159,82 @@ function fetchItemsForCustomerPurchaseOrder(order) {
             }
         })
         .catch(error => console.error("Error fetching items:", error));
+}
+
+
+function getDistinctProducts(po_number) {
+    fetch('./api/products/get_distinct_products.php', {
+        method: 'POST',
+        body: JSON.stringify({ po_number: po_number }),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && Array.isArray(data.products)) {
+            let uniqueCategories = [...new Set(data.products.map(product => product.category))]; // Remove duplicates
+            displayProductCategories(uniqueCategories);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function displayProductCategories(categories) {
+    let container = document.getElementById("productTypeSelection");
+    let tableRows = document.querySelectorAll("#product-table tbody tr");
+
+    if (!container) {
+        console.error("Element with ID 'productTypeSelection' not found.");
+        return;
+    }
+
+    // Apply styles
+    container.style.display = "flex";
+    container.style.flexWrap = "wrap";
+    container.style.gap = "30px";
+
+    container.innerHTML = ""; // Clear existing content
+
+    // Create checkboxes for each category
+    categories.forEach(category => {
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.name = "product_category[]";
+        checkbox.value = category;
+        checkbox.checked = true; // Check all by default
+
+        // Attach event listener to filter table rows on change
+        checkbox.addEventListener("change", filterTableRows);
+
+        let label = document.createElement("label");
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(" " + category));
+
+        let div = document.createElement("div");
+        div.style.display = "flex";
+        div.style.alignItems = "center";
+        div.style.gap = "8px";
+        div.appendChild(label);
+
+        container.appendChild(div);
+    });
+
+    // Show only checked categories
+    filterTableRows();
+}
+
+// Function to filter table rows based on selected checkboxes
+function filterTableRows() {
+    let selectedCategories = Array.from(document.querySelectorAll("#productTypeSelection input[type='checkbox']:checked"))
+        .map(cb => cb.value);
+    
+    let tableRows = document.querySelectorAll("#product-table tbody tr");
+
+    tableRows.forEach(row => {
+        let category = row.getAttribute("data-category");
+        if (selectedCategories.includes(category)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
 }

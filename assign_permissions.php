@@ -54,21 +54,21 @@
                 <div id="multiselect_banks" class="grid-container"></div>
             </div>
 
-<!-- Zones Selection -->
-<div class="mb-3 input-block">
-    <label class="form-label"><strong>Select Zones</strong></label>
-    <input type="checkbox" id="selectAllZones">
-    <label for="selectAllZones">Check All Zones</label>
-    <div id="multiselect_zones" class="grid-container"></div>
-</div>
+            <!-- Zones Selection -->
+            <div class="mb-3 input-block">
+                <label class="form-label"><strong>Select Zones</strong></label>
+                <input type="checkbox" id="selectAllZones">
+                <label for="selectAllZones">Check All Zones</label>
+                <div id="multiselect_zones" class="grid-container"></div>
+            </div>
 
-<!-- Branch Selection (Added This) -->
-<div class="mb-3 input-block">
-    <label class="form-label"><strong>Select Branches</strong></label>
-    <input type="checkbox" id="selectAllBranches">
-    <label for="selectAllBranches">Check All Branches</label>
-    <div id="multiselect_branches" class="grid-container"></div>
-</div>
+            <!-- Branch Selection (Added This) -->
+            <div class="mb-3 input-block">
+                <label class="form-label"><strong>Select Branches</strong></label>
+                <input type="checkbox" id="selectAllBranches">
+                <label for="selectAllBranches">Check All Branches</label>
+                <div id="multiselect_branches" class="grid-container"></div>
+            </div>
 
 
             <button type="submit" class="btn btn-primary">Next: Set Permissions</button>

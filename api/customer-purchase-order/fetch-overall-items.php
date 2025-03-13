@@ -31,7 +31,9 @@ if ($sql->num_rows > 0) {
         $spare_name = $boq_sql_result['spare_name'];
         $quantity = $boq_sql_result['quantity'] * $total_details_records;
         $unit_price = $boq_sql_result['unit_price'];
-        $boqData[] = ['spare_name' => $spare_name, 'quantity' => $quantity,'unit_price' => $unit_price];
+        $category = $boq_sql_result['category'];
+
+        $boqData[] = ['spare_name' => $spare_name, 'quantity' => $quantity,'unit_price' => $unit_price,'category'=>$category];
     }
 
     // Send response

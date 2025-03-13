@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const currentPage = window.location.pathname.split('/').pop();
-    
+
     if (currentPage === 'boq-management.php') {
         fetchData('./api/customer/fetch-customers.php', populateCustomerData, 'Customers');
         fetchData('./api/bank/fetch-banks.php', populateBankData, 'Banks');
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // document.getElementById("addRow").addEventListener("click", addNewRow);
     }
-    
+
     document.getElementById("add_item_btn").addEventListener("click", handleAddItem);
 });
 
@@ -48,7 +48,7 @@ function populateDropdown(selector, items, defaultText, emptyText) {
 
 function displayBOQs(boqs) {
     const tableBody = document.getElementById("boqTableBody");
-    
+
     if (!boqs || boqs.length === 0) {
         tableBody.innerHTML = `
             <tr>
@@ -90,7 +90,7 @@ function handleAddItem() {
                 throw new Error("Invalid response format");
             }
 
-            let productOptions = responseData.products.map(product => 
+            let productOptions = responseData.products.map(product =>
                 `<option value="${product.id}" data-name="${product.name}">${product.name} (${product.model})</option>`
             ).join("");
 
@@ -118,21 +118,21 @@ function handleAddItem() {
                 fetch("./api/boq/add-boq-item.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        boq_number: boqNumber, 
-                        item_id: itemID, 
-                        item_name: itemName, 
-                        quantity: itemQuantity 
+                    body: JSON.stringify({
+                        boq_number: boqNumber,
+                        item_id: itemID,
+                        item_name: itemName,
+                        quantity: itemQuantity
                     })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    alertify[data.status === "success" ? "success" : "error"](data.message || "Something went wrong.");
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alertify.error("Something went wrong.");
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        alertify[data.status === "success" ? "success" : "error"](data.message || "Something went wrong.");
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alertify.error("Something went wrong.");
+                    });
 
             }, function () {
                 alertify.error("Cancelled");
@@ -171,12 +171,14 @@ function createNewRow(products) {
 
     newRow.innerHTML = `
         <input type="hidden" name="item_id[]" value="">
+        <input type="hidden" class="category-field" name="category[]" value="">
         <td>
             <select class="form-control product_name_model" name="item_name[]" required>
                 <option value="">Select Product</option>
                 ${products.map(product => `
                     <option value="${product.name}  ---  ${product.model}" 
-                            data-price="${product.purchase_price}">
+                            data-price="${product.purchase_price}" 
+                            data-category="${product.category}">
                         ${product.name} --- ${product.model}
                     </option>
                 `).join("")}
@@ -194,13 +196,16 @@ function createNewRow(products) {
     newRow.querySelector(".product_name_model").addEventListener("change", function (e) {
         let selectedOption = e.target.options[e.target.selectedIndex];
         let unitPrice = parseFloat(selectedOption.dataset.price) || 0;
+        let category = selectedOption.dataset.category || "";
 
         console.log("Selected Product:", selectedOption.value);
         console.log("Unit Price:", unitPrice);
+        console.log("Category:", category);
 
         let row = e.target.closest("tr");
         if (row) {
             row.querySelector(".unit-cost").value = unitPrice.toFixed(2);
+            row.querySelector(".category-field").value = category; // Set category
             row.querySelector(".stock").removeAttribute("readonly"); // Enable quantity input
             updateTotal(row);
         }
@@ -210,6 +215,15 @@ function createNewRow(products) {
     newRow.querySelector(".stock").addEventListener("input", function () {
         updateTotal(newRow);
     });
+}
+
+// Function to update total amount when quantity changes
+function updateTotal(row) {
+    let quantity = parseFloat(row.querySelector(".stock").value) || 0;
+    let unitPrice = parseFloat(row.querySelector(".unit-cost").value) || 0;
+    let totalAmount = quantity * unitPrice;
+    
+    row.querySelector(".total-amount").value = totalAmount.toFixed(2);
 }
 
 // Function to update total price (quantity × unit price)
@@ -252,14 +266,16 @@ document.getElementById("submit_adding_new_boq").addEventListener("submit", func
         let itemSelect = row.querySelector("select[name='item_name[]']"); // Fix: Get select element
         let quantityInput = row.querySelector("input[name='quantity[]']");
         let unitcostInput = row.querySelector("input[name='unit_cost[]']");
+        let categoryInput = row.querySelector("input[name='category[]']");
 
-        if (itemSelect && quantityInput) { 
+        if (itemSelect && quantityInput && categoryInput && unitcostInput) {
             let selectedItem = itemSelect.options[itemSelect.selectedIndex]; // Get selected option
 
             boqData.items.push({
                 item_name: selectedItem.value, // Get item name from select
                 quantity: quantityInput.value,
-                unit_cost: unitcostInput.value
+                unit_cost: unitcostInput.value,
+                category: categoryInput.value
             });
         }
     });
@@ -272,17 +288,17 @@ document.getElementById("submit_adding_new_boq").addEventListener("submit", func
         },
         body: JSON.stringify(boqData)
     })
-    .then(response => response.json())
-    .then(data => {
-        // console.log('ajax calling');
-        if (data.status === "success") {
-            // location.reload();
-            // displayBOQs();
-window.location.reload();
-            // console.log(data.message);
-        }
-    })
-    .catch(error => console.error("Error:", error));
+        .then(response => response.json())
+        .then(data => {
+            // console.log('ajax calling');
+            if (data.status === "success") {
+                // location.reload();
+                // displayBOQs();
+                // window.location.reload();
+                // console.log(data.message);
+            }
+        })
+        .catch(error => console.error("Error:", error));
 });
 
 
@@ -290,7 +306,7 @@ document.getElementById("boqTableBody").addEventListener("click", function (even
     if (event.target.classList.contains("view-boq-btn")) {
         const requestId = event.target.getAttribute("data-boq-id");
         console.log(requestId);
-         viewBoqInfo(requestId);  
+        viewBoqInfo(requestId);
     }
 });
 
@@ -304,16 +320,16 @@ function viewBoqInfo(requestId) {
             },
             body: JSON.stringify({ boq_id: requestId })
         })
-        .then(response => response.json())
-        .then(data => {
-            const boqItemsContainer = document.getElementById("boqItems");
+            .then(response => response.json())
+            .then(data => {
+                const boqItemsContainer = document.getElementById("boqItems");
 
-            console.log(data.boq_number)
-            console.log(data)
-            if (data.status === "success") {
+                console.log(data.boq_number)
+                console.log(data)
+                if (data.status === "success") {
 
-                document.getElementById("boq_number").innerHTML = data.boq_number;
-                let tableHTML = `
+                    document.getElementById("boq_number").innerHTML = data.boq_number;
+                    let tableHTML = `
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -323,30 +339,30 @@ function viewBoqInfo(requestId) {
                             </tr>
                         </thead>
                         <tbody>`
-                ;
-                document.getElementById("add_item_btn").setAttribute("data-boq-number", data.boq_id);
-                // document.getElementById("add_item_btn").setAttribute("data-boq-id", data.boq_id);
-                data.items.forEach((item, index) => {
-                    tableHTML += 
-                        `<tr>
+                        ;
+                    document.getElementById("add_item_btn").setAttribute("data-boq-number", data.boq_id);
+                    // document.getElementById("add_item_btn").setAttribute("data-boq-id", data.boq_id);
+                    data.items.forEach((item, index) => {
+                        tableHTML +=
+                            `<tr>
                             <td>${index + 1}</td>
                             <td>${item.spare_name}</td>
                             <td>${item.quantity}</td>
                         </tr>`
-                    ;
-                });
+                            ;
+                    });
 
-                tableHTML += `</tbody></table>`;
-                boqItemsContainer.innerHTML = tableHTML;
+                    tableHTML += `</tbody></table>`;
+                    boqItemsContainer.innerHTML = tableHTML;
 
-            } else {
-                boqItemsContainer.innerHTML = '<p class="text-danger">No Items found.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching BOQ items:', error);
-            alertify.error('An unexpected error occurred.');
-        });
+                } else {
+                    boqItemsContainer.innerHTML = '<p class="text-danger">No Items found.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching BOQ items:', error);
+                alertify.error('An unexpected error occurred.');
+            });
     }, 1000);
 }
 
@@ -359,14 +375,14 @@ function addNewItem() {
     }
 
     alertify.prompt("Add Item to BOQ", "Enter Item Name:", "",
-        function(evt, itemName) {
+        function (evt, itemName) {
             if (!itemName) {
                 alertify.error("Item name is required");
                 return;
             }
 
             alertify.prompt("Enter Quantity:", "Enter Quantity:", "1",
-                function(evt, quantity) {
+                function (evt, quantity) {
                     if (!quantity || isNaN(quantity) || quantity <= 0) {
                         alertify.error("Enter a valid quantity");
                         return;
@@ -378,26 +394,26 @@ function addNewItem() {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ boq_number: boqNumber, spare_name: itemName, quantity: quantity })
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === "success") {
-                            alertify.success("Item added successfully");
-                            viewBoqInfo(boqNumber); // Refresh BOQ list
-                        } else {
-                            alertify.error(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
-                        alertify.error("An unexpected error occurred.");
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                alertify.success("Item added successfully");
+                                viewBoqInfo(boqNumber); // Refresh BOQ list
+                            } else {
+                                alertify.error(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error:", error);
+                            alertify.error("An unexpected error occurred.");
+                        });
                 },
-                function() {
+                function () {
                     alertify.error("Cancelled");
                 }
             );
         },
-        function() {
+        function () {
             alertify.error("Cancelled");
         }
     );
